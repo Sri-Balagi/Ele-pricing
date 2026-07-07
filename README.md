@@ -102,7 +102,7 @@ Ele-pricing/
 | Milestone | Feature |
 |-----------|---------|
 | **Setup** ✅ | Project structure, FastAPI, tests, tooling |
-| **M1** | Component catalogue API (50 components) |
+| **M1** ✅ | Product Domain Modeling & Component Catalogue (9 entities, referential integrity) |
 | **M2** | Rule engine (10 engineering rules) |
 | **M3** | Dependency resolution engine |
 | **M4** | Dynamic pricing engine |

@@ -26,7 +26,9 @@
 │  ┌──────────────────────────────────────────────────────────┐  │
 │  │ JSON Data Files (app/data/)                               │  │
 │  │  components.json | features.json | dependencies.json      │  │
-│  │  rules.json | pricing.json                                │  │
+│  │  rules.json | pricing.json | categories.json              │  │
+│  │  catalog_metadata.json | feature_mappings.json            │  │
+│  │  feature_options.json | feature_groups.json               │  │
 │  └──────────────────────────────────────────────────────────┘  │
 └────────────────────────────────────────────────────────────────┘
 ```
@@ -97,3 +99,48 @@ Rule engine evaluates rules dynamically — no compiled-in conditionals.
 | M5 — Full Configuration API | `api/v1/endpoints/configuration.py` |
 | M6 — Export | `utils/exporters/` |
 | M7 — Frontend UI | `frontend/src/` (full implementation) |
+
+## Dependency Classification
+
+Dependencies in the system are classified to help engines apply rules in the correct order:
+- **MECHANICAL**: Physical compatibility (e.g., Motor requires specific Drive).
+- **ELECTRICAL**: Power and wiring (e.g., Controller requires matching Voltage).
+- **STRUCTURAL**: Weight and dimensions (e.g., Cabin weight dictates Frame type).
+- **SAFETY**: Regulatory and compliance constraints (e.g., Speed > 1.0m/s requires Oil Buffer).
+- **BUSINESS**: Commercial constraints (e.g., "Premium Package" requires "Stainless Steel").
+
+## Execution Pipeline
+
+When a customer selects a set of features, the backend processes the configuration through the following pipeline:
+
+```mermaid
+graph TD
+    A[Customer Selection] --> B[Configuration Aggregate]
+    B --> C[Feature Mapping]
+    C --> D[Engineering Components Resolved]
+    D --> E[Rule Engine Evaluated]
+    E --> F[Dependency Engine Resolved]
+    F --> G[Validation Engine Pass]
+    G --> H[Pricing Engine Calculated]
+    H --> I[Bill of Materials Generated]
+    I --> J[Export / Quote Generation]
+```
+
+## Configuration Lifecycle
+
+A `Configuration` aggregate moves through these states:
+1. **DRAFT**: User is actively selecting features.
+2. **VALIDATED**: All rules and dependencies have passed; no engineering conflicts exist.
+3. **PRICED**: The pricing engine has attached a valid quote to the validated state.
+4. **APPROVED**: A sales representative or customer has formally accepted the quote.
+5. **EXPORTED**: The BOM and specs are sent to manufacturing (ERP integration).
+
+## Future API Planning
+
+Future milestones will implement these primary REST API contracts:
+
+- `POST /api/v1/configurations` -> Creates a new DRAFT configuration session.
+- `PUT /api/v1/configurations/{id}` -> Updates feature selections.
+- `POST /api/v1/configurations/{id}/validate` -> Triggers Rule & Dependency engines, returns ValidationResult.
+- `GET /api/v1/configurations/{id}/price` -> Triggers Pricing Engine, returns PricingSummary.
+- `POST /api/v1/configurations/{id}/export` -> Generates PDF quote and JSON BOM.

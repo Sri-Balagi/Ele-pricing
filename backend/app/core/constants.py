@@ -33,6 +33,11 @@ class DataFile(StrEnum):
     DEPENDENCIES = "dependencies.json"
     RULES = "rules.json"
     PRICING = "pricing.json"
+    CATEGORIES = "categories.json"
+    CATALOG_METADATA = "catalog_metadata.json"
+    FEATURE_MAPPINGS = "feature_mappings.json"
+    FEATURE_GROUPS = "feature_groups.json"
+    FEATURE_OPTIONS = "feature_options.json"
 
 
 # ── Runtime Environments ──────────────────────────────────────────────────────
@@ -52,12 +57,35 @@ class HealthStatus(StrEnum):
 # ── Rule Engine ───────────────────────────────────────────────────────────────
 class RuleAction(StrEnum):
     """Actions a rule can trigger during configuration evaluation."""
+    ADD_COMPONENT = "ADD_COMPONENT"
+    REMOVE_COMPONENT = "REMOVE_COMPONENT"
+    REQUIRE_OPTION = "REQUIRE_OPTION"
+    EXCLUDE_OPTION = "EXCLUDE_OPTION"
+    SET_PRICE_MULTIPLIER = "SET_PRICE_MULTIPLIER"
+    ABORT_VALIDATION = "ABORT_VALIDATION"
 
-    REQUIRE = "REQUIRE"           # Force-add a component
-    EXCLUDE = "EXCLUDE"           # Prevent a component from being selected
-    SET_DEFAULT = "SET_DEFAULT"   # Apply a default value
-    WARN = "WARN"                 # Emit a warning but allow the configuration
-    BLOCK = "BLOCK"               # Hard-stop the configuration
+
+class RuleTriggerType(StrEnum):
+    ON_SELECTION = "ON_SELECTION"
+    ON_CHANGE = "ON_CHANGE"
+    ON_VALIDATION = "ON_VALIDATION"
+    ON_PRICING = "ON_PRICING"
+    ON_EXPORT = "ON_EXPORT"
+
+
+class RuleSeverity(StrEnum):
+    INFO = "INFO"
+    WARNING = "WARNING"
+    ERROR = "ERROR"
+    CRITICAL = "CRITICAL"
+
+
+class ConfigurationStatus(StrEnum):
+    DRAFT = "DRAFT"
+    VALIDATED = "VALIDATED"
+    PRICED = "PRICED"
+    APPROVED = "APPROVED"
+    EXPORTED = "EXPORTED"
 
 
 # ── Component Lifecycle ───────────────────────────────────────────────────────
@@ -67,11 +95,36 @@ class ComponentStatus(StrEnum):
     DISCONTINUED = "discontinued"   # No longer orderable
 
 
-# ── Dependency Relationship Types ─────────────────────────────────────────────
 class DependencyType(StrEnum):
-    REQUIRES = "REQUIRES"    # Component A requires Component B
-    EXCLUDES = "EXCLUDES"    # Component A excludes Component B
-    REPLACES = "REPLACES"    # Component A replaces Component B
+    REQUIRES = "REQUIRES"
+    EXCLUDES = "EXCLUDES"
+    RECOMMENDS = "RECOMMENDS"
+    DETERMINES = "DETERMINES"
+
+
+class DependencyCategory(StrEnum):
+    MECHANICAL = "MECHANICAL"
+    ELECTRICAL = "ELECTRICAL"
+    STRUCTURAL = "STRUCTURAL"
+    SAFETY = "SAFETY"
+    BUSINESS = "BUSINESS"
+
+# ── Engineering Standardization ───────────────────────────────────────────────
+class ComponentCategory(StrEnum):
+    STRUCTURAL = "Structural"
+    MECHANICAL = "Mechanical"
+    ELECTRICAL = "Electrical"
+    CONTROL = "Control"
+    SAFETY = "Safety"
+    CABIN = "Cabin"
+    DOOR = "Door"
+
+class Unit(StrEnum):
+    PCS = "pcs"
+    MM = "mm"
+    KG = "kg"
+    KW = "kW"
+    M_S = "m/s"
 
 
 # ── HTTP / Tracing ────────────────────────────────────────────────────────────

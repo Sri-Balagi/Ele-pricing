@@ -1,0 +1,110 @@
+[
+  {
+    "id": "OPT-CAP-630",
+    "feature_id": "FEAT-CAPACITY",
+    "display_name": "630 kg (8 Persons)",
+    "internal_value": 630,
+    "description": "Standard residential capacity.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-CAP-1000",
+    "feature_id": "FEAT-CAPACITY",
+    "display_name": "1000 kg (13 Persons)",
+    "internal_value": 1000,
+    "description": "Standard commercial capacity.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-CAP-1600",
+    "feature_id": "FEAT-CAPACITY",
+    "display_name": "1600 kg (21 Persons)",
+    "internal_value": 1600,
+    "description": "Heavy duty commercial capacity.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-SPD-100",
+    "feature_id": "FEAT-SPEED",
+    "display_name": "1.0 m/s",
+    "internal_value": 1.0,
+    "description": "Standard low-rise speed.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-SPD-160",
+    "feature_id": "FEAT-SPEED",
+    "display_name": "1.6 m/s",
+    "internal_value": 1.6,
+    "description": "Standard mid-rise speed.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-SPD-250",
+    "feature_id": "FEAT-SPEED",
+    "display_name": "2.5 m/s",
+    "internal_value": 2.5,
+    "description": "High-rise speed.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-DOOR-CO",
+    "feature_id": "FEAT-DOOR-TYPE",
+    "display_name": "Center Opening",
+    "internal_value": "CO",
+    "description": "Doors open from the center.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-DOOR-SO",
+    "feature_id": "FEAT-DOOR-TYPE",
+    "display_name": "Side Opening",
+    "internal_value": "SO",
+    "description": "Doors open to one side.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-FIN-SS",
+    "feature_id": "FEAT-CABIN-FINISH",
+    "display_name": "Brushed Stainless Steel",
+    "internal_value": "SS_BRUSHED",
+    "description": "Durable and modern finish.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-FIN-GLASS",
+    "feature_id": "FEAT-CABIN-FINISH",
+    "display_name": "Glass Panoramic",
+    "internal_value": "GLASS_PANORAMIC",
+    "description": "Transparent rear wall.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-DRV-TRAC",
+    "feature_id": "FEAT-DRIVE-TYPE",
+    "display_name": "Gearless Traction",
+    "internal_value": "TRACTION_GEARLESS",
+    "description": "Energy efficient traction drive.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-CTRL-SIMP",
+    "feature_id": "FEAT-CONTROL-MODE",
+    "display_name": "Simplex Full Collective",
+    "internal_value": "SIMPLEX_FC",
+    "description": "Standard single elevator control.",
+    "active": true,
+    "metadata": {}
+  }
+]

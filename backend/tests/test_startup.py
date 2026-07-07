@@ -18,16 +18,34 @@ from app.core.startup import validate_data_files
 ALL_DATA_FILES = [
     "components.json",
     "features.json",
+    "feature_options.json",
     "dependencies.json",
     "rules.json",
     "pricing.json",
+    "categories.json",
+    "catalog_metadata.json",
+    "feature_mappings.json",
+    "feature_groups.json",
 ]
 
 
 def _write_all_stubs(directory: Path) -> None:
     """Write all required stub files to directory."""
     for filename in ALL_DATA_FILES:
-        content = {} if filename == "pricing.json" else []
+        if filename == "pricing.json":
+            content = {}
+        elif filename == "catalog_metadata.json":
+            content = [{
+                "catalogue_version": "1.0",
+                "schema_version": "1.0",
+                "created_date": "2026-01-01T00:00:00Z",
+                "last_updated": "2026-01-01T00:00:00Z",
+                "prototype_version": "1.0",
+                "supported_schema_versions": ["1.0"],
+                "migration_metadata": {}
+            }]
+        else:
+            content = []
         (directory / filename).write_text(json.dumps(content), encoding="utf-8")
 
 
@@ -38,14 +56,31 @@ class TestValidateDataFiles:
         validate_data_files(str(tmp_path))
 
     def test_raises_runtime_error_when_file_missing(self, tmp_path: Path) -> None:
-        # Create only 4 of the 5 required files
-        for filename in ALL_DATA_FILES[:-1]:  # skip pricing.json
-            (tmp_path / filename).write_text("[]", encoding="utf-8")
+        # Create all except one file (e.g., feature_groups.json)
+        skipped_file = "feature_groups.json"
+        for filename in ALL_DATA_FILES:
+            if filename == skipped_file:
+                continue
+            if filename == "pricing.json":
+                content = {}
+            elif filename == "catalog_metadata.json":
+                content = [{
+                    "catalogue_version": "1.0",
+                    "schema_version": "1.0",
+                    "created_date": "2026-01-01T00:00:00Z",
+                    "last_updated": "2026-01-01T00:00:00Z",
+                    "prototype_version": "1.0",
+                    "supported_schema_versions": ["1.0"],
+                    "migration_metadata": {}
+                }]
+            else:
+                content = []
+            (tmp_path / filename).write_text(json.dumps(content), encoding="utf-8")
 
         with pytest.raises(RuntimeError) as exc_info:
             validate_data_files(str(tmp_path))
 
-        assert "pricing.json" in str(exc_info.value)
+        assert skipped_file in str(exc_info.value)
 
     def test_raises_runtime_error_when_all_files_missing(self, tmp_path: Path) -> None:
         with pytest.raises(RuntimeError):

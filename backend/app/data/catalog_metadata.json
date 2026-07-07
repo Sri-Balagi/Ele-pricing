@@ -1,0 +1,11 @@
+[
+  {
+    "catalogue_version": "1.0.0",
+    "schema_version": "1.0.0",
+    "created_date": "2026-07-07T12:00:00Z",
+    "last_updated": "2026-07-07T12:00:00Z",
+    "prototype_version": "0.1.0",
+    "supported_schema_versions": ["1.0.0"],
+    "migration_metadata": {}
+  }
+]

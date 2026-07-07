@@ -1,0 +1,37 @@
+[
+  {
+    "id": "GRP-PERFORMANCE",
+    "name": "Performance",
+    "description": "Features related to capacity, speed, and ride quality.",
+    "display_order": 10,
+    "active": true
+  },
+  {
+    "id": "GRP-DIMENSIONS",
+    "name": "Dimensions",
+    "description": "Features determining physical size and shaft requirements.",
+    "display_order": 20,
+    "active": true
+  },
+  {
+    "id": "GRP-DOOR",
+    "name": "Door System",
+    "description": "Door types, opening types, and finishes.",
+    "display_order": 30,
+    "active": true
+  },
+  {
+    "id": "GRP-CABIN",
+    "name": "Cabin Interior",
+    "description": "Cabin finishes, lighting, and accessories.",
+    "display_order": 40,
+    "active": true
+  },
+  {
+    "id": "GRP-CONTROL",
+    "name": "Control & Signalization",
+    "description": "Operating panels, control logic, and indicators.",
+    "display_order": 50,
+    "active": true
+  }
+]

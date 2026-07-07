@@ -1,0 +1,74 @@
+[
+  {
+    "id": "MAP-CAP630-SAF",
+    "feature_option_id": "OPT-CAP-630",
+    "component_id": "COMP-SAF-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-CAP1000-SAF",
+    "feature_option_id": "OPT-CAP-1000",
+    "component_id": "COMP-SAF-02",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-CAP1600-SAF",
+    "feature_option_id": "OPT-CAP-1600",
+    "component_id": "COMP-SAF-03",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-DOOR-CO",
+    "feature_option_id": "OPT-DOOR-CO",
+    "component_id": "COMP-DOP-CO",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-DOOR-SO",
+    "feature_option_id": "OPT-DOOR-SO",
+    "component_id": "COMP-DOP-SO",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-FIN-SS",
+    "feature_option_id": "OPT-FIN-SS",
+    "component_id": "COMP-PNL-SS",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-FIN-GLASS",
+    "feature_option_id": "OPT-FIN-GLASS",
+    "component_id": "COMP-PNL-GL",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-DRV-TRAC",
+    "feature_option_id": "OPT-DRV-TRAC",
+    "component_id": "COMP-MOT-10",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-CTRL-SIMP",
+    "feature_option_id": "OPT-CTRL-SIMP",
+    "component_id": "COMP-CTRL-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  }
+]

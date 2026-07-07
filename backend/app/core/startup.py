@@ -23,6 +23,7 @@ from fastapi import FastAPI
 
 from app.core.exceptions import DataFileNotFoundException, DataFormatException
 from app.utils.data_loader import DataLoader
+from app.utils.catalogue_validator import CatalogueValidator, CatalogueValidationException
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +51,14 @@ def validate_data_files(data_dir: str) -> None:
         )
         logger.critical(msg)
         raise RuntimeError(msg)
+
+    logger.info("Basic JSON validation passed. Running Catalogue Validator...")
+    validator = CatalogueValidator(loader)
+    try:
+        validator.validate()
+    except CatalogueValidationException as exc:
+        logger.critical("Startup aborted due to Catalogue integrity errors.")
+        raise RuntimeError(str(exc)) from exc
 
     logger.info("All %d data files validated successfully.", len(results))
 
@@ -97,7 +106,7 @@ def build_lifespan(data_dir: str):
         try:
             validate_data_files(data_dir)
             _prewarm_cache(data_dir)
-        except (DataFileNotFoundException, DataFormatException, RuntimeError) as exc:
+        except (DataFileNotFoundException, DataFormatException, RuntimeError, CatalogueValidationException) as exc:
             logger.critical("Fatal startup error: %s", exc)
             raise
 

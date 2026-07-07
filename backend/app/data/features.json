@@ -1,1 +1,79 @@
-[]
+[
+  {
+    "id": "FEAT-CAPACITY",
+    "name": "Load Capacity",
+    "description": "Rated load capacity of the elevator.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-PERFORMANCE",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-SPEED",
+    "name": "Rated Speed",
+    "description": "Nominal travel speed.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-PERFORMANCE",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-STOPS",
+    "name": "Number of Stops",
+    "description": "Total number of landings served.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-DIMENSIONS",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-DOOR-TYPE",
+    "name": "Door Opening Type",
+    "description": "Mechanism of door opening.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-DOOR",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-CABIN-FINISH",
+    "name": "Cabin Wall Finish",
+    "description": "Material used for cabin walls.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-CABIN",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-DRIVE-TYPE",
+    "name": "Drive System Type",
+    "description": "Traction or hydraulic drive.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-PERFORMANCE",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-CONTROL-MODE",
+    "name": "Control Logic",
+    "description": "Elevator dispatching and control logic.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-CONTROL",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  }
+]

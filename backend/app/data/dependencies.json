@@ -1,1 +1,92 @@
-[]
+[
+  {
+    "id": "DEP-MOT10-DRV10",
+    "source_id": "COMP-MOT-10",
+    "target_id": "COMP-DRV-10",
+    "dependency_type": "REQUIRES",
+    "description": "10kW Motor requires 10kW Drive.",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-MOT15-DRV15",
+    "source_id": "COMP-MOT-15",
+    "target_id": "COMP-DRV-15",
+    "dependency_type": "REQUIRES",
+    "description": "15kW Motor requires 15kW Drive.",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-MOT22-DRV22",
+    "source_id": "COMP-MOT-22",
+    "target_id": "COMP-DRV-22",
+    "dependency_type": "REQUIRES",
+    "description": "22kW Motor requires 22kW Drive.",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-OVS10-BUF01",
+    "source_id": "COMP-OVS-01",
+    "target_id": "COMP-BUF-01",
+    "dependency_type": "REQUIRES",
+    "description": "1.0m/s Governor requires standard PU buffer.",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-OVS25-BUF02",
+    "source_id": "COMP-OVS-03",
+    "target_id": "COMP-BUF-02",
+    "dependency_type": "REQUIRES",
+    "description": "2.5m/s Governor requires Oil buffer.",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-SPD25-EXC-BUF01",
+    "source_id": "OPT-SPD-250",
+    "target_id": "COMP-BUF-01",
+    "dependency_type": "EXCLUDES",
+    "description": "High speed excludes standard PU buffer.",
+    "priority": 200,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-DOPCO-LDRCO",
+    "source_id": "COMP-DOP-CO",
+    "target_id": "COMP-LDR-CO",
+    "dependency_type": "REQUIRES",
+    "description": "CO Operator requires CO Landing Doors.",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-DOPSO-LDRSO",
+    "source_id": "COMP-DOP-SO",
+    "target_id": "COMP-LDR-SO",
+    "dependency_type": "REQUIRES",
+    "description": "SO Operator requires SO Landing Doors.",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-CAP1600-MOT22",
+    "source_id": "OPT-CAP-1600",
+    "target_id": "COMP-MOT-22",
+    "dependency_type": "RECOMMENDS",
+    "description": "1600kg capacity recommends 22kW motor.",
+    "priority": 50,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-CAP1600-FRAME02",
+    "source_id": "OPT-CAP-1600",
+    "target_id": "COMP-FRAME-02",
+    "dependency_type": "DETERMINES",
+    "description": "1600kg capacity determines Heavy Duty Frame.",
+    "priority": 150,
+    "condition_expression": null
+  }
+]

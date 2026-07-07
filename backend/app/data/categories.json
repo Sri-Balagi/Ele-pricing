@@ -1,0 +1,23 @@
+[
+  {
+    "id": "CAT-A",
+    "name": "Type A Standard",
+    "description": "Standardized low-rise residential elevator with predefined options.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "CAT-B",
+    "name": "Type B Configurable",
+    "description": "Mid-rise commercial elevator with highly configurable features.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "CAT-C",
+    "name": "Type C Specialized",
+    "description": "Heavy-duty or high-rise elevator with strict engineering constraints.",
+    "active": true,
+    "metadata": {}
+  }
+]
