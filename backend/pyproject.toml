@@ -1,0 +1,50 @@
+[project]
+name = "elevator-config-engine"
+version = "0.1.0"
+description = "Rule-Based Elevator Configuration and Pricing Engine"
+requires-python = ">=3.12"
+
+# ── Ruff — Linter ─────────────────────────────────────────────────────────────
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+src = ["app", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+    "TCH", # flake8-type-checking
+    "RUF", # Ruff-specific rules
+]
+ignore = [
+    "E501",   # line too long (Black handles this)
+    "B008",   # do not perform function calls in default arguments (FastAPI Depends)
+    "UP046",  # Generic[T] — keep for Python 3.11 runtime compatibility (3.12 target, 3.11 installed)
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+# ── Black — Formatter ─────────────────────────────────────────────────────────
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+include = '\.pyi?$'
+
+# ── Pytest ────────────────────────────────────────────────────────────────────
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+asyncio_mode = "auto"
+log_cli = true
+log_cli_level = "WARNING"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
