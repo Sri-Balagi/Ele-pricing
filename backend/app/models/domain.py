@@ -236,6 +236,16 @@ class PricingSummary(BaseModel):
     total: Decimal = Field(default=Decimal("0.00"), description="Final total price to quote")
 
 
+class ConfigurationMutation(BaseModel):
+    """Tracks atomic changes made to the configuration by engines."""
+
+    timestamp: str = Field(..., description="ISO8601 timestamp of the mutation")
+    source_engine: str = Field(..., description="Engine that caused this mutation (e.g., RULE_ENGINE, DEPENDENCY_ENGINE)")
+    entity_id: str = Field(..., description="ID of the entity affected")
+    mutation_type: str = Field(..., description="ADDED, REMOVED")
+    reason: str = Field(default="", description="Reason for the mutation")
+
+
 class Configuration(BaseModel):
     """The core aggregate root representing a customer's specific elevator configuration."""
 
@@ -245,6 +255,91 @@ class Configuration(BaseModel):
     resolved_components: list[str] = Field(default_factory=list, description="IDs of explicitly resolved Components")
     validation_results: ValidationResult | None = Field(default=None, description="Results of the last validation run")
     rule_results: list[RuleResult] = Field(default_factory=list, description="Audit log of applied rules")
+    mutations: list[ConfigurationMutation] = Field(default_factory=list, description="Audit log of all state mutations")
     bill_of_materials: BillOfMaterials | None = Field(default=None, description="The generated BOM")
     pricing_summary: PricingSummary | None = Field(default=None, description="The calculated pricing")
     status: ConfigurationStatus = Field(default=ConfigurationStatus.DRAFT, description="Current lifecycle state")
+
+
+class RuleContext(BaseModel):
+    """The runtime state passed to rule conditions and actions."""
+
+    configuration: Configuration
+    catalogue: ProductCatalogue
+    current_rule: Rule | None = None
+    trigger_type: RuleTriggerType
+    execution_timestamp: str = Field(..., description="ISO8601 timestamp of execution")
+    correlation_id: str = Field(..., description="Trace ID for this execution run")
+    execution_depth: int = Field(default=0, description="Nesting level of rule execution")
+    execution_history: list[str] = Field(default_factory=list, description="IDs of rules executed so far in this run")
+
+
+class ActionResult(BaseModel):
+    """The structured result returned by an ActionHandler."""
+
+    success: bool
+    message: str | None = None
+    affected_entities: list[str] = Field(default_factory=list)
+    warnings: list[str] = Field(default_factory=list)
+    configuration_changes: dict[str, Any] = Field(default_factory=dict)
+
+
+class RuleMetrics(BaseModel):
+    """Runtime metrics for a single evaluation pass."""
+
+    rules_loaded: int = 0
+    rules_executed: int = 0
+    rules_skipped: int = 0
+    rules_failed: int = 0
+    total_execution_time_ms: float = 0.0
+
+
+class ExecutionReport(BaseModel):
+    """The final summary of a rule evaluation pass."""
+
+    configuration_id: str
+    trigger: str
+    executed_rules: list[str] = Field(default_factory=list)
+    skipped_rules: list[str] = Field(default_factory=list)
+    failed_rules: list[str] = Field(default_factory=list)
+    execution_time_ms: float = 0.0
+    summary: str
+    metrics: RuleMetrics
+
+
+class DependencyNode(BaseModel):
+    """Represents a node (component or option) in the dependency graph."""
+
+    entity_id: str = Field(..., description="ID of the FeatureOption or Component")
+    entity_type: str = Field(..., description="Type: 'COMPONENT' or 'OPTION'")
+    resolved: bool = Field(default=False, description="Whether this node has been resolved in the current pass")
+
+
+class DependencyEdge(BaseModel):
+    """Represents a directed edge between two DependencyNodes."""
+
+    dependency: Dependency = Field(..., description="The underlying dependency relationship")
+    is_active: bool = Field(default=True, description="True if condition_expression evaluated to True")
+
+
+class DependencyGraph(BaseModel):
+    """The in-memory topological graph of engineering dependencies."""
+
+    nodes: dict[str, DependencyNode] = Field(default_factory=dict)
+    adjacency_list: dict[str, list[DependencyEdge]] = Field(default_factory=dict)
+    reverse_adjacency: dict[str, list[DependencyEdge]] = Field(default_factory=dict)
+
+
+class DependencyResolutionReport(BaseModel):
+    """The final summary of a dependency resolution pass."""
+
+    configuration_id: str
+    nodes_evaluated: int = 0
+    edges_traversed: int = 0
+    components_added: list[str] = Field(default_factory=list)
+    options_added: list[str] = Field(default_factory=list)
+    conflicts_detected: list[str] = Field(default_factory=list)
+    cycles_detected: list[str] = Field(default_factory=list)
+    execution_time_ms: float = 0.0
+    summary: str
+

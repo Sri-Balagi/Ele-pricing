@@ -1,23 +1,22 @@
 """
-Rule engine package.
+Rule Engine Module.
 
-The rule engine reads rules from rules.json and evaluates them against
-a proposed elevator configuration to determine if it is valid.
-
-Each rule follows the schema:
-  {
-    "id": "R001",
-    "description": "Type A requires Standard Motor",
-    "condition": { ... },
-    "action": "REQUIRE",
-    "target": "C_MOTOR_STANDARD",
-    "priority": 1,
-    "enabled": true,
-    "reason": "Type A elevators always use the standard motor."
-  }
-
-Milestone 2 will implement:
-  - RuleLoader
-  - RuleEvaluator
-  - RuleEngine (orchestrates loader + evaluator)
+Provides the Configuration & Rule Engine Core.
 """
+
+from app.rules.action_handlers import ActionRegistry
+from app.rules.dsl import ConditionEvaluator, ConditionParser
+from app.rules.evaluator import RuleEvaluator
+from app.rules.registry import RuleRegistry
+from app.rules.repository import RuleRepository
+from app.rules.validator import RuleValidator
+
+__all__ = [
+    "RuleRepository",
+    "RuleValidator",
+    "RuleRegistry",
+    "ConditionParser",
+    "ConditionEvaluator",
+    "ActionRegistry",
+    "RuleEvaluator",
+]
