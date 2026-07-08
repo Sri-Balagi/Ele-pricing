@@ -76,7 +76,7 @@ def test_pricing_engine_success(dummy_product_catalogue):
     report = engine.resolve(context)
     
     assert len(report.errors) == 0
-    assert config.status == ConfigurationStatus.PRICED
+    assert config.status == ConfigurationStatus.VALIDATED
     
     summary = config.pricing_summary
     assert summary is not None

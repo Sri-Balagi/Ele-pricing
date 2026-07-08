@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, TypeVar, Generic
 from pydantic import BaseModel, Field
 from app.models.domain import (
     ConfigurationStatus,
@@ -7,6 +7,15 @@ from app.models.domain import (
     BillOfMaterials,
     PipelineExecutionReport
 )
+
+T = TypeVar("T")
+
+class APISuccessEnvelope(BaseModel, Generic[T]):
+    """Standardized API Success Response Envelope."""
+    success: bool = Field(default=True)
+    data: T
+    correlation_id: str | None = None
+    timestamp: str
 
 
 class ConfigurationResponse(BaseModel):

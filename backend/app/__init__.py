@@ -66,6 +66,8 @@ def create_app() -> FastAPI:
         lifespan=build_lifespan(data_dir=settings.DATA_DIR),
     )
 
+    from app.middleware.timing import RequestTimingMiddleware
+
     # Step 4: Middleware — order matters (outermost registered last with add_middleware)
     app.add_middleware(
         CORSMiddleware,
@@ -75,6 +77,7 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
     app.add_middleware(RequestLoggingMiddleware)
+    app.add_middleware(RequestTimingMiddleware)
 
     # Step 5: Global exception handlers
     _register_exception_handlers(app)
@@ -91,6 +94,16 @@ def create_app() -> FastAPI:
     )
 
     return app
+
+
+def _get_request_metadata(request: Request) -> dict:
+    from datetime import datetime, timezone
+    # Prefer an explicitly passed correlation ID in headers or state
+    corr_id = getattr(request.state, "correlation_id", request.headers.get("X-Correlation-ID"))
+    return {
+        "correlation_id": corr_id,
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    }
 
 
 def _register_exception_handlers(app: FastAPI) -> None:
@@ -113,24 +126,30 @@ def _register_exception_handlers(app: FastAPI) -> None:
             request.url.path,
             extra={"details": exc.details},
         )
+        meta = _get_request_metadata(request)
         return JSONResponse(
             status_code=exc.http_status,
             content={
                 "success": False,
                 "error_code": exc.error_code,
                 "message": exc.message,
+                "correlation_id": meta["correlation_id"],
+                "timestamp": meta["timestamp"],
                 "details": exc.details,
             },
         )
 
     @app.exception_handler(404)
     async def not_found_handler(request: Request, exc: object) -> JSONResponse:
+        meta = _get_request_metadata(request)
         return JSONResponse(
             status_code=404,
             content={
                 "success": False,
                 "error_code": "NOT_FOUND",
                 "message": f"Route '{request.url.path}' does not exist.",
+                "correlation_id": meta["correlation_id"],
+                "timestamp": meta["timestamp"],
                 "details": None,
             },
         )
@@ -138,12 +157,15 @@ def _register_exception_handlers(app: FastAPI) -> None:
     @app.exception_handler(422)
     async def validation_error_handler(request: Request, exc: object) -> JSONResponse:
         details = exc.errors() if hasattr(exc, "errors") else str(exc)
+        meta = _get_request_metadata(request)
         return JSONResponse(
             status_code=422,
             content={
                 "success": False,
                 "error_code": "VALIDATION_ERROR",
                 "message": "Request validation failed. Check 'details' for field errors.",
+                "correlation_id": meta["correlation_id"],
+                "timestamp": meta["timestamp"],
                 "details": details,
             },
         )

@@ -33,7 +33,16 @@ def _write_all_stubs(directory: Path) -> None:
     """Write all required stub files to directory."""
     for filename in ALL_DATA_FILES:
         if filename == "pricing.json":
-            content = {}
+            content = {
+                "catalogue_version": "1.0",
+                "currency": "EUR",
+                "tax_configuration": {
+                    "enabled": True,
+                    "tax_name": "VAT",
+                    "rate": 18.0
+                },
+                "pricing_records": []
+            }
         elif filename == "catalog_metadata.json":
             content = [{
                 "catalogue_version": "1.0",
@@ -62,7 +71,16 @@ class TestValidateDataFiles:
             if filename == skipped_file:
                 continue
             if filename == "pricing.json":
-                content = {}
+                content = {
+                    "catalogue_version": "1.0",
+                    "currency": "EUR",
+                    "tax_configuration": {
+                        "enabled": True,
+                        "tax_name": "VAT",
+                        "rate": 18.0
+                    },
+                    "pricing_records": []
+                }
             elif filename == "catalog_metadata.json":
                 content = [{
                     "catalogue_version": "1.0",

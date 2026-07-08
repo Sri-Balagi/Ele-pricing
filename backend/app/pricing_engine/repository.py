@@ -9,9 +9,5 @@ class PricingRepository(BaseRepository[PricingCatalogue]):
     Repository for loading the structured pricing.json file.
     """
 
-    def _get_filename(self) -> str:
-        return DataFile.PRICING.value
-
-    def _parse(self, data: Any) -> PricingCatalogue:
-        """Parse raw JSON into the PricingCatalogue model."""
-        return PricingCatalogue.model_validate(data)
+    def __init__(self) -> None:
+        super().__init__(model_class=PricingCatalogue, data_file=DataFile.PRICING)

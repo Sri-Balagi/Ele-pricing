@@ -26,8 +26,11 @@ router.include_router(health.router)
 # from app.api.v1.endpoints import components
 # router.include_router(components.router, prefix="/components", tags=["Components"])
 
-# from app.api.v1.endpoints import configuration
-# router.include_router(configuration.router, prefix="/configurations", tags=["Configuration"])
+from app.api.v1.endpoints import configuration
+router.include_router(configuration.router, prefix="/configurations", tags=["Configuration"])
+
+from app.api.v1.endpoints import system
+router.include_router(system.router, prefix="/system", tags=["System"])
 
 # from app.api.v1.endpoints import pricing
 # router.include_router(pricing.router, prefix="/pricing", tags=["Pricing"])

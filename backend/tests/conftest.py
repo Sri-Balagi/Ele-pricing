@@ -52,7 +52,16 @@ def tmp_data_dir(tmp_path_factory: pytest.TempPathFactory) -> Path:
         "feature_mappings.json": [],
         "dependencies.json": [],
         "rules.json": [],
-        "pricing.json": {},
+        "pricing.json": {
+            "catalogue_version": "1.0",
+            "currency": "EUR",
+            "tax_configuration": {
+                "enabled": True,
+                "tax_name": "VAT",
+                "rate": 18.0
+            },
+            "pricing_records": []
+        },
     }
 
     for filename, content in stubs.items():

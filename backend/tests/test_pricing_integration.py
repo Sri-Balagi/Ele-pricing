@@ -151,7 +151,8 @@ def test_full_pipeline_m2_m3_m4(integrated_catalogue, base_config):
     
     # --- Post-Pricing Asserts ---
     assert len(pricing_report.errors) == 0
-    assert base_config.status == ConfigurationStatus.PRICED
+    # Status is handled by pipeline now, engine leaves it as VALIDATED
+    assert base_config.status == ConfigurationStatus.VALIDATED
     
     summary = base_config.pricing_summary
     assert summary.currency == "EUR"

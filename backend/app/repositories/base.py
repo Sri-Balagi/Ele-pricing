@@ -29,35 +29,36 @@ class BaseRepository(ABC, Generic[T]):
     (e.g. dict[str, Any] for the setup phase, Pydantic model in later milestones).
     """
 
-    @abstractmethod
+    def __init__(self, model_class=None, data_file=None):
+        self.model_class = model_class
+        self.data_file = data_file
+        
     def get_all(self) -> list[T]:
-        """
-        Return every record in the collection.
+        if not self.model_class or not self.data_file:
+            return []
+            
+        from app.utils.data_loader import DataLoader
+        from app.core.config import get_settings
+        
+        loader = DataLoader(data_dir=get_settings().DATA_DIR)
+        raw_data = loader.load(self.data_file.value)
+        
+        # If it's a dict (e.g. pricing.json), just return the parsed model in a list or return directly?
+        # Wait, if raw_data is a dict, parse it directly. 
+        if isinstance(raw_data, dict):
+            return self.model_class(**raw_data)
+        
+        return [self.model_class(**item) for item in raw_data] if isinstance(raw_data, list) else []
 
-        Returns:
-            List of all records. Returns an empty list if the collection is empty.
-        """
-
-    @abstractmethod
     def get_by_id(self, record_id: str) -> T | None:
-        """
-        Return the record matching record_id, or None if not found.
+        records = self.get_all()
+        if not isinstance(records, list):
+            return records if getattr(records, "id", None) == record_id else None
+            
+        for record in records:
+            if getattr(record, "id", None) == record_id or getattr(record, "entity_id", None) == record_id:
+                return record
+        return None
 
-        Args:
-            record_id: Unique identifier string to look up.
-
-        Returns:
-            Matching record or None.
-        """
-
-    @abstractmethod
     def exists(self, record_id: str) -> bool:
-        """
-        Return True if a record with the given ID exists in the collection.
-
-        Args:
-            record_id: Unique identifier string to check.
-
-        Returns:
-            True if found, False otherwise.
-        """
+        return self.get_by_id(record_id) is not None

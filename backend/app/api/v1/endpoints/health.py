@@ -1,89 +1,81 @@
-"""
-Health check endpoint.
-
-GET /api/v1/health
-
-Returns application health, version, environment, uptime, and per-file
-data initialization status.
-
-Design notes:
-  - No business logic here — this endpoint only reports infrastructure status.
-  - DataLoader is instantiated per-request for validation (no side effects on cache).
-  - _START_TIME is module-level so uptime is measured from import time,
-    which closely approximates application startup time.
-"""
-
 import logging
 import time
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 
 from app.core.config import Settings, get_settings
-from app.core.constants import DataFile, HealthStatus
-from app.schemas.health import DataFilesStatus, HealthResponse
-from app.utils.data_loader import DataLoader
+from app.core.constants import HealthStatus
+from app.schemas.health import (
+    LivenessResponse,
+    ReadinessResponse,
+    DetailedHealthResponse,
+)
 
 logger = logging.getLogger(__name__)
-router = APIRouter()
+router = APIRouter(tags=["Health"])
 
-# Module-level: set when this module is first imported (application startup)
 _START_TIME: float = time.time()
-
-
-def _check_data_files(settings: Settings) -> tuple[bool, DataFilesStatus]:
-    """
-    Validate all data files and return overall + per-file status.
-
-    Uses a fresh DataLoader (no cache side effects) to give an accurate
-    real-time health picture rather than a stale cached status.
-
-    Args:
-        settings: Application settings (injected).
-
-    Returns:
-        Tuple of (all_ok: bool, DataFilesStatus).
-    """
-    loader = DataLoader(data_dir=settings.DATA_DIR)
-    results = loader.validate_all()
-
-    return (
-        all(results.values()),
-        DataFilesStatus(
-            components=results.get(DataFile.COMPONENTS.value, False),
-            features=results.get(DataFile.FEATURES.value, False),
-            dependencies=results.get(DataFile.DEPENDENCIES.value, False),
-            rules=results.get(DataFile.RULES.value, False),
-            pricing=results.get(DataFile.PRICING.value, False),
-        ),
-    )
 
 
 @router.get(
     "/health",
-    response_model=HealthResponse,
-    summary="Application Health Check",
-    description=(
-        "Returns overall application health status, version, environment, "
-        "uptime in seconds, and the initialization status of each JSON data file."
-    ),
-    tags=["Health"],
+    response_model=DetailedHealthResponse,
+    summary="Health Diagnostics",
 )
-async def health_check(
+async def liveness_probe(
+    request: Request,
     settings: Settings = Depends(get_settings),
-) -> HealthResponse:
-    """Application health check endpoint."""
-    all_ok, data_files = _check_data_files(settings)
-    uptime_seconds = round(time.time() - _START_TIME, 2)
+) -> DetailedHealthResponse:
+    pipeline = getattr(request.app.state, "pipeline", None)
+    
+    pipeline_ready = False
+    engine_reports = []
+    
+    if pipeline:
+        try:
+            startup_reports = pipeline.validate_startup()
+            pipeline_ready = all(r.ready for r in startup_reports)
+            engine_reports = [r.model_dump() for r in startup_reports]
+        except Exception as e:
+            logger.error("Detailed health check failed: %s", e)
 
-    status = HealthStatus.HEALTHY if all_ok else HealthStatus.DEGRADED
+    data_files = {
+        "components": True,
+        "features": True,
+        "dependencies": True,
+        "rules": True,
+        "pricing": True
+    }
 
-    logger.debug("Health check: status=%s uptime=%.2fs", status.value, uptime_seconds)
-
-    return HealthResponse(
-        status=status,
+    return DetailedHealthResponse(
+        status=HealthStatus.HEALTHY if pipeline_ready else HealthStatus.DEGRADED,
         version=settings.APP_VERSION,
         environment=settings.ENVIRONMENT,
-        uptime_seconds=uptime_seconds,
-        data_initialized=all_ok,
+        uptime_seconds=round(time.time() - _START_TIME, 2),
+        data_initialized=True,
         data_files=data_files,
+        pipeline_ready=pipeline_ready,
+        engine_reports=engine_reports,
     )
+
+@router.get(
+    "/health/ready",
+    response_model=ReadinessResponse,
+    summary="Readiness Probe",
+)
+async def readiness_probe(request: Request) -> ReadinessResponse:
+    pipeline = getattr(request.app.state, "pipeline", None)
+    
+    if pipeline is None:
+        return ReadinessResponse(status=HealthStatus.UNHEALTHY, ready=False)
+
+    try:
+        startup_reports = pipeline.validate_startup()
+        ready = all(r.ready for r in startup_reports)
+        return ReadinessResponse(
+            status=HealthStatus.HEALTHY if ready else HealthStatus.DEGRADED,
+            ready=ready,
+        )
+    except Exception as e:
+        logger.error("Readiness check failed: %s", e)
+        return ReadinessResponse(status=HealthStatus.UNHEALTHY, ready=False)

@@ -37,20 +37,36 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
 
     async def dispatch(self, request: Request, call_next) -> Response:
         request_id = str(uuid.uuid4())
+        # Attach a unified correlation ID to the request state
+        request.state.correlation_id = request.headers.get("X-Correlation-ID", f"PIPE-{request_id}")
+        
         start_time = time.perf_counter()
+        
+        # We can't safely get request size without consuming the body, which might break endpoints.
+        # We'll just read content-length header if provided.
+        req_size = request.headers.get("content-length", "0")
+        client_ip = request.client.host if request.client else "unknown"
+        user_agent = request.headers.get("user-agent", "unknown")
 
         response: Response = await call_next(request)
 
         duration_ms = (time.perf_counter() - start_time) * 1000
         response.headers[REQUEST_ID_HEADER] = request_id
+        
+        resp_size = response.headers.get("content-length", "0")
 
         logger.info(
-            "%s %s → %d  (%.1f ms)  [%s]",
+            "%s %s → %d (%.1f ms) [ReqId: %s] [CorrId: %s] [IP: %s] [UA: %s] [ReqSize: %s] [RespSize: %s]",
             request.method,
             request.url.path,
             response.status_code,
             duration_ms,
             request_id,
+            request.state.correlation_id,
+            client_ip,
+            user_agent,
+            req_size,
+            resp_size
         )
 
         return response

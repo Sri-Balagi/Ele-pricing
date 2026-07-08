@@ -1,0 +1,467 @@
+2026-07-08 15:20:18 | INFO     | app | App created: Elevator Configuration Engine v0.1.0 [development] | API prefix: /api/v1
+2026-07-08 15:20:18 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:20:18 | ERROR    | app.utils.catalogue_validator |  - Duplicate ID found for ElevatorCategory: CAT-A
+2026-07-08 15:20:18 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:20:18 | ERROR    | app.utils.catalogue_validator |  - Missing 'id' in a ElevatorCategory record.
+2026-07-08 15:20:18 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:20:18 | ERROR    | app.utils.catalogue_validator |  - Schema validation failed for Component 'COMP-1': 1 validation error for Component
+category
+  Input should be 'Structural', 'Mechanical', 'Electrical', 'Control', 'Safety', 'Cabin' or 'Door' [type=enum, input_value='INVALID_CATEGORY', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/enum
+2026-07-08 15:20:18 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:20:18 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references unknown category_id: BAD-CAT
+2026-07-08 15:20:18 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:20:18 | ERROR    | app.utils.catalogue_validator |  - Dependency 'DEP-1' references unknown target_id: BAD-COMP
+2026-07-08 15:20:18 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:20:18 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references inactive category_id: CAT-A
+2026-07-08 15:20:18 | ERROR    | app.utils.data_loader | Data file not found: app\data\components.json
+2026-07-08 15:20:18 | WARNING  | app.utils.data_loader | Validation failed for 'components.json': Required data file not found: 'components.json'
+2026-07-08 15:20:18 | ERROR    | app.utils.data_loader | Data file not found: app\data\features.json
+2026-07-08 15:20:18 | WARNING  | app.utils.data_loader | Validation failed for 'features.json': Required data file not found: 'features.json'
+2026-07-08 15:20:18 | ERROR    | app.utils.data_loader | Data file not found: app\data\dependencies.json
+2026-07-08 15:20:18 | WARNING  | app.utils.data_loader | Validation failed for 'dependencies.json': Required data file not found: 'dependencies.json'
+2026-07-08 15:20:18 | ERROR    | app.utils.data_loader | Data file not found: app\data\rules.json
+2026-07-08 15:20:18 | WARNING  | app.utils.data_loader | Validation failed for 'rules.json': Required data file not found: 'rules.json'
+2026-07-08 15:20:18 | ERROR    | app.utils.data_loader | Data file not found: app\data\pricing.json
+2026-07-08 15:20:18 | WARNING  | app.utils.data_loader | Validation failed for 'pricing.json': Required data file not found: 'pricing.json'
+2026-07-08 15:20:18 | ERROR    | app.utils.data_loader | Data file not found: app\data\categories.json
+2026-07-08 15:20:18 | WARNING  | app.utils.data_loader | Validation failed for 'categories.json': Required data file not found: 'categories.json'
+2026-07-08 15:20:18 | ERROR    | app.utils.data_loader | Data file not found: app\data\catalog_metadata.json
+2026-07-08 15:20:18 | WARNING  | app.utils.data_loader | Validation failed for 'catalog_metadata.json': Required data file not found: 'catalog_metadata.json'
+2026-07-08 15:20:18 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_mappings.json
+2026-07-08 15:20:18 | WARNING  | app.utils.data_loader | Validation failed for 'feature_mappings.json': Required data file not found: 'feature_mappings.json'
+2026-07-08 15:20:18 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_groups.json
+2026-07-08 15:20:18 | WARNING  | app.utils.data_loader | Validation failed for 'feature_groups.json': Required data file not found: 'feature_groups.json'
+2026-07-08 15:20:18 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_options.json
+2026-07-08 15:20:18 | WARNING  | app.utils.data_loader | Validation failed for 'feature_options.json': Required data file not found: 'feature_options.json'
+2026-07-08 15:20:18 | CRITICAL | app.core.startup | Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:18 | CRITICAL | app.core.startup | Fatal startup error: Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\components.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'components.json': Required data file not found: 'components.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\features.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'features.json': Required data file not found: 'features.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\dependencies.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'dependencies.json': Required data file not found: 'dependencies.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\rules.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'rules.json': Required data file not found: 'rules.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\pricing.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'pricing.json': Required data file not found: 'pricing.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\categories.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'categories.json': Required data file not found: 'categories.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\catalog_metadata.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'catalog_metadata.json': Required data file not found: 'catalog_metadata.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_mappings.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'feature_mappings.json': Required data file not found: 'feature_mappings.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_groups.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'feature_groups.json': Required data file not found: 'feature_groups.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_options.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'feature_options.json': Required data file not found: 'feature_options.json'
+2026-07-08 15:20:19 | CRITICAL | app.core.startup | Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:19 | CRITICAL | app.core.startup | Fatal startup error: Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\components.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'components.json': Required data file not found: 'components.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\features.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'features.json': Required data file not found: 'features.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\dependencies.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'dependencies.json': Required data file not found: 'dependencies.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\rules.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'rules.json': Required data file not found: 'rules.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\pricing.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'pricing.json': Required data file not found: 'pricing.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\categories.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'categories.json': Required data file not found: 'categories.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\catalog_metadata.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'catalog_metadata.json': Required data file not found: 'catalog_metadata.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_mappings.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'feature_mappings.json': Required data file not found: 'feature_mappings.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_groups.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'feature_groups.json': Required data file not found: 'feature_groups.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_options.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'feature_options.json': Required data file not found: 'feature_options.json'
+2026-07-08 15:20:19 | CRITICAL | app.core.startup | Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:19 | CRITICAL | app.core.startup | Fatal startup error: Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\components.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'components.json': Required data file not found: 'components.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\features.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'features.json': Required data file not found: 'features.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\dependencies.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'dependencies.json': Required data file not found: 'dependencies.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\rules.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'rules.json': Required data file not found: 'rules.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\pricing.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'pricing.json': Required data file not found: 'pricing.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\categories.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'categories.json': Required data file not found: 'categories.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\catalog_metadata.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'catalog_metadata.json': Required data file not found: 'catalog_metadata.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_mappings.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'feature_mappings.json': Required data file not found: 'feature_mappings.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_groups.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'feature_groups.json': Required data file not found: 'feature_groups.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_options.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'feature_options.json': Required data file not found: 'feature_options.json'
+2026-07-08 15:20:19 | CRITICAL | app.core.startup | Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:19 | CRITICAL | app.core.startup | Fatal startup error: Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\components.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'components.json': Required data file not found: 'components.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\features.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'features.json': Required data file not found: 'features.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\dependencies.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'dependencies.json': Required data file not found: 'dependencies.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\rules.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'rules.json': Required data file not found: 'rules.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\pricing.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'pricing.json': Required data file not found: 'pricing.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\categories.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'categories.json': Required data file not found: 'categories.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\catalog_metadata.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'catalog_metadata.json': Required data file not found: 'catalog_metadata.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_mappings.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'feature_mappings.json': Required data file not found: 'feature_mappings.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_groups.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'feature_groups.json': Required data file not found: 'feature_groups.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_options.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'feature_options.json': Required data file not found: 'feature_options.json'
+2026-07-08 15:20:19 | CRITICAL | app.core.startup | Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:19 | CRITICAL | app.core.startup | Fatal startup error: Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\components.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'components.json': Required data file not found: 'components.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\features.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'features.json': Required data file not found: 'features.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\dependencies.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'dependencies.json': Required data file not found: 'dependencies.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\rules.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'rules.json': Required data file not found: 'rules.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\pricing.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'pricing.json': Required data file not found: 'pricing.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\categories.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'categories.json': Required data file not found: 'categories.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\catalog_metadata.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'catalog_metadata.json': Required data file not found: 'catalog_metadata.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_mappings.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'feature_mappings.json': Required data file not found: 'feature_mappings.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_groups.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'feature_groups.json': Required data file not found: 'feature_groups.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_options.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'feature_options.json': Required data file not found: 'feature_options.json'
+2026-07-08 15:20:19 | CRITICAL | app.core.startup | Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:19 | CRITICAL | app.core.startup | Fatal startup error: Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\components.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'components.json': Required data file not found: 'components.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\features.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'features.json': Required data file not found: 'features.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\dependencies.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'dependencies.json': Required data file not found: 'dependencies.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\rules.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'rules.json': Required data file not found: 'rules.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\pricing.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'pricing.json': Required data file not found: 'pricing.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\categories.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'categories.json': Required data file not found: 'categories.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\catalog_metadata.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'catalog_metadata.json': Required data file not found: 'catalog_metadata.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_mappings.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'feature_mappings.json': Required data file not found: 'feature_mappings.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_groups.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'feature_groups.json': Required data file not found: 'feature_groups.json'
+2026-07-08 15:20:19 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_options.json
+2026-07-08 15:20:19 | WARNING  | app.utils.data_loader | Validation failed for 'feature_options.json': Required data file not found: 'feature_options.json'
+2026-07-08 15:20:19 | CRITICAL | app.core.startup | Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:19 | CRITICAL | app.core.startup | Fatal startup error: Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_missing_file_raises_not_f0\does_not_exist.json
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Invalid JSON in 'C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_invalid_json_raises_forma0\bad_json.json' at line 1, col 1: Expecting value
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_exception_carries_error_c0\missing.json
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_exception_carries_details0\missing.json
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_missing_file_returns_fals0\nonexistent.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'nonexistent.json': Required data file not found: 'nonexistent.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Invalid JSON in 'C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_invalid_json_returns_fals0\bad_json.json' at line 1, col 1: Expecting value
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'bad_json.json': Malformed JSON in data file: 'bad_json.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_returns_dict0\dependencies.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'dependencies.json': Required data file not found: 'dependencies.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_returns_dict0\rules.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'rules.json': Required data file not found: 'rules.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_returns_dict0\pricing.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'pricing.json': Required data file not found: 'pricing.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_returns_dict0\categories.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'categories.json': Required data file not found: 'categories.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_returns_dict0\catalog_metadata.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'catalog_metadata.json': Required data file not found: 'catalog_metadata.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_returns_dict0\feature_mappings.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'feature_mappings.json': Required data file not found: 'feature_mappings.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_returns_dict0\feature_groups.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'feature_groups.json': Required data file not found: 'feature_groups.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_returns_dict0\feature_options.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'feature_options.json': Required data file not found: 'feature_options.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_covers_all_required_data_0\dependencies.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'dependencies.json': Required data file not found: 'dependencies.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_covers_all_required_data_0\rules.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'rules.json': Required data file not found: 'rules.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_covers_all_required_data_0\pricing.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'pricing.json': Required data file not found: 'pricing.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_covers_all_required_data_0\categories.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'categories.json': Required data file not found: 'categories.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_covers_all_required_data_0\catalog_metadata.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'catalog_metadata.json': Required data file not found: 'catalog_metadata.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_covers_all_required_data_0\feature_mappings.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'feature_mappings.json': Required data file not found: 'feature_mappings.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_covers_all_required_data_0\feature_groups.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'feature_groups.json': Required data file not found: 'feature_groups.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_covers_all_required_data_0\feature_options.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'feature_options.json': Required data file not found: 'feature_options.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_values_are_booleans0\dependencies.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'dependencies.json': Required data file not found: 'dependencies.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_values_are_booleans0\rules.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'rules.json': Required data file not found: 'rules.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_values_are_booleans0\pricing.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'pricing.json': Required data file not found: 'pricing.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_values_are_booleans0\categories.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'categories.json': Required data file not found: 'categories.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_values_are_booleans0\catalog_metadata.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'catalog_metadata.json': Required data file not found: 'catalog_metadata.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_values_are_booleans0\feature_mappings.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'feature_mappings.json': Required data file not found: 'feature_mappings.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_values_are_booleans0\feature_groups.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'feature_groups.json': Required data file not found: 'feature_groups.json'
+2026-07-08 15:20:20 | ERROR    | app.utils.data_loader | Data file not found: C:\Users\Sri Balagi\AppData\Local\Temp\pytest-of-Sri Balagi\pytest-4\test_values_are_booleans0\feature_options.json
+2026-07-08 15:20:20 | WARNING  | app.utils.data_loader | Validation failed for 'feature_options.json': Required data file not found: 'feature_options.json'
+2026-07-08 15:20:20 | WARNING  | app.dependency_engine.conflict_resolver | Dependency conflict: 'X' strictly excludes 'Y', but 'Y' is present in the configuration (dependency 'D3').
+2026-07-08 15:20:33 | INFO     | app | App created: Elevator Configuration Engine v0.1.0 [development] | API prefix: /api/v1
+2026-07-08 15:20:33 | ERROR    | app.utils.data_loader | Data file not found: app\data\components.json
+2026-07-08 15:20:33 | WARNING  | app.utils.data_loader | Validation failed for 'components.json': Required data file not found: 'components.json'
+2026-07-08 15:20:33 | ERROR    | app.utils.data_loader | Data file not found: app\data\features.json
+2026-07-08 15:20:33 | WARNING  | app.utils.data_loader | Validation failed for 'features.json': Required data file not found: 'features.json'
+2026-07-08 15:20:33 | ERROR    | app.utils.data_loader | Data file not found: app\data\dependencies.json
+2026-07-08 15:20:33 | WARNING  | app.utils.data_loader | Validation failed for 'dependencies.json': Required data file not found: 'dependencies.json'
+2026-07-08 15:20:33 | ERROR    | app.utils.data_loader | Data file not found: app\data\rules.json
+2026-07-08 15:20:33 | WARNING  | app.utils.data_loader | Validation failed for 'rules.json': Required data file not found: 'rules.json'
+2026-07-08 15:20:33 | ERROR    | app.utils.data_loader | Data file not found: app\data\pricing.json
+2026-07-08 15:20:33 | WARNING  | app.utils.data_loader | Validation failed for 'pricing.json': Required data file not found: 'pricing.json'
+2026-07-08 15:20:33 | ERROR    | app.utils.data_loader | Data file not found: app\data\categories.json
+2026-07-08 15:20:33 | WARNING  | app.utils.data_loader | Validation failed for 'categories.json': Required data file not found: 'categories.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\catalog_metadata.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'catalog_metadata.json': Required data file not found: 'catalog_metadata.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_mappings.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'feature_mappings.json': Required data file not found: 'feature_mappings.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_groups.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'feature_groups.json': Required data file not found: 'feature_groups.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_options.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'feature_options.json': Required data file not found: 'feature_options.json'
+2026-07-08 15:20:34 | CRITICAL | app.core.startup | Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:34 | CRITICAL | app.core.startup | Fatal startup error: Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\components.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'components.json': Required data file not found: 'components.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\features.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'features.json': Required data file not found: 'features.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\dependencies.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'dependencies.json': Required data file not found: 'dependencies.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\rules.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'rules.json': Required data file not found: 'rules.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\pricing.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'pricing.json': Required data file not found: 'pricing.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\categories.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'categories.json': Required data file not found: 'categories.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\catalog_metadata.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'catalog_metadata.json': Required data file not found: 'catalog_metadata.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_mappings.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'feature_mappings.json': Required data file not found: 'feature_mappings.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_groups.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'feature_groups.json': Required data file not found: 'feature_groups.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_options.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'feature_options.json': Required data file not found: 'feature_options.json'
+2026-07-08 15:20:34 | CRITICAL | app.core.startup | Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:34 | CRITICAL | app.core.startup | Fatal startup error: Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\components.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'components.json': Required data file not found: 'components.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\features.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'features.json': Required data file not found: 'features.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\dependencies.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'dependencies.json': Required data file not found: 'dependencies.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\rules.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'rules.json': Required data file not found: 'rules.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\pricing.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'pricing.json': Required data file not found: 'pricing.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\categories.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'categories.json': Required data file not found: 'categories.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\catalog_metadata.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'catalog_metadata.json': Required data file not found: 'catalog_metadata.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_mappings.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'feature_mappings.json': Required data file not found: 'feature_mappings.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_groups.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'feature_groups.json': Required data file not found: 'feature_groups.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_options.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'feature_options.json': Required data file not found: 'feature_options.json'
+2026-07-08 15:20:34 | CRITICAL | app.core.startup | Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:34 | CRITICAL | app.core.startup | Fatal startup error: Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\components.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'components.json': Required data file not found: 'components.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\features.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'features.json': Required data file not found: 'features.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\dependencies.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'dependencies.json': Required data file not found: 'dependencies.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\rules.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'rules.json': Required data file not found: 'rules.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\pricing.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'pricing.json': Required data file not found: 'pricing.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\categories.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'categories.json': Required data file not found: 'categories.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\catalog_metadata.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'catalog_metadata.json': Required data file not found: 'catalog_metadata.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_mappings.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'feature_mappings.json': Required data file not found: 'feature_mappings.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_groups.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'feature_groups.json': Required data file not found: 'feature_groups.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_options.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'feature_options.json': Required data file not found: 'feature_options.json'
+2026-07-08 15:20:34 | CRITICAL | app.core.startup | Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:34 | CRITICAL | app.core.startup | Fatal startup error: Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\components.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'components.json': Required data file not found: 'components.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\features.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'features.json': Required data file not found: 'features.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\dependencies.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'dependencies.json': Required data file not found: 'dependencies.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\rules.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'rules.json': Required data file not found: 'rules.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\pricing.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'pricing.json': Required data file not found: 'pricing.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\categories.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'categories.json': Required data file not found: 'categories.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\catalog_metadata.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'catalog_metadata.json': Required data file not found: 'catalog_metadata.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_mappings.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'feature_mappings.json': Required data file not found: 'feature_mappings.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_groups.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'feature_groups.json': Required data file not found: 'feature_groups.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_options.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'feature_options.json': Required data file not found: 'feature_options.json'
+2026-07-08 15:20:34 | CRITICAL | app.core.startup | Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:34 | CRITICAL | app.core.startup | Fatal startup error: Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\components.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'components.json': Required data file not found: 'components.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\features.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'features.json': Required data file not found: 'features.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\dependencies.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'dependencies.json': Required data file not found: 'dependencies.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\rules.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'rules.json': Required data file not found: 'rules.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\pricing.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'pricing.json': Required data file not found: 'pricing.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\categories.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'categories.json': Required data file not found: 'categories.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\catalog_metadata.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'catalog_metadata.json': Required data file not found: 'catalog_metadata.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_mappings.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'feature_mappings.json': Required data file not found: 'feature_mappings.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_groups.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'feature_groups.json': Required data file not found: 'feature_groups.json'
+2026-07-08 15:20:34 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_options.json
+2026-07-08 15:20:34 | WARNING  | app.utils.data_loader | Validation failed for 'feature_options.json': Required data file not found: 'feature_options.json'
+2026-07-08 15:20:34 | CRITICAL | app.core.startup | Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:34 | CRITICAL | app.core.startup | Fatal startup error: Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:35 | ERROR    | app.utils.data_loader | Data file not found: app\data\components.json
+2026-07-08 15:20:35 | WARNING  | app.utils.data_loader | Validation failed for 'components.json': Required data file not found: 'components.json'
+2026-07-08 15:20:35 | ERROR    | app.utils.data_loader | Data file not found: app\data\features.json
+2026-07-08 15:20:35 | WARNING  | app.utils.data_loader | Validation failed for 'features.json': Required data file not found: 'features.json'
+2026-07-08 15:20:35 | ERROR    | app.utils.data_loader | Data file not found: app\data\dependencies.json
+2026-07-08 15:20:35 | WARNING  | app.utils.data_loader | Validation failed for 'dependencies.json': Required data file not found: 'dependencies.json'
+2026-07-08 15:20:35 | ERROR    | app.utils.data_loader | Data file not found: app\data\rules.json
+2026-07-08 15:20:35 | WARNING  | app.utils.data_loader | Validation failed for 'rules.json': Required data file not found: 'rules.json'
+2026-07-08 15:20:35 | ERROR    | app.utils.data_loader | Data file not found: app\data\pricing.json
+2026-07-08 15:20:35 | WARNING  | app.utils.data_loader | Validation failed for 'pricing.json': Required data file not found: 'pricing.json'
+2026-07-08 15:20:35 | ERROR    | app.utils.data_loader | Data file not found: app\data\categories.json
+2026-07-08 15:20:35 | WARNING  | app.utils.data_loader | Validation failed for 'categories.json': Required data file not found: 'categories.json'
+2026-07-08 15:20:35 | ERROR    | app.utils.data_loader | Data file not found: app\data\catalog_metadata.json
+2026-07-08 15:20:35 | WARNING  | app.utils.data_loader | Validation failed for 'catalog_metadata.json': Required data file not found: 'catalog_metadata.json'
+2026-07-08 15:20:35 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_mappings.json
+2026-07-08 15:20:35 | WARNING  | app.utils.data_loader | Validation failed for 'feature_mappings.json': Required data file not found: 'feature_mappings.json'
+2026-07-08 15:20:35 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_groups.json
+2026-07-08 15:20:35 | WARNING  | app.utils.data_loader | Validation failed for 'feature_groups.json': Required data file not found: 'feature_groups.json'
+2026-07-08 15:20:35 | ERROR    | app.utils.data_loader | Data file not found: app\data\feature_options.json
+2026-07-08 15:20:35 | WARNING  | app.utils.data_loader | Validation failed for 'feature_options.json': Required data file not found: 'feature_options.json'
+2026-07-08 15:20:35 | CRITICAL | app.core.startup | Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:20:35 | CRITICAL | app.core.startup | Fatal startup error: Startup validation failed. The following data files are missing or malformed: ['components.json', 'features.json', 'dependencies.json', 'rules.json', 'pricing.json', 'categories.json', 'catalog_metadata.json', 'feature_mappings.json', 'feature_groups.json', 'feature_options.json']. Ensure all JSON files exist in 'app/data'.
+2026-07-08 15:21:12 | INFO     | app | App created: Elevator Configuration Engine v0.1.0 [development] | API prefix: /api/v1
+2026-07-08 15:21:41 | INFO     | app | App created: Elevator Configuration Engine v0.1.0 [development] | API prefix: /api/v1
+2026-07-08 15:22:06 | INFO     | app | App created: Elevator Configuration Engine v0.1.0 [development] | API prefix: /api/v1
+2026-07-08 15:22:26 | INFO     | app | App created: Elevator Configuration Engine v0.1.0 [development] | API prefix: /api/v1
+2026-07-08 15:22:44 | INFO     | app | App created: Elevator Configuration Engine v0.1.0 [development] | API prefix: /api/v1
+2026-07-08 15:25:06 | INFO     | app | App created: Elevator Configuration Engine v0.1.0 [development] | API prefix: /api/v1
+2026-07-08 15:25:06 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:25:06 | ERROR    | app.utils.catalogue_validator |  - Duplicate ID found for ElevatorCategory: CAT-A
+2026-07-08 15:25:06 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:25:06 | ERROR    | app.utils.catalogue_validator |  - Missing 'id' in a ElevatorCategory record.
+2026-07-08 15:25:06 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:25:06 | ERROR    | app.utils.catalogue_validator |  - Schema validation failed for Component 'COMP-1': 1 validation error for Component
+category
+  Input should be 'Structural', 'Mechanical', 'Electrical', 'Control', 'Safety', 'Cabin' or 'Door' [type=enum, input_value='INVALID_CATEGORY', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/enum
+2026-07-08 15:25:06 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:25:06 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references unknown category_id: BAD-CAT
+2026-07-08 15:25:06 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:25:06 | ERROR    | app.utils.catalogue_validator |  - Dependency 'DEP-1' references unknown target_id: BAD-COMP
+2026-07-08 15:25:06 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:25:06 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references inactive category_id: CAT-A
+2026-07-08 15:25:35 | INFO     | app | App created: Elevator Configuration Engine v0.1.0 [development] | API prefix: /api/v1
+2026-07-08 15:25:35 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:25:35 | ERROR    | app.utils.catalogue_validator |  - Duplicate ID found for ElevatorCategory: CAT-A
+2026-07-08 15:25:35 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:25:35 | ERROR    | app.utils.catalogue_validator |  - Missing 'id' in a ElevatorCategory record.
+2026-07-08 15:25:35 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:25:35 | ERROR    | app.utils.catalogue_validator |  - Schema validation failed for Component 'COMP-1': 1 validation error for Component
+category
+  Input should be 'Structural', 'Mechanical', 'Electrical', 'Control', 'Safety', 'Cabin' or 'Door' [type=enum, input_value='INVALID_CATEGORY', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/enum
+2026-07-08 15:25:35 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:25:35 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references unknown category_id: BAD-CAT
+2026-07-08 15:25:35 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:25:35 | ERROR    | app.utils.catalogue_validator |  - Dependency 'DEP-1' references unknown target_id: BAD-COMP
+2026-07-08 15:25:35 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:25:35 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references inactive category_id: CAT-A
+2026-07-08 15:25:54 | INFO     | app | App created: Elevator Configuration Engine v0.1.0 [development] | API prefix: /api/v1
+2026-07-08 15:25:54 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:25:54 | ERROR    | app.utils.catalogue_validator |  - Duplicate ID found for ElevatorCategory: CAT-A
+2026-07-08 15:25:54 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:25:54 | ERROR    | app.utils.catalogue_validator |  - Missing 'id' in a ElevatorCategory record.
+2026-07-08 15:25:54 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:25:54 | ERROR    | app.utils.catalogue_validator |  - Schema validation failed for Component 'COMP-1': 1 validation error for Component
+category
+  Input should be 'Structural', 'Mechanical', 'Electrical', 'Control', 'Safety', 'Cabin' or 'Door' [type=enum, input_value='INVALID_CATEGORY', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/enum
+2026-07-08 15:25:54 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:25:54 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references unknown category_id: BAD-CAT
+2026-07-08 15:25:54 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:25:54 | ERROR    | app.utils.catalogue_validator |  - Dependency 'DEP-1' references unknown target_id: BAD-COMP
+2026-07-08 15:25:54 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:25:54 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references inactive category_id: CAT-A
+2026-07-08 15:27:42 | INFO     | app | App created: Elevator Configuration Engine v0.1.0 [development] | API prefix: /api/v1
+2026-07-08 15:27:42 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:27:42 | ERROR    | app.utils.catalogue_validator |  - Duplicate ID found for ElevatorCategory: CAT-A
+2026-07-08 15:27:42 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:27:42 | ERROR    | app.utils.catalogue_validator |  - Missing 'id' in a ElevatorCategory record.
+2026-07-08 15:27:42 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:27:42 | ERROR    | app.utils.catalogue_validator |  - Schema validation failed for Component 'COMP-1': 1 validation error for Component
+category
+  Input should be 'Structural', 'Mechanical', 'Electrical', 'Control', 'Safety', 'Cabin' or 'Door' [type=enum, input_value='INVALID_CATEGORY', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/enum
+2026-07-08 15:27:42 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:27:42 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references unknown category_id: BAD-CAT
+2026-07-08 15:27:42 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:27:42 | ERROR    | app.utils.catalogue_validator |  - Dependency 'DEP-1' references unknown target_id: BAD-COMP
+2026-07-08 15:27:42 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:27:42 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references inactive category_id: CAT-A
+2026-07-08 15:28:01 | INFO     | app | App created: Elevator Configuration Engine v0.1.0 [development] | API prefix: /api/v1
+2026-07-08 15:28:01 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:28:01 | ERROR    | app.utils.catalogue_validator |  - Duplicate ID found for ElevatorCategory: CAT-A
+2026-07-08 15:28:01 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:28:01 | ERROR    | app.utils.catalogue_validator |  - Missing 'id' in a ElevatorCategory record.
+2026-07-08 15:28:01 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:28:01 | ERROR    | app.utils.catalogue_validator |  - Schema validation failed for Component 'COMP-1': 1 validation error for Component
+category
+  Input should be 'Structural', 'Mechanical', 'Electrical', 'Control', 'Safety', 'Cabin' or 'Door' [type=enum, input_value='INVALID_CATEGORY', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/enum
+2026-07-08 15:28:01 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:28:01 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references unknown category_id: BAD-CAT
+2026-07-08 15:28:01 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:28:01 | ERROR    | app.utils.catalogue_validator |  - Dependency 'DEP-1' references unknown target_id: BAD-COMP
+2026-07-08 15:28:01 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:28:01 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references inactive category_id: CAT-A
