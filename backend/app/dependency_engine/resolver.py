@@ -35,6 +35,7 @@ from app.models.domain import (
     DependencyResolutionReport,
     ProductCatalogue,
 )
+from app.core.engine_base import BaseEngine
 from app.dependency_engine.activation import DependencyActivationEngine
 from app.dependency_engine.cycle_detector import CircularDependencyError
 from app.dependency_engine.executor import ResolutionExecutor
@@ -47,7 +48,7 @@ from app.dependency_engine.strategies import TopologicalResolutionStrategy
 from app.dependency_engine.traversal import TraversalEngine
 
 
-class DependencyResolver:
+class DependencyResolver(BaseEngine[DependencyResolutionContext, DependencyResolutionReport]):
     """
     Master orchestrator for the Dependency Resolution Engine.
     Pure delegation — never mutates Configuration directly.
@@ -74,35 +75,35 @@ class DependencyResolver:
         self._strategy = strategy or TopologicalResolutionStrategy()
         self._log = ResolutionLogger()
 
-    def resolve(self, configuration: Configuration) -> DependencyResolutionReport:
+    def resolve(self, context: DependencyResolutionContext) -> DependencyResolutionReport:
         """
-        Runs the full dependency resolution pipeline for the given configuration.
+        Runs the full dependency resolution pipeline using the provided context.
 
         Returns:
             DependencyResolutionReport — complete audit trail, never raises on
             conflicts (they are recorded in the report). Raises on cycles.
         """
         start_time = time.perf_counter()
-        correlation_id = str(uuid.uuid4())
-        execution_timestamp = datetime.now(timezone.utc).isoformat()
-        catalogue_version = self._catalogue.metadata.catalogue_version
-
-        # Initialise a fresh report for this run
-        report = DependencyResolutionReport(configuration_id=configuration.configuration_id)
+        
+        # Pull references from context
+        report = context.report
+        configuration = context.configuration
+        if not report:
+            raise ValueError("DependencyResolutionContext must have an initialized report.")
 
         # ── Phase 1: Graph ────────────────────────────────────────────────────
-        self._log.before_graph(correlation_id, catalogue_version)
+        self._log.before_graph(context.correlation_id, self._catalogue.metadata.catalogue_version)
 
         graph = self._graph_cache.get_or_build(self._catalogue, self._registry)
+        context.graph = graph
 
         # Update topology metrics
-        total_edges = sum(len(edges) for edges in graph.adjacency_list.values())
         report.metrics.total_nodes = len(graph.nodes)
-        report.metrics.total_edges = total_edges
+        report.metrics.total_edges = sum(len(edges) for edges in graph.adjacency_list.values())
 
         # ── Phase 2: Activation ───────────────────────────────────────────────
         self._activation_engine.activate(
-            graph, configuration, self._catalogue, correlation_id, execution_timestamp
+            graph, configuration, self._catalogue, context.correlation_id, context.execution_timestamp
         )
 
         # ── Phase 3: Graph Validation ─────────────────────────────────────────
@@ -124,10 +125,10 @@ class DependencyResolver:
         )
         report.metrics.active_edges = active_edges
 
-        self._log.after_graph(correlation_id, len(graph.nodes), total_edges, graph_warnings)
+        self._log.after_graph(context.correlation_id, len(graph.nodes), report.metrics.total_edges, graph_warnings)
 
         # ── Phase 4: Traversal ────────────────────────────────────────────────
-        self._log.before_traversal(correlation_id)
+        self._log.before_traversal(context.correlation_id)
 
         try:
             topo_order, reachable_set = self._traversal_engine.get_traversal_order(
@@ -141,24 +142,15 @@ class DependencyResolver:
             return report
 
         report.metrics.active_nodes = len(reachable_set)
-        self._log.after_traversal(correlation_id, len(topo_order), len(reachable_set))
+        self._log.after_traversal(context.correlation_id, len(topo_order), len(reachable_set))
 
         # ── Phase 5: Resolution ───────────────────────────────────────────────
-        self._log.before_resolution(correlation_id, type(self._strategy).__name__)
-
-        context = DependencyResolutionContext(
-            configuration=configuration,
-            catalogue=self._catalogue,
-            graph=graph,
-            report=report,
-            correlation_id=correlation_id,
-            execution_timestamp=execution_timestamp,
-        )
+        self._log.before_resolution(context.correlation_id, type(self._strategy).__name__)
 
         self._strategy.execute(topo_order, reachable_set, context, self._executor)
 
         self._log.after_resolution(
-            correlation_id,
+            context.correlation_id,
             report.metrics.resolved_nodes,
             report.metrics.skipped_nodes,
             len(report.conflicts),

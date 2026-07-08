@@ -118,7 +118,15 @@ def test_rule_evaluator_integration(mock_config, mock_catalogue):
     
     mock_config.selected_feature_options = ["OPT-A"]
     
-    report = evaluator.evaluate(mock_config, RuleTriggerType.ON_SELECTION)
+    context = RuleContext(
+        configuration=mock_config,
+        catalogue=mock_catalogue,
+        trigger_type=RuleTriggerType.ON_SELECTION,
+        execution_timestamp="2026-01-01T00:00:00Z",
+        correlation_id="test-corr"
+    )
+    
+    report = evaluator.resolve(context)
     
     assert report.metrics.rules_loaded == 2
     assert report.metrics.rules_executed == 2

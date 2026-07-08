@@ -29,9 +29,12 @@ from app.models.domain import (
     CatalogMetadata,
     Component,
     Configuration,
+    ConfigurationMutation,
     Dependency,
     DependencyEdge,
     DependencyGraph,
+    DependencyResolutionContext,
+    DependencyResolutionReport,
     DependencyNode,
     FeatureOption,
     ProductCatalogue,
@@ -474,9 +477,20 @@ class TestDependencyResolverIntegration:
         resolver = DependencyResolver(catalogue, repository=repo)
         return resolver
 
+    def _resolve(self, resolver, config, catalogue):
+        report = DependencyResolutionReport(configuration_id=config.configuration_id)
+        context = DependencyResolutionContext(
+            configuration=config,
+            catalogue=catalogue,
+            report=report,
+            correlation_id="test-corr",
+            execution_timestamp="2026-01-01T00:00:00Z"
+        )
+        return resolver.resolve(context)
+
     def test_requires_chain_resolved(self, base_catalogue, base_config):
         resolver = self._make_resolver(base_catalogue)
-        report = resolver.resolve(base_config)
+        report = self._resolve(resolver, base_config, base_catalogue)
 
         # A requires B (D1), B requires C (D2)
         assert "B" in base_config.resolved_components
@@ -486,7 +500,7 @@ class TestDependencyResolverIntegration:
 
     def test_mutation_log_populated(self, base_catalogue, base_config):
         resolver = self._make_resolver(base_catalogue)
-        resolver.resolve(base_config)
+        self._resolve(resolver, base_config, base_catalogue)
 
         mutation_ids = [m.entity_id for m in base_config.mutations]
         assert "B" in mutation_ids
@@ -502,7 +516,7 @@ class TestDependencyResolverIntegration:
             status=ConfigurationStatus.DRAFT,
         )
         resolver = self._make_resolver(base_catalogue)
-        report = resolver.resolve(config)
+        report = self._resolve(resolver, config, base_catalogue)
 
         assert len(report.conflicts) == 1
         assert report.conflicts[0].target_entity_id == "Y"
@@ -511,14 +525,14 @@ class TestDependencyResolverIntegration:
     def test_conditional_requires_inactive(self, base_catalogue, base_config):
         """D4 (A requires Z if OPT_Z selected) should NOT fire — OPT_Z not selected."""
         resolver = self._make_resolver(base_catalogue)
-        resolver.resolve(base_config)
+        self._resolve(resolver, base_config, base_catalogue)
         assert "Z" not in base_config.resolved_components
 
     def test_conditional_requires_active(self, base_catalogue, base_config):
         """D4 fires when OPT_Z is selected."""
         base_config.selected_feature_options = ["OPT_Z"]
         resolver = self._make_resolver(base_catalogue)
-        resolver.resolve(base_config)
+        self._resolve(resolver, base_config, base_catalogue)
         assert "Z" in base_config.resolved_components
 
     def test_recommends_produces_step_and_warning(self, base_catalogue):
@@ -543,9 +557,8 @@ class TestDependencyResolverIntegration:
             selected_feature_options=[],
             status=ConfigurationStatus.DRAFT,
         )
-        repo = MockRepository(catalogue.dependencies)
-        resolver = DependencyResolver(catalogue, repository=repo)
-        report = resolver.resolve(config)
+        resolver = self._make_resolver(catalogue)
+        report = self._resolve(resolver, config, catalogue)
 
         # RECOMMENDS: config NOT mutated
         assert "REC" not in config.resolved_components
@@ -558,26 +571,26 @@ class TestDependencyResolverIntegration:
 
     def test_resolution_steps_ordered(self, base_catalogue, base_config):
         resolver = self._make_resolver(base_catalogue)
-        report = resolver.resolve(base_config)
+        report = self._resolve(resolver, base_config, base_catalogue)
         step_numbers = [s.step_number for s in report.execution_order]
         assert step_numbers == sorted(step_numbers)
 
     def test_metrics_populated(self, base_catalogue, base_config):
         resolver = self._make_resolver(base_catalogue)
-        report = resolver.resolve(base_config)
+        report = self._resolve(resolver, base_config, base_catalogue)
         assert report.metrics.total_nodes > 0
         assert report.metrics.execution_time_ms > 0
 
     def test_report_summary_not_empty(self, base_catalogue, base_config):
         resolver = self._make_resolver(base_catalogue)
-        report = resolver.resolve(base_config)
+        report = self._resolve(resolver, base_config, base_catalogue)
         assert len(report.summary) > 0
 
     def test_catalogue_unchanged_after_resolve(self, base_catalogue, base_config):
         original_dep_count = len(base_catalogue.dependencies)
         original_comp_count = len(base_catalogue.components)
         resolver = self._make_resolver(base_catalogue)
-        resolver.resolve(base_config)
+        self._resolve(resolver, base_config, base_catalogue)
         assert len(base_catalogue.dependencies) == original_dep_count
         assert len(base_catalogue.components) == original_comp_count
 
@@ -607,7 +620,7 @@ class TestDependencyResolverIntegration:
         )
         repo = MockRepository(catalogue.dependencies)
         resolver = DependencyResolver(catalogue, repository=repo)
-        report = resolver.resolve(config)
+        report = self._resolve(resolver, config, catalogue)
 
         assert len(report.cycles_detected) > 0
         assert "circular" in report.summary.lower()
@@ -615,8 +628,8 @@ class TestDependencyResolverIntegration:
     def test_graph_cache_warm_on_second_call(self, base_catalogue, base_config):
         repo = MockRepository(base_catalogue.dependencies)
         resolver = DependencyResolver(base_catalogue, repository=repo)
-        resolver.resolve(base_config)
-        assert resolver._graph_cache.is_warm
+        self._resolve(resolver, base_config, base_catalogue)
+        assert resolver._graph_cache.is_warm is True
 
     def test_determines_acts_like_requires(self, base_catalogue):
         catalogue = ProductCatalogue(
@@ -639,6 +652,6 @@ class TestDependencyResolverIntegration:
         )
         repo = MockRepository(catalogue.dependencies)
         resolver = DependencyResolver(catalogue, repository=repo)
-        report = resolver.resolve(config)
+        report = self._resolve(resolver, config, catalogue)
         assert "N" in config.resolved_components
         assert "N" in report.components_added

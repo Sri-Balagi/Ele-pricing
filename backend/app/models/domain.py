@@ -207,6 +207,8 @@ class BOMItem(BaseModel):
     quantity: int = Field(default=1, description="Quantity required")
     source_feature_option_id: str | None = Field(default=None, description="The feature choice that triggered this")
     reason: str = Field(default="", description="Explanation of why this is included")
+    unit_cost: Decimal | None = Field(default=None, description="Price per unit (populated by Pricing Engine)")
+
 
 
 class BillOfMaterials(BaseModel):
@@ -250,6 +252,9 @@ class Configuration(BaseModel):
     """The core aggregate root representing a customer's specific elevator configuration."""
 
     configuration_id: str = Field(..., description="Unique ID for this configuration session")
+    customer_reference: str | None = Field(default=None, description="Optional CRM/ERP reference ID")
+    created_at: str | None = Field(default=None, description="ISO8601 creation timestamp")
+    expires_at: str | None = Field(default=None, description="ISO8601 quote expiry timestamp")
     selected_category: str | None = Field(default=None, description="The chosen ElevatorCategory ID")
     selected_feature_options: list[str] = Field(default_factory=list, description="IDs of selected FeatureOptions")
     resolved_components: list[str] = Field(default_factory=list, description="IDs of explicitly resolved Components")
@@ -394,8 +399,8 @@ class DependencyResolutionContext(BaseModel):
 
     configuration: Configuration
     catalogue: ProductCatalogue
-    graph: DependencyGraph
-    report: DependencyResolutionReport
+    graph: DependencyGraph | None = Field(default=None, description="Topology graph")
+    report: DependencyResolutionReport | None = Field(default=None, description="Execution report")
     correlation_id: str = Field(..., description="Trace ID for this resolution run")
     execution_timestamp: str = Field(..., description="ISO8601 timestamp of the run")
     current_node_id: str | None = Field(default=None, description="Node currently being processed")

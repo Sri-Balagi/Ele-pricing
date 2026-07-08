@@ -14,9 +14,10 @@ from app.models.domain import (
 from app.rules.action_handlers import ActionRegistry
 from app.rules.dsl import ConditionEvaluator, ConditionParser
 from app.rules.registry import RuleRegistry
+from app.core.engine_base import BaseEngine
 
 
-class RuleEvaluator:
+class RuleEvaluator(BaseEngine[RuleContext, ExecutionReport]):
     """Orchestrates the evaluation of rules against a configuration."""
 
     def __init__(
@@ -31,37 +32,24 @@ class RuleEvaluator:
         self.parser = ConditionParser()
         self.condition_evaluator = ConditionEvaluator()
 
-    def evaluate(
-        self, configuration: Configuration, trigger_type: RuleTriggerType
-    ) -> ExecutionReport:
-        """Runs the rule engine pipeline for the given configuration and trigger type."""
+    def resolve(self, context: RuleContext) -> ExecutionReport:
+        """Runs the rule engine pipeline for the given context."""
         
         start_time = time.perf_counter()
-        correlation_id = str(uuid.uuid4())
-        timestamp = datetime.now(timezone.utc).isoformat()
-
+        
         metrics = RuleMetrics()
         executed_rules = []
         skipped_rules = []
         failed_rules = []
 
         # Pull from registry (already sorted and validated)
-        rules = self.rule_registry.get_rules_by_trigger(trigger_type)
+        rules = self.rule_registry.get_rules_by_trigger(context.trigger_type)
         metrics.rules_loaded = len(rules)
 
         execution_history = []
 
         for rule in rules:
-            context = RuleContext(
-                configuration=configuration,
-                catalogue=self.catalogue,
-                current_rule=rule,
-                trigger_type=trigger_type,
-                execution_timestamp=timestamp,
-                correlation_id=correlation_id,
-                execution_depth=0,
-                execution_history=execution_history.copy(),
-            )
+            context.current_rule = rule
 
             # Fire BeforeRule
             self._fire_event("BeforeRule", context)
@@ -74,7 +62,7 @@ class RuleEvaluator:
                 # Log parsing/eval failures and continue
                 metrics.rules_failed += 1
                 failed_rules.append(rule.id)
-                configuration.rule_results.append(
+                context.configuration.rule_results.append(
                     RuleResult(
                         rule_id=rule.id,
                         triggered=False,
@@ -94,9 +82,9 @@ class RuleEvaluator:
                     # Execution success
                     metrics.rules_executed += 1
                     executed_rules.append(rule.id)
-                    execution_history.append(rule.id)
+                    context.execution_history.append(rule.id)
 
-                    configuration.rule_results.append(
+                    context.configuration.rule_results.append(
                         RuleResult(
                             rule_id=rule.id,
                             triggered=True,
@@ -115,7 +103,7 @@ class RuleEvaluator:
                 except Exception as e:
                     metrics.rules_failed += 1
                     failed_rules.append(rule.id)
-                    configuration.rule_results.append(
+                    context.configuration.rule_results.append(
                         RuleResult(
                             rule_id=rule.id,
                             triggered=True,
@@ -127,7 +115,7 @@ class RuleEvaluator:
             else:
                 metrics.rules_skipped += 1
                 skipped_rules.append(rule.id)
-                configuration.rule_results.append(
+                context.configuration.rule_results.append(
                     RuleResult(
                         rule_id=rule.id,
                         triggered=False,
@@ -140,8 +128,8 @@ class RuleEvaluator:
         metrics.total_execution_time_ms = (time.perf_counter() - start_time) * 1000
 
         return ExecutionReport(
-            configuration_id=configuration.configuration_id,
-            trigger=trigger_type.value,
+            configuration_id=context.configuration.configuration_id,
+            trigger=context.trigger_type.value,
             executed_rules=executed_rules,
             skipped_rules=skipped_rules,
             failed_rules=failed_rules,
