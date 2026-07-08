@@ -24,6 +24,8 @@ from app.pricing_engine.engine import PricingEngine
 from app.pricing_engine.context import PricingContext
 from app.pricing_engine.registry import PricingRegistry
 from app.pricing_engine.validator import PricingValidator
+from app.services.bom_generator import BOMGenerator
+from app.services.quote_generator import QuoteGenerator
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +47,9 @@ class ConfigurationPipeline:
         rule_evaluator: RuleEvaluator,
         dependency_resolver: DependencyResolver,
         pricing_engine: PricingEngine,
-        pricing_registry: PricingRegistry
+        pricing_registry: PricingRegistry,
+        bom_generator: BOMGenerator = None,
+        quote_generator: QuoteGenerator = None
     ):
         self.catalogue = catalogue
         
@@ -61,6 +65,9 @@ class ConfigurationPipeline:
         self.dependency_resolver = dependency_resolver
         self.pricing_engine = pricing_engine
         self.pricing_registry = pricing_registry
+        
+        self.bom_generator = bom_generator or BOMGenerator(catalogue)
+        self.quote_generator = quote_generator or QuoteGenerator()
 
     def _generate_correlation_id(self) -> str:
         return f"PIPE-{uuid.uuid4()}"
@@ -166,14 +173,11 @@ class ConfigurationPipeline:
         configuration.status = ConfigurationStatus.VALIDATED
 
         # ==========================================
-        # Mock BOM Generation (Placeholder for M5/6)
+        # BOM Generation
         # ==========================================
-        from app.models.domain import BillOfMaterials, BOMItem
-        if not configuration.bill_of_materials:
-            configuration.bill_of_materials = BillOfMaterials(
-                items=[BOMItem(component_id=c, quantity=1) for c in configuration.resolved_components],
-                total_components=len(configuration.resolved_components)
-            )
+        logger.info(f"[{correlation_id}] BeforeService: BOMGenerator")
+        configuration.bill_of_materials = self.bom_generator.generate(configuration)
+        logger.info(f"[{correlation_id}] AfterService: BOMGenerator (Success)")
 
         # ==========================================
         # Engine 3: Pricing Engine
@@ -207,6 +211,13 @@ class ConfigurationPipeline:
             
         # After Pricing success, transition to PRICED
         configuration.status = ConfigurationStatus.PRICED
+
+        # ==========================================
+        # Quote Generation
+        # ==========================================
+        logger.info(f"[{correlation_id}] BeforeService: QuoteGenerator")
+        self.quote_generator.generate(configuration)
+        logger.info(f"[{correlation_id}] AfterService: QuoteGenerator (Success)")
 
         # ==========================================
         # Finalization

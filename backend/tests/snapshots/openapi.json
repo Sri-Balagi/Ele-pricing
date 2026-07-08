@@ -1,0 +1,924 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Elevator Configuration Engine",
+    "description": "Rule-Based Elevator Configuration and Pricing Engine (CPQ). Configures elevators, validates engineering constraints, resolves component dependencies, and calculates dynamic pricing.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Health Diagnostics",
+        "operationId": "liveness_probe_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedHealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/health/ready": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Readiness Probe",
+        "operationId": "readiness_probe_api_v1_health_ready_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadinessResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/configurations": {
+      "post": {
+        "tags": [
+          "Configuration",
+          "Configuration"
+        ],
+        "summary": "Create a new configuration",
+        "operationId": "create_configuration_api_v1_configurations_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateConfigurationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APISuccessEnvelope"
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "configuration_id": "CFG-ABC12345",
+                    "status": "DRAFT",
+                    "selected_category": "TYPE_B",
+                    "selected_feature_options": []
+                  },
+                  "timestamp": "2026-07-08T10:00:00Z"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Configuration",
+          "Configuration"
+        ],
+        "summary": "List configurations",
+        "operationId": "list_configurations_api_v1_configurations_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APISuccessEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/configurations/{configuration_id}": {
+      "get": {
+        "tags": [
+          "Configuration",
+          "Configuration"
+        ],
+        "summary": "Get configuration",
+        "operationId": "get_configuration_api_v1_configurations__configuration_id__get",
+        "parameters": [
+          {
+            "name": "configuration_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Configuration Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APISuccessEnvelope"
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "configuration_id": "CFG-ABC12345",
+                    "status": "DRAFT"
+                  },
+                  "timestamp": "2026-07-08T10:00:00Z"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": false,
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Configuration not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Configuration",
+          "Configuration"
+        ],
+        "summary": "Update configuration",
+        "operationId": "update_configuration_api_v1_configurations__configuration_id__put",
+        "parameters": [
+          {
+            "name": "configuration_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Configuration Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateConfigurationRequest"
+              },
+              "example": {
+                "selected_category": "TYPE_A",
+                "selected_feature_options": [
+                  "OPT-001",
+                  "OPT-002"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APISuccessEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Configuration",
+          "Configuration"
+        ],
+        "summary": "Delete configuration",
+        "operationId": "delete_configuration_api_v1_configurations__configuration_id__delete",
+        "parameters": [
+          {
+            "name": "configuration_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Configuration Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/configurations/{configuration_id}/validate": {
+      "post": {
+        "tags": [
+          "Configuration",
+          "Configuration"
+        ],
+        "summary": "Run validation pipeline",
+        "operationId": "validate_configuration_api_v1_configurations__configuration_id__validate_post",
+        "parameters": [
+          {
+            "name": "configuration_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Configuration Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pipeline execution successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APISuccessEnvelope"
+                },
+                "example": {
+                  "success": true,
+                  "data": {
+                    "correlation_id": "PIPE-1234",
+                    "metrics": {
+                      "success": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/configurations/{configuration_id}/pricing": {
+      "get": {
+        "tags": [
+          "Configuration",
+          "Configuration"
+        ],
+        "summary": "Get pricing summary",
+        "operationId": "get_configuration_pricing_api_v1_configurations__configuration_id__pricing_get",
+        "parameters": [
+          {
+            "name": "configuration_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Configuration Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APISuccessEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/configurations/{configuration_id}/validation": {
+      "get": {
+        "tags": [
+          "Configuration",
+          "Configuration"
+        ],
+        "summary": "Get validation results",
+        "operationId": "get_configuration_validation_api_v1_configurations__configuration_id__validation_get",
+        "parameters": [
+          {
+            "name": "configuration_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Configuration Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APISuccessEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/system/pipeline": {
+      "get": {
+        "tags": [
+          "System",
+          "System"
+        ],
+        "summary": "System Pipeline Diagnostics",
+        "description": "Returns deep diagnostic information about the core configuration pipeline.",
+        "operationId": "system_pipeline_api_v1_system_pipeline_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemPipelineResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/system/store": {
+      "get": {
+        "tags": [
+          "System",
+          "System"
+        ],
+        "summary": "Store Diagnostics",
+        "description": "Returns lightweight diagnostic information about the active configuration store.",
+        "operationId": "store_diagnostics_api_v1_system_store_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/configurations/{configuration_id}/export/{format_type}": {
+      "get": {
+        "tags": [
+          "Export"
+        ],
+        "summary": "Export Configuration",
+        "description": "Generates a read-only export of the requested configuration.",
+        "operationId": "export_configuration_api_v1_configurations__configuration_id__export__format_type__get",
+        "parameters": [
+          {
+            "name": "configuration_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Configuration ID",
+              "title": "Configuration Id"
+            },
+            "description": "Configuration ID"
+          },
+          {
+            "name": "format_type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "json, pdf, excel",
+              "title": "Format Type"
+            },
+            "description": "json, pdf, excel"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/configurations/{configuration_id}/quote": {
+      "get": {
+        "tags": [
+          "Export"
+        ],
+        "summary": "Retrieve Quote Information",
+        "description": "Retrieve quote metadata and summary (read-only).",
+        "operationId": "get_quote_info_api_v1_configurations__configuration_id__quote_get",
+        "parameters": [
+          {
+            "name": "configuration_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Configuration ID",
+              "title": "Configuration Id"
+            },
+            "description": "Configuration ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "APISuccessEnvelope": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "data": {
+            "title": "Data"
+          },
+          "correlation_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Correlation Id"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "timestamp"
+        ],
+        "title": "APISuccessEnvelope",
+        "description": "Standardized API Success Response Envelope."
+      },
+      "CreateConfigurationRequest": {
+        "properties": {
+          "customer_reference": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Reference",
+            "description": "Optional CRM/ERP reference ID"
+          },
+          "selected_category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Category",
+            "description": "The chosen ElevatorCategory ID"
+          }
+        },
+        "type": "object",
+        "title": "CreateConfigurationRequest",
+        "description": "Payload for starting a new configuration session."
+      },
+      "DetailedHealthResponse": {
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/HealthStatus"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "environment": {
+            "type": "string",
+            "title": "Environment"
+          },
+          "uptime_seconds": {
+            "type": "number",
+            "title": "Uptime Seconds"
+          },
+          "data_initialized": {
+            "type": "boolean",
+            "title": "Data Initialized"
+          },
+          "data_files": {
+            "additionalProperties": {
+              "type": "boolean"
+            },
+            "type": "object",
+            "title": "Data Files"
+          },
+          "pipeline_ready": {
+            "type": "boolean",
+            "title": "Pipeline Ready"
+          },
+          "engine_reports": {
+            "items": {},
+            "type": "array",
+            "title": "Engine Reports"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "version",
+          "environment",
+          "uptime_seconds",
+          "data_initialized",
+          "pipeline_ready"
+        ],
+        "title": "DetailedHealthResponse",
+        "description": "Detailed diagnostics combining data and engine state."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthStatus": {
+        "type": "string",
+        "enum": [
+          "healthy",
+          "degraded",
+          "unhealthy"
+        ],
+        "title": "HealthStatus"
+      },
+      "ReadinessResponse": {
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/HealthStatus"
+          },
+          "ready": {
+            "type": "boolean",
+            "title": "Ready"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "ready"
+        ],
+        "title": "ReadinessResponse",
+        "description": "Simple readiness probe."
+      },
+      "RuntimeMetrics": {
+        "properties": {
+          "uptime_seconds": {
+            "type": "number",
+            "title": "Uptime Seconds"
+          },
+          "total_requests_processed": {
+            "type": "integer",
+            "title": "Total Requests Processed",
+            "default": 0
+          },
+          "pipeline_executions": {
+            "type": "integer",
+            "title": "Pipeline Executions",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "uptime_seconds"
+        ],
+        "title": "RuntimeMetrics"
+      },
+      "StartupMetrics": {
+        "properties": {
+          "application_startup_duration_ms": {
+            "type": "number",
+            "title": "Application Startup Duration Ms"
+          },
+          "repository_initialization_ms": {
+            "type": "number",
+            "title": "Repository Initialization Ms"
+          },
+          "registry_initialization_ms": {
+            "type": "number",
+            "title": "Registry Initialization Ms"
+          },
+          "pipeline_initialization_ms": {
+            "type": "number",
+            "title": "Pipeline Initialization Ms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "application_startup_duration_ms",
+          "repository_initialization_ms",
+          "registry_initialization_ms",
+          "pipeline_initialization_ms"
+        ],
+        "title": "StartupMetrics"
+      },
+      "SystemPipelineResponse": {
+        "properties": {
+          "registered_engines": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Registered Engines"
+          },
+          "catalogue_version": {
+            "type": "string",
+            "title": "Catalogue Version"
+          },
+          "schema_version": {
+            "type": "string",
+            "title": "Schema Version"
+          },
+          "startup_timestamp": {
+            "type": "string",
+            "title": "Startup Timestamp"
+          },
+          "ready": {
+            "type": "boolean",
+            "title": "Ready"
+          },
+          "startup_metrics": {
+            "$ref": "#/components/schemas/StartupMetrics"
+          },
+          "runtime_metrics": {
+            "$ref": "#/components/schemas/RuntimeMetrics"
+          }
+        },
+        "type": "object",
+        "required": [
+          "registered_engines",
+          "catalogue_version",
+          "schema_version",
+          "startup_timestamp",
+          "ready",
+          "startup_metrics",
+          "runtime_metrics"
+        ],
+        "title": "SystemPipelineResponse",
+        "description": "Pipeline diagnostic info."
+      },
+      "UpdateConfigurationRequest": {
+        "properties": {
+          "selected_feature_options": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Feature Options",
+            "description": "IDs of selected FeatureOptions"
+          },
+          "selected_category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Category",
+            "description": "The chosen ElevatorCategory ID"
+          }
+        },
+        "type": "object",
+        "title": "UpdateConfigurationRequest",
+        "description": "Payload for updating an existing configuration."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

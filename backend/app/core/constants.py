@@ -100,6 +100,7 @@ class ExportFormat(StrEnum):
     JSON = "JSON"
     PDF = "PDF"
     EXCEL = "EXCEL"
+    ZIP = "ZIP"
 
 
 # ── Component Lifecycle ───────────────────────────────────────────────────────

@@ -32,5 +32,8 @@ router.include_router(configuration.router, prefix="/configurations", tags=["Con
 from app.api.v1.endpoints import system
 router.include_router(system.router, prefix="/system", tags=["System"])
 
+from app.api.v1.endpoints import export
+router.include_router(export.router, prefix="/configurations", tags=["Export"])
+
 # from app.api.v1.endpoints import pricing
 # router.include_router(pricing.router, prefix="/pricing", tags=["Pricing"])

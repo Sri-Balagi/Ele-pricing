@@ -97,3 +97,17 @@ def client(tmp_data_dir: Path) -> Generator[TestClient, None, None]:
     os.environ.pop("LOG_DIR", None)
     os.environ.pop("LOG_LEVEL", None)
     get_settings.cache_clear()
+
+
+from app.models.domain import Configuration, ConfigurationStatus
+
+@pytest.fixture
+def sample_configuration():
+    return Configuration(
+        configuration_id="TEST-CONFIG-123",
+        status=ConfigurationStatus.APPROVED,
+        selected_category="CAT-1",
+        selected_feature_options=["OPT-1"],
+        resolved_components=["COMP-1"]
+    )
+

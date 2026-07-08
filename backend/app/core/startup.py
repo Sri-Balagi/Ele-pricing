@@ -24,6 +24,15 @@ from fastapi import FastAPI
 from app.core.exceptions import DataFileNotFoundException, DataFormatException
 from app.utils.data_loader import DataLoader
 from app.utils.catalogue_validator import CatalogueValidator, CatalogueValidationException
+from app.services.bom_generator import BOMGenerator
+from app.services.quote_generator import QuoteGenerator
+from app.export.registry import ExporterRegistry
+from app.export.factory import ExportFactory
+from app.export.json_exporter import JSONExporter
+from app.export.pdf_exporter import PDFExporter
+from app.export.excel_exporter import ExcelExporter
+from app.export.zip_exporter import ZIPExporter
+from app.core.constants import ExportFormat
 
 logger = logging.getLogger(__name__)
 
@@ -160,13 +169,26 @@ def build_lifespan(data_dir: str):
                 rule_evaluator=RuleEvaluator(catalogue=catalogue, rule_registry=rule_registry, action_registry=action_registry),
                 dependency_resolver=DependencyResolver(catalogue=catalogue),
                 pricing_engine=PricingEngine(),
-                pricing_registry=pricing_registry
+                pricing_registry=pricing_registry,
+                bom_generator=BOMGenerator(catalogue=catalogue),
+                quote_generator=QuoteGenerator()
             )
             store = InMemoryConfigurationStore(max_configurations=1000)
+            
+            # Export Framework Initialization
+            export_registry = ExporterRegistry()
+            export_registry.register(ExportFormat.JSON, JSONExporter())
+            export_registry.register(ExportFormat.PDF, PDFExporter())
+            export_registry.register(ExportFormat.EXCEL, ExcelExporter())
+            export_registry.register(ExportFormat.ZIP, ZIPExporter())
+            
+            export_factory = ExportFactory(registry=export_registry)
+            
             pipe_duration_ms = (time.perf_counter() - pipe_start_t0) * 1000
             
             app.state.pipeline = pipeline
             app.state.store = store
+            app.state.export_factory = export_factory
             
             app_duration_ms = (time.perf_counter() - app_start_t0) * 1000
             app.state.startup_metrics = {

@@ -227,6 +227,14 @@ class ValidationResult(BaseModel):
     info: list[ValidationMessage] = Field(default_factory=list)
 
 
+from enum import Enum
+
+class BOMOrigin(str, Enum):
+    FEATURE = "FEATURE"
+    DEPENDENCY = "DEPENDENCY"
+    RULE = "RULE"
+    MANUAL = "MANUAL"
+
 class BOMItem(BaseModel):
     """A line item in the generated Bill of Materials."""
 
@@ -234,6 +242,7 @@ class BOMItem(BaseModel):
     quantity: int = Field(default=1, description="Quantity required")
     source_feature_option_id: str | None = Field(default=None, description="The feature choice that triggered this")
     reason: str = Field(default="", description="Explanation of why this is included")
+    origin_type: BOMOrigin = Field(default=BOMOrigin.FEATURE, description="Origin of this BOM item")
     unit_cost: Decimal | None = Field(default=None, description="Price per unit (populated by Pricing Engine)")
     pricing_record_id: str | None = Field(default=None, description="The pricing record that provided the unit_cost")
 
@@ -285,19 +294,11 @@ class QuoteMetadata(BaseModel):
     """Metadata surrounding the generated quotation for this configuration."""
 
     quote_number: str = Field(..., description="Unique generated quote identifier")
-    revision: int = Field(default=1, description="Quote revision number")
-    valid_until: str = Field(..., description="ISO8601 expiry timestamp for this quote")
-    approved_at: str | None = Field(default=None, description="ISO8601 approval timestamp")
-
-
-class QuoteMetadata(BaseModel):
-    """Metadata surrounding the generated quotation for this configuration."""
-
-    quote_number: str = Field(..., description="Unique generated quote identifier")
     quote_version: int = Field(default=1, description="Quote version number")
     valid_until: str = Field(..., description="ISO8601 expiry timestamp for this quote")
     approved_at: str | None = Field(default=None, description="ISO8601 approval timestamp")
     status: QuoteStatus = Field(default=QuoteStatus.DRAFT, description="Independent quote lifecycle state")
+    quote_hash: str | None = Field(default=None, description="Deterministic fingerprint of the quote components")
 
 
 class ConfigurationMutation(BaseModel):
@@ -543,11 +544,26 @@ class ExportMetadata(BaseModel):
     """Metadata detailing the physical output of an export operation."""
     generated_at: str = Field(..., description="ISO8601 generation timestamp")
     generated_by: str = Field(default="SYSTEM", description="User or system that generated the export")
-    format: ExportFormat = Field(..., description="Format of the export")
-    checksum: str = Field(..., description="SHA-256 checksum of the exported file")
+    generator_version: str = Field(default="1.0", description="Version of the export generator")
+    backend_version: str = Field(default="0.1.0", description="Backend version that generated the export")
+    schema_version: str = Field(default="1.0", description="Version of the export schema")
+    export_duration_ms: float = Field(default=0.0, description="Generation duration in ms")
+    export_format: ExportFormat = Field(..., description="Format of the export")
+    checksum: str | None = Field(default=None, description="SHA-256 checksum of the exported file")
     filename: str = Field(..., description="The generated filename")
     mime_type: str = Field(..., description="MIME type of the generated file")
     file_size: int = Field(..., description="File size in bytes")
+
+class ExportManifest(BaseModel):
+    """Manifest of exported files in a bundle."""
+    configuration_id: str
+    quote_number: str | None = None
+    exported_files: list[str] = Field(default_factory=list)
+    checksums: dict[str, str] = Field(default_factory=dict)
+    export_version: str = "1.0"
+    schema_version: str = "1.0"
+    backend_version: str = "0.1.0"
+    generated_timestamp: str
 
 
 class ExportReport(BaseModel):
@@ -560,6 +576,7 @@ class ExportReport(BaseModel):
     generation_time_ms: float = 0.0
     warnings: list[str] = Field(default_factory=list)
     success: bool = False
+    content: bytes | None = Field(default=None, description="The generated export content in memory")
 
 
 class ExportContext(BaseModel):
