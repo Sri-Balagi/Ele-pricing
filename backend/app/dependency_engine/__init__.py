@@ -1,18 +1,24 @@
 """
-Dependency Engine Module.
+Dependency Resolution Engine.
 
-Provides graph-based engineering dependency resolution, cycle detection,
-and topological sorting for the configuration lifecycle.
+Public API: DependencyResolver is the single entry point.
+All other modules are internal implementation details.
+
+Usage:
+    from app.dependency_engine import DependencyResolver
+
+    resolver = DependencyResolver(catalogue)
+    report = resolver.resolve(configuration)
 """
 
-from app.dependency_engine.engine import DependencyEngine
-from app.dependency_engine.graph import (
-    CircularDependencyError,
-    GraphBuilder,
-)
+from app.dependency_engine.resolver import DependencyResolver
+from app.dependency_engine.cycle_detector import CircularDependencyError
+from app.dependency_engine.graph_validator import GraphValidationError
+from app.dependency_engine.validator import DependencyValidationError
 
 __all__ = [
-    "DependencyEngine",
-    "GraphBuilder",
+    "DependencyResolver",
     "CircularDependencyError",
+    "GraphValidationError",
+    "DependencyValidationError",
 ]

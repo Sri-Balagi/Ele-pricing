@@ -330,16 +330,74 @@ class DependencyGraph(BaseModel):
     reverse_adjacency: dict[str, list[DependencyEdge]] = Field(default_factory=dict)
 
 
+class DependencyConflict(BaseModel):
+    """Structured record of an EXCLUDES violation discovered during resolution."""
+
+    dependency_id: str = Field(..., description="ID of the dependency that caused the conflict")
+    source_entity_id: str = Field(..., description="Entity that declared the exclusion")
+    target_entity_id: str = Field(..., description="Entity that was excluded but present")
+    reason: str = Field(..., description="Human-readable explanation")
+
+
+class ResolutionStep(BaseModel):
+    """A structured record of one resolved dependency action."""
+
+    step_number: int = Field(..., description="Position in execution order")
+    entity_id: str = Field(..., description="The target entity affected")
+    dependency_id: str = Field(..., description="The dependency that triggered this step")
+    action_performed: str = Field(..., description="REQUIRES, EXCLUDES, DETERMINES, or RECOMMENDS")
+    mutated: bool = Field(..., description="True if this step changed Configuration state")
+    timestamp: str = Field(..., description="ISO8601 timestamp of this step")
+
+
+class DependencyResolutionMetrics(BaseModel):
+    """Extended graph and execution statistics from a dependency resolution pass."""
+
+    total_nodes: int = 0
+    total_edges: int = 0
+    active_nodes: int = 0
+    active_edges: int = 0
+    traversed_nodes: int = 0
+    skipped_nodes: int = 0
+    resolved_nodes: int = 0
+    execution_time_ms: float = 0.0
+
+
 class DependencyResolutionReport(BaseModel):
-    """The final summary of a dependency resolution pass."""
+    """The complete audit trail of a dependency resolution pass, split into logical sections."""
 
     configuration_id: str
-    nodes_evaluated: int = 0
-    edges_traversed: int = 0
+
+    # Section 1 — Resolution Metrics
+    metrics: DependencyResolutionMetrics = Field(default_factory=DependencyResolutionMetrics)
+
+    # Section 2 — Configuration Mutations
     components_added: list[str] = Field(default_factory=list)
     options_added: list[str] = Field(default_factory=list)
-    conflicts_detected: list[str] = Field(default_factory=list)
+
+    # Section 3 — Conflicts
+    conflicts: list[DependencyConflict] = Field(default_factory=list)
+
+    # Section 4 — Warnings
+    warnings: list[str] = Field(default_factory=list)
     cycles_detected: list[str] = Field(default_factory=list)
-    execution_time_ms: float = 0.0
-    summary: str
+
+    # Section 5 — Resolution Steps (full ordered execution trail)
+    execution_order: list[ResolutionStep] = Field(default_factory=list)
+
+    # Section 6 — Execution Summary
+    summary: str = ""
+
+
+class DependencyResolutionContext(BaseModel):
+    """Dedicated runtime context for the Dependency Engine. Never reuses RuleContext."""
+
+    configuration: Configuration
+    catalogue: ProductCatalogue
+    graph: DependencyGraph
+    report: DependencyResolutionReport
+    correlation_id: str = Field(..., description="Trace ID for this resolution run")
+    execution_timestamp: str = Field(..., description="ISO8601 timestamp of the run")
+    current_node_id: str | None = Field(default=None, description="Node currently being processed")
+    current_edge: DependencyEdge | None = Field(default=None, description="Edge currently being evaluated")
 
