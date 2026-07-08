@@ -32,6 +32,29 @@ class RuleEvaluator(BaseEngine[RuleContext, ExecutionReport]):
         self.parser = ConditionParser()
         self.condition_evaluator = ConditionEvaluator()
 
+    def validate_startup(self) -> "EngineStartupReport":
+        import time
+        from app.models.domain import EngineStartupReport
+        t0 = time.perf_counter()
+        ready = True
+        warnings = []
+        errors = []
+        
+        try:
+            if not self.rule_registry._is_loaded:
+                self.rule_registry.load_and_validate()
+        except Exception as e:
+            ready = False
+            errors.append(f"Failed to load rule registry: {e}")
+            
+        return EngineStartupReport(
+            engine_name="RuleEngine",
+            ready=ready,
+            warnings=warnings,
+            errors=errors,
+            execution_time_ms=(time.perf_counter() - t0) * 1000
+        )
+
     def resolve(self, context: RuleContext) -> ExecutionReport:
         """Runs the rule engine pipeline for the given context."""
         

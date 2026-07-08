@@ -75,6 +75,31 @@ class DependencyResolver(BaseEngine[DependencyResolutionContext, DependencyResol
         self._strategy = strategy or TopologicalResolutionStrategy()
         self._log = ResolutionLogger()
 
+    def validate_startup(self) -> "EngineStartupReport":
+        import time
+        from app.models.domain import EngineStartupReport
+        t0 = time.perf_counter()
+        ready = True
+        warnings = []
+        errors = []
+        
+        try:
+            if not self._registry._is_loaded:
+                self._registry.load_and_validate()
+            # Also just pre-warm the graph cache if needed or at least verify it doesn't crash
+            self._graph_cache.get_or_build(self._catalogue, self._registry)
+        except Exception as e:
+            ready = False
+            errors.append(f"Failed to load dependency registry or graph: {e}")
+            
+        return EngineStartupReport(
+            engine_name="DependencyEngine",
+            ready=ready,
+            warnings=warnings,
+            errors=errors,
+            execution_time_ms=(time.perf_counter() - t0) * 1000
+        )
+
     def resolve(self, context: DependencyResolutionContext) -> DependencyResolutionReport:
         """
         Runs the full dependency resolution pipeline using the provided context.

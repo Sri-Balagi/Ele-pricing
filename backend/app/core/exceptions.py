@@ -161,3 +161,25 @@ class PricingCalculationException(PricingException):
 
     error_code = "PRICING_CALCULATION_FAILED"
     http_status = 500
+
+
+# ── Pipeline Exceptions ───────────────────────────────────────────────────────
+class PipelineError(ElevatorBaseException):
+    """Base for pipeline orchestration errors."""
+
+    error_code = "PIPELINE_ERROR"
+    http_status = 500
+
+
+class StartupValidationError(PipelineError):
+    """One or more engines failed startup validation."""
+
+    error_code = "STARTUP_VALIDATION_FAILED"
+    http_status = 500
+
+
+class PipelineExecutionError(PipelineError):
+    """An unrecoverable error occurred during pipeline execution."""
+
+    error_code = "PIPELINE_EXECUTION_FAILED"
+    http_status = 500

@@ -143,6 +143,30 @@ class Dependency(BaseModel):
     )
 
 
+class TaxConfiguration(BaseModel):
+    """Configuration for global tax calculation."""
+    enabled: bool = Field(default=True, description="Whether tax calculation is active")
+    tax_name: str = Field(default="VAT", description="Description of the tax (e.g. 'VAT')")
+    rate: Decimal = Field(..., description="Tax rate percentage (e.g. 18.0 for 18%)")
+
+
+class PricingRecord(BaseModel):
+    """A data-driven record defining the base cost and markup for an entity."""
+    entity_id: str = Field(..., description="The ID of the Category, Component, or FeatureOption")
+    entity_type: str = Field(..., description="CATEGORY, COMPONENT, or FEATURE_OPTION")
+    base_cost: Decimal = Field(default=Decimal("0.00"), description="Raw manufacturing or procurement cost")
+    markup_percentage: Decimal = Field(default=Decimal("0.00"), description="Profit markup percentage")
+    price: Decimal = Field(..., description="Final price (base_cost + markup)")
+
+
+class PricingCatalogue(BaseModel):
+    """The collection of all pricing data for the product catalogue."""
+    catalogue_version: str = Field(..., description="Version of the pricing catalogue")
+    currency: str = Field(default="EUR", description="Base currency code")
+    tax_configuration: TaxConfiguration
+    pricing_records: list[PricingRecord] = Field(default_factory=list)
+
+
 class ProductCatalogue(BaseModel):
     """The aggregate root containing the entire domain catalogue."""
 
@@ -154,6 +178,7 @@ class ProductCatalogue(BaseModel):
     components: list[Component]
     mappings: list[FeatureComponentMapping]
     dependencies: list[Dependency]
+    pricing: PricingCatalogue | None = Field(default=None, description="Pricing data if loaded")
 
 
 class Rule(BaseModel):
@@ -208,6 +233,7 @@ class BOMItem(BaseModel):
     source_feature_option_id: str | None = Field(default=None, description="The feature choice that triggered this")
     reason: str = Field(default="", description="Explanation of why this is included")
     unit_cost: Decimal | None = Field(default=None, description="Price per unit (populated by Pricing Engine)")
+    pricing_record_id: str | None = Field(default=None, description="The pricing record that provided the unit_cost")
 
 
 
@@ -230,12 +256,27 @@ class PriceAdjustment(BaseModel):
 class PricingSummary(BaseModel):
     """The structured cost breakdown of a configuration."""
 
-    base_price: Decimal = Field(default=Decimal("0.00"), description="Base category price")
-    component_costs: Decimal = Field(default=Decimal("0.00"), description="Sum of physical component costs")
-    feature_costs: Decimal = Field(default=Decimal("0.00"), description="Sum of feature option upcharges")
+    currency: str = Field(default="EUR", description="Currency code (e.g. EUR, USD)")
+    currency_symbol: str = Field(default="€", description="Currency symbol")
+    exchange_rate: Decimal | None = Field(default=None, description="Exchange rate if applicable")
+
+    category_cost: Decimal = Field(default=Decimal("0.00"), description="Base category price")
+    component_cost: Decimal = Field(default=Decimal("0.00"), description="Sum of physical component costs")
+    feature_cost: Decimal = Field(default=Decimal("0.00"), description="Sum of feature option upcharges")
+    
+    # Backward compatible aliases / existing names
+    base_price: Decimal = Field(default=Decimal("0.00"), description="Alias for category_cost")
+    component_costs: Decimal = Field(default=Decimal("0.00"), description="Alias for component_cost")
+    feature_costs: Decimal = Field(default=Decimal("0.00"), description="Alias for feature_cost")
+    
+    subtotal_before_tax: Decimal = Field(default=Decimal("0.00"), description="Total before tax is applied")
     adjustments: list[PriceAdjustment] = Field(default_factory=list, description="Discounts and markups")
-    taxes: Decimal = Field(default=Decimal("0.00"), description="Calculated taxes")
-    total: Decimal = Field(default=Decimal("0.00"), description="Final total price to quote")
+    tax_amount: Decimal = Field(default=Decimal("0.00"), description="Calculated taxes based on tax configuration")
+    total_after_tax: Decimal = Field(default=Decimal("0.00"), description="Final total price to quote")
+    
+    # Backward compatible aliases
+    taxes: Decimal = Field(default=Decimal("0.00"), description="Alias for tax_amount")
+    total: Decimal = Field(default=Decimal("0.00"), description="Alias for total_after_tax")
 
 
 class ConfigurationMutation(BaseModel):
@@ -405,4 +446,74 @@ class DependencyResolutionContext(BaseModel):
     execution_timestamp: str = Field(..., description="ISO8601 timestamp of the run")
     current_node_id: str | None = Field(default=None, description="Node currently being processed")
     current_edge: DependencyEdge | None = Field(default=None, description="Edge currently being evaluated")
+
+
+class PricingMetrics(BaseModel):
+    """Metrics produced during a pricing engine run."""
+    components_priced: int = 0
+    features_priced: int = 0
+    subtotal: Decimal = Decimal("0.00")
+    taxes: Decimal = Decimal("0.00")
+    total: Decimal = Decimal("0.00")
+    execution_time_ms: float = 0.0
+
+
+class PricingStep(BaseModel):
+    """An audit trail step for a pricing calculation."""
+    step_number: int = Field(..., description="Position in execution order")
+    entity_id: str | None = Field(default=None, description="The entity priced (None for subtotal/tax)")
+    description: str = Field(..., description="Description of the calculation step")
+    amount: Decimal = Field(..., description="The amount added or calculated")
+    timestamp: str = Field(..., description="ISO8601 timestamp of this step")
+
+
+class PricingReport(BaseModel):
+    """The final summary of a pricing engine execution pass."""
+    configuration_id: str
+    metrics: PricingMetrics = Field(default_factory=PricingMetrics)
+    pricing_steps: list[PricingStep] = Field(default_factory=list)
+    warnings: list[str] = Field(default_factory=list)
+    errors: list[str] = Field(default_factory=list)
+    summary: str = ""
+
+
+class EngineStartupReport(BaseModel):
+    """Structured report returned by each engine during startup validation."""
+    engine_name: str
+    ready: bool
+    warnings: list[str] = Field(default_factory=list)
+    errors: list[str] = Field(default_factory=list)
+    execution_time_ms: float = 0.0
+
+
+class PipelineMetrics(BaseModel):
+    """Overall pipeline execution metrics."""
+    total_execution_time_ms: float = 0.0
+    startup_validation_time_ms: float = 0.0
+    engines_executed: int = 0
+    engines_skipped: int = 0
+    success: bool = False
+
+
+class PipelineExecutionReport(BaseModel):
+    """The canonical backend execution artifact."""
+    correlation_id: str
+    final_configuration_status: ConfigurationStatus
+    rule_engine_report: ExecutionReport | None = None
+    dependency_engine_report: DependencyResolutionReport | None = None
+    pricing_engine_report: PricingReport | None = None
+    startup_reports: list[EngineStartupReport] = Field(default_factory=list)
+    metrics: PipelineMetrics = Field(default_factory=PipelineMetrics)
+    errors: list[str] = Field(default_factory=list)
+    warnings: list[str] = Field(default_factory=list)
+
+
+class PipelineContext(BaseModel):
+    """The unified context passed through the orchestration layer."""
+    configuration: Configuration
+    correlation_id: str
+    execution_timestamp: str
+    request_source: str = Field(default="API", description="WEB, API, CLI, TEST")
+    report: PipelineExecutionReport
+
 

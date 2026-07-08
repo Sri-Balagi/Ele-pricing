@@ -134,3 +134,12 @@ API_V1_TAG: str = "v1"
 # ── Logging Format ────────────────────────────────────────────────────────────
 LOG_FORMAT: str = "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
 LOG_DATE_FORMAT: str = "%Y-%m-%d %H:%M:%S"
+
+# ── Error Codes ───────────────────────────────────────────────────────────────
+class ErrorCode(StrEnum):
+    """Standardized error codes for backend execution errors."""
+    RULE_001 = "RULE_001"
+    DEP_001 = "DEP_001"
+    PRICE_001 = "PRICE_001"
+    PIPELINE_001 = "PIPELINE_001"
+

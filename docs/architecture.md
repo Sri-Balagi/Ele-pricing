@@ -111,20 +111,24 @@ Dependencies in the system are classified to help engines apply rules in the cor
 
 ## Execution Pipeline
 
-When a customer selects a set of features, the backend processes the configuration through the following pipeline:
+When a customer selects a set of features, the backend processes the configuration through a centralized `ConfigurationPipeline`. The pipeline maintains a strict REST boundary: endpoints only perform request validation and response serialization, while the pipeline owns orchestration and status state.
 
 ```mermaid
 graph TD
-    A[Customer Selection] --> B[Configuration Aggregate]
-    B --> C[Feature Mapping]
-    C --> D[Engineering Components Resolved]
-    D --> E[Rule Engine Evaluated]
-    E --> F[Dependency Engine Resolved]
-    F --> G[Validation Engine Pass]
-    G --> H[Pricing Engine Calculated]
-    H --> I[Bill of Materials Generated]
-    I --> J[Export / Quote Generation]
+    A[Customer Selection] --> B[API Controller]
+    B --> C[ConfigurationPipeline]
+    C -->|PIPE-UUID4| D[Rule Engine]
+    D --> E[Dependency Engine]
+    E --> F[Pricing Engine]
+    F --> G[PipelineExecutionReport]
+    G --> H[API Controller]
 ```
+
+The `ConfigurationPipeline` handles:
+1. **Engine Registration**: Maintains an ordered list of `BaseEngine` implementations.
+2. **Correlation ID**: Generates a unified `PIPE-UUID4` passed down to all engines.
+3. **Status Transitions**: Explicitly owns the progression of `Configuration.status` through its lifecycle (engines report only success/failure).
+4. **Error Propagation**: Enforces error policies (`RULE_001`, `DEP_001`, `PRICE_001`, `PIPELINE_001`) and gracefully halts execution, maintaining a safe configuration state.
 
 ## Configuration Lifecycle
 
@@ -268,3 +272,32 @@ The `RuleEvaluator` natively fires:
 - `BeforeAction`: Hooked after a condition is met, before payload validation.
 - `AfterAction`: Hooked after the `ActionHandler` mutates the configuration.
 These hooks can be overridden or extended for debugging, tracing, and metrics aggregation.
+
+## Dynamic Pricing Engine (Milestone 4)
+
+The Dynamic Pricing Engine strictly conforms to the `BaseEngine[PricingContext, PricingReport]` interface, executing at the end of the pipeline.
+
+### Module Map
+
+| Module | File | Responsibility |
+|---|---|---|
+| `PricingRepository` | `repository.py` | Loads structured pricing data from `pricing.json` |
+| `PricingValidator` | `validator.py` | Fails fast on duplicate keys, missing tax config |
+| `PricingRegistry` | `registry.py` | O(1) cache for `PricingRecord` lookup; holds currency/tax settings |
+| `PricingCalculator` | `calculator.py` | Pure logic for base, component, and feature costs using `Decimal` |
+| `TaxCalculator` | `tax_calculator.py` | Applies `TaxConfiguration` rates |
+| `BOMCostResolver` | `bom_resolver.py` | Mutates `BOMItem.unit_cost` referencing back to pricing record IDs |
+| `PricingEngine` | `engine.py` | Orchestrates context, calculates totals, generates `PricingSummary` |
+
+### Engine Pipeline
+
+1. **Category Base Price**: Looks up base price for `selected_category`.
+2. **Feature Costs**: Sums up pricing for all `selected_feature_options`.
+3. **Component Costs**: Sums up pricing for all `resolved_components`.
+4. **Subtotal**: Sum of Category + Features + Components.
+5. **Taxes**: Applies data-driven rate to subtotal.
+6. **Total**: Final sum (`total_after_tax`).
+7. **BOM Population**: Matches `resolved_components` to unit costs.
+8. **Summary Generation**: Updates `Configuration.pricing_summary`.
+
+The Pricing Engine features a strict missing price policy: any absent mandatory record triggers an immediate `PricingCalculationError`, populates `PricingReport.errors`, and aborts calculation. Status transitions are exclusively handled by the `ConfigurationPipeline`.

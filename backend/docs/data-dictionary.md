@@ -131,7 +131,16 @@ The backend `DataLoader` ingests the following JSON files to build the `ProductC
 - **Relationships**: Links to either a Component or FeatureOption (`entity_id`).
 - **Example**:
   ```json
-  [
-    { "entity_id": "COMP_MOTOR_10KW", "entity_type": "COMPONENT", "base_cost": 5000.0, "markup_percentage": 20.0, "price": 6000.0 }
-  ]
+  {
+    "catalogue_version": "1.0",
+    "currency": "EUR",
+    "tax_configuration": {
+      "enabled": true,
+      "tax_name": "VAT",
+      "rate": 18.0
+    },
+    "pricing_records": [
+      { "entity_id": "COMP_MOTOR_10KW", "entity_type": "COMPONENT", "base_cost": 5000.0, "markup_percentage": 20.0, "price": 6000.0 }
+    ]
+  }
   ```
