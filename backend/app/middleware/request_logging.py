@@ -51,7 +51,12 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
         response: Response = await call_next(request)
 
         duration_ms = (time.perf_counter() - start_time) * 1000
+        
+        # Operational Enhancements (M5 Hardening)
         response.headers[REQUEST_ID_HEADER] = request_id
+        response.headers["X-Correlation-ID"] = request.state.correlation_id
+        response.headers["X-API-Version"] = "v1"
+        response.headers["X-Process-Time"] = f"{duration_ms:.2f}"
         
         resp_size = response.headers.get("content-length", "0")
 

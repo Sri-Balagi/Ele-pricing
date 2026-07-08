@@ -28,6 +28,27 @@ def _create_success_envelope(data, correlation_id: str = None) -> APISuccessEnve
     response_model=APISuccessEnvelope,
     status_code=status.HTTP_201_CREATED,
     summary="Create a new configuration",
+    openapi_extra={
+        "responses": {
+            "201": {
+                "description": "Successful Response",
+                "content": {
+                    "application/json": {
+                        "example": {
+                            "success": True,
+                            "data": {
+                                "configuration_id": "CFG-ABC12345",
+                                "status": "DRAFT",
+                                "selected_category": "TYPE_B",
+                                "selected_feature_options": []
+                            },
+                            "timestamp": "2026-07-08T10:00:00Z"
+                        }
+                    }
+                }
+            }
+        }
+    }
 )
 async def create_configuration(
     request_data: CreateConfigurationRequest,
@@ -61,6 +82,39 @@ async def list_configurations(
     "/{configuration_id}",
     response_model=APISuccessEnvelope,
     summary="Get configuration",
+    openapi_extra={
+        "responses": {
+            "200": {
+                "description": "Successful Response",
+                "content": {
+                    "application/json": {
+                        "example": {
+                            "success": True,
+                            "data": {
+                                "configuration_id": "CFG-ABC12345",
+                                "status": "DRAFT"
+                            },
+                            "timestamp": "2026-07-08T10:00:00Z"
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "Not Found",
+                "content": {
+                    "application/json": {
+                        "example": {
+                            "success": False,
+                            "error": {
+                                "code": "NOT_FOUND",
+                                "message": "Configuration not found"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 )
 async def get_configuration(
     configuration_id: str,
@@ -76,6 +130,18 @@ async def get_configuration(
     "/{configuration_id}",
     response_model=APISuccessEnvelope,
     summary="Update configuration",
+    openapi_extra={
+        "requestBody": {
+            "content": {
+                "application/json": {
+                    "example": {
+                        "selected_category": "TYPE_A",
+                        "selected_feature_options": ["OPT-001", "OPT-002"]
+                    }
+                }
+            }
+        }
+    }
 )
 async def update_configuration(
     configuration_id: str,
@@ -100,6 +166,24 @@ async def update_configuration(
     "/{configuration_id}/validate",
     response_model=APISuccessEnvelope,
     summary="Run validation pipeline",
+    openapi_extra={
+        "responses": {
+            "200": {
+                "description": "Pipeline execution successful",
+                "content": {
+                    "application/json": {
+                        "example": {
+                            "success": True,
+                            "data": {
+                                "correlation_id": "PIPE-1234",
+                                "metrics": {"success": True}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 )
 async def validate_configuration(
     configuration_id: str,

@@ -104,7 +104,12 @@ def build_lifespan(data_dir: str):
         logger.info("=" * 60)
 
         try:
+            import time
+            app_start_t0 = time.perf_counter()
+            
             validate_data_files(data_dir)
+            
+            repo_start_t0 = time.perf_counter()
             _prewarm_cache(data_dir)
             
             # Initialize core orchestrator and store
@@ -135,7 +140,9 @@ def build_lifespan(data_dir: str):
                 "pricing": loader.load("pricing.json"),
             }
             catalogue = ProductCatalogue(**catalogue_data)
+            repo_duration_ms = (time.perf_counter() - repo_start_t0) * 1000
             
+            reg_start_t0 = time.perf_counter()
             rule_registry = RuleRegistry(catalogue=catalogue)
             rule_registry.load_and_validate()
             
@@ -145,7 +152,9 @@ def build_lifespan(data_dir: str):
             from app.pricing_engine.repository import PricingRepository
             pricing_registry = PricingRegistry(repository=PricingRepository(), validator=PricingValidator())
             pricing_registry.load_and_validate()
+            reg_duration_ms = (time.perf_counter() - reg_start_t0) * 1000
             
+            pipe_start_t0 = time.perf_counter()
             pipeline = ConfigurationPipeline(
                 catalogue=catalogue,
                 rule_evaluator=RuleEvaluator(catalogue=catalogue, rule_registry=rule_registry, action_registry=action_registry),
@@ -154,9 +163,18 @@ def build_lifespan(data_dir: str):
                 pricing_registry=pricing_registry
             )
             store = InMemoryConfigurationStore(max_configurations=1000)
+            pipe_duration_ms = (time.perf_counter() - pipe_start_t0) * 1000
             
             app.state.pipeline = pipeline
             app.state.store = store
+            
+            app_duration_ms = (time.perf_counter() - app_start_t0) * 1000
+            app.state.startup_metrics = {
+                "application_startup_duration_ms": app_duration_ms,
+                "repository_initialization_ms": repo_duration_ms,
+                "registry_initialization_ms": reg_duration_ms,
+                "pipeline_initialization_ms": pipe_duration_ms,
+            }
 
         except (DataFileNotFoundException, DataFormatException, RuntimeError, CatalogueValidationException) as exc:
             logger.critical("Fatal startup error: %s", exc)

@@ -19,6 +19,8 @@ from app.core.constants import (
     RuleSeverity,
     RuleAction,
     ConfigurationStatus,
+    QuoteStatus,
+    ExportFormat,
 )
 
 
@@ -279,6 +281,25 @@ class PricingSummary(BaseModel):
     total: Decimal = Field(default=Decimal("0.00"), description="Alias for total_after_tax")
 
 
+class QuoteMetadata(BaseModel):
+    """Metadata surrounding the generated quotation for this configuration."""
+
+    quote_number: str = Field(..., description="Unique generated quote identifier")
+    revision: int = Field(default=1, description="Quote revision number")
+    valid_until: str = Field(..., description="ISO8601 expiry timestamp for this quote")
+    approved_at: str | None = Field(default=None, description="ISO8601 approval timestamp")
+
+
+class QuoteMetadata(BaseModel):
+    """Metadata surrounding the generated quotation for this configuration."""
+
+    quote_number: str = Field(..., description="Unique generated quote identifier")
+    quote_version: int = Field(default=1, description="Quote version number")
+    valid_until: str = Field(..., description="ISO8601 expiry timestamp for this quote")
+    approved_at: str | None = Field(default=None, description="ISO8601 approval timestamp")
+    status: QuoteStatus = Field(default=QuoteStatus.DRAFT, description="Independent quote lifecycle state")
+
+
 class ConfigurationMutation(BaseModel):
     """Tracks atomic changes made to the configuration by engines."""
 
@@ -304,6 +325,7 @@ class Configuration(BaseModel):
     mutations: list[ConfigurationMutation] = Field(default_factory=list, description="Audit log of all state mutations")
     bill_of_materials: BillOfMaterials | None = Field(default=None, description="The generated BOM")
     pricing_summary: PricingSummary | None = Field(default=None, description="The calculated pricing")
+    quote_metadata: QuoteMetadata | None = Field(default=None, description="Metadata for the generated quote")
     status: ConfigurationStatus = Field(default=ConfigurationStatus.DRAFT, description="Current lifecycle state")
 
 
@@ -517,3 +539,32 @@ class PipelineContext(BaseModel):
     report: PipelineExecutionReport
 
 
+class ExportMetadata(BaseModel):
+    """Metadata detailing the physical output of an export operation."""
+    generated_at: str = Field(..., description="ISO8601 generation timestamp")
+    generated_by: str = Field(default="SYSTEM", description="User or system that generated the export")
+    format: ExportFormat = Field(..., description="Format of the export")
+    checksum: str = Field(..., description="SHA-256 checksum of the exported file")
+    filename: str = Field(..., description="The generated filename")
+    mime_type: str = Field(..., description="MIME type of the generated file")
+    file_size: int = Field(..., description="File size in bytes")
+
+
+class ExportReport(BaseModel):
+    """The final summary of an export execution."""
+    export_format: ExportFormat
+    filename: str
+    mime_type: str
+    checksum: str
+    file_size: int
+    generation_time_ms: float = 0.0
+    warnings: list[str] = Field(default_factory=list)
+    success: bool = False
+
+
+class ExportContext(BaseModel):
+    """The runtime context passed to a BaseExporter."""
+    configuration: Configuration
+    correlation_id: str = Field(..., description="Trace ID for this export run")
+    execution_timestamp: str = Field(..., description="ISO8601 timestamp of the run")
+    export_format: ExportFormat = Field(..., description="Target export format")

@@ -52,12 +52,14 @@ class InMemoryConfigurationStore(BaseConfigurationStore):
         self.max_configurations = max_configurations
         self._store: OrderedDict[str, Configuration] = OrderedDict()
         self._lock = threading.Lock()
+        self.evictions_count = 0
 
     def _evict_oldest_draft(self) -> bool:
         """Finds and deletes the oldest DRAFT config. Returns True if evicted, False otherwise."""
         for config_id, config in self._store.items():
             if config.status == ConfigurationStatus.DRAFT:
                 del self._store[config_id]
+                self.evictions_count += 1
                 return True
         return False
 
@@ -107,3 +109,47 @@ class InMemoryConfigurationStore(BaseConfigurationStore):
             # Or we could return reverse so newest is first. Let's return newest first.
             configs = list(reversed(self._store.values()))
             return configs[offset:offset + limit]
+
+    def get_diagnostics(self) -> dict:
+        import sys
+        import time
+        from datetime import datetime
+        with self._lock:
+            total = len(self._store)
+            status_counts = {
+                "DRAFT": 0,
+                "VALIDATED": 0,
+                "PRICED": 0,
+                "APPROVED": 0
+            }
+            for config in self._store.values():
+                status_name = config.status.value
+                if status_name in status_counts:
+                    status_counts[status_name] += 1
+                    
+            utilization = (total / self.max_configurations) * 100 if self.max_configurations > 0 else 0
+            
+            oldest_age = 0
+            if total > 0:
+                oldest_config = next(iter(self._store.values()))
+                if oldest_config.created_at:
+                    try:
+                        # naive parse ISO 8601
+                        dt = datetime.fromisoformat(oldest_config.created_at.replace("Z", "+00:00"))
+                        oldest_age = (datetime.now(dt.tzinfo) - dt).total_seconds()
+                    except ValueError:
+                        pass
+                        
+            return {
+                "store_backend": "InMemoryConfigurationStore",
+                "max_capacity": self.max_configurations,
+                "current_utilization_percent": round(utilization, 2),
+                "total_configurations": total,
+                "draft_count": status_counts["DRAFT"],
+                "validated_count": status_counts["VALIDATED"],
+                "priced_count": status_counts["PRICED"],
+                "approved_count": status_counts["APPROVED"],
+                "evictions": self.evictions_count,
+                "estimated_memory_usage_bytes": sys.getsizeof(self._store),
+                "oldest_configuration_age_seconds": round(oldest_age, 2)
+            }

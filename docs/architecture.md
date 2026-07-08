@@ -301,3 +301,12 @@ The Dynamic Pricing Engine strictly conforms to the `BaseEngine[PricingContext, 
 8. **Summary Generation**: Updates `Configuration.pricing_summary`.
 
 The Pricing Engine features a strict missing price policy: any absent mandatory record triggers an immediate `PricingCalculationError`, populates `PricingReport.errors`, and aborts calculation. Status transitions are exclusively handled by the `ConfigurationPipeline`.
+
+## Operational Guarantees (Milestone 5)
+
+The REST layer provides the following operational guarantees:
+1. **Traceability**: Every response contains an `X-Correlation-ID` header linked to the pipeline execution.
+2. **Determinism**: The pipeline guarantees repeatable results for identical configurations, ensuring UI refreshes never drift.
+3. **Visibility**: `X-Process-Time` is exposed on all responses to monitor latency regressions.
+4. **Resilience**: The InMemory store enforces a strict `MAX_CONFIGURATIONS` boundary, aggressively evicting stale DRAFTs to prevent OOM errors while perpetually preserving PRICED/APPROVED quotes.
+5. **Transparency**: The `/api/v1/system/store` diagnostic endpoint exposes current capacity utilization in real-time.

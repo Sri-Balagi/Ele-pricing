@@ -88,6 +88,20 @@ class ConfigurationStatus(StrEnum):
     EXPORTED = "EXPORTED"
 
 
+class QuoteStatus(StrEnum):
+    DRAFT = "DRAFT"
+    ISSUED = "ISSUED"
+    APPROVED = "APPROVED"
+    EXPIRED = "EXPIRED"
+    CANCELLED = "CANCELLED"
+
+
+class ExportFormat(StrEnum):
+    JSON = "JSON"
+    PDF = "PDF"
+    EXCEL = "EXCEL"
+
+
 # ── Component Lifecycle ───────────────────────────────────────────────────────
 class ComponentStatus(StrEnum):
     ACTIVE = "active"               # Available for selection

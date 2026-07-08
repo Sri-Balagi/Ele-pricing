@@ -465,3 +465,83 @@ category
 2026-07-08 15:28:01 | ERROR    | app.utils.catalogue_validator |  - Dependency 'DEP-1' references unknown target_id: BAD-COMP
 2026-07-08 15:28:01 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
 2026-07-08 15:28:01 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references inactive category_id: CAT-A
+2026-07-08 15:50:11 | INFO     | app | App created: Elevator Configuration Engine v0.1.0 [development] | API prefix: /api/v1
+2026-07-08 15:50:12 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:50:12 | ERROR    | app.utils.catalogue_validator |  - Duplicate ID found for ElevatorCategory: CAT-A
+2026-07-08 15:50:12 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:50:12 | ERROR    | app.utils.catalogue_validator |  - Missing 'id' in a ElevatorCategory record.
+2026-07-08 15:50:12 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:50:12 | ERROR    | app.utils.catalogue_validator |  - Schema validation failed for Component 'COMP-1': 1 validation error for Component
+category
+  Input should be 'Structural', 'Mechanical', 'Electrical', 'Control', 'Safety', 'Cabin' or 'Door' [type=enum, input_value='INVALID_CATEGORY', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/enum
+2026-07-08 15:50:12 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:50:12 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references unknown category_id: BAD-CAT
+2026-07-08 15:50:12 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:50:12 | ERROR    | app.utils.catalogue_validator |  - Dependency 'DEP-1' references unknown target_id: BAD-COMP
+2026-07-08 15:50:12 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:50:12 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references inactive category_id: CAT-A
+2026-07-08 15:50:31 | INFO     | app | App created: Elevator Configuration Engine v0.1.0 [development] | API prefix: /api/v1
+2026-07-08 15:50:32 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:50:32 | ERROR    | app.utils.catalogue_validator |  - Duplicate ID found for ElevatorCategory: CAT-A
+2026-07-08 15:50:32 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:50:32 | ERROR    | app.utils.catalogue_validator |  - Missing 'id' in a ElevatorCategory record.
+2026-07-08 15:50:32 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:50:32 | ERROR    | app.utils.catalogue_validator |  - Schema validation failed for Component 'COMP-1': 1 validation error for Component
+category
+  Input should be 'Structural', 'Mechanical', 'Electrical', 'Control', 'Safety', 'Cabin' or 'Door' [type=enum, input_value='INVALID_CATEGORY', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/enum
+2026-07-08 15:50:32 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:50:32 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references unknown category_id: BAD-CAT
+2026-07-08 15:50:32 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:50:32 | ERROR    | app.utils.catalogue_validator |  - Dependency 'DEP-1' references unknown target_id: BAD-COMP
+2026-07-08 15:50:32 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 15:50:32 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references inactive category_id: CAT-A
+2026-07-08 16:07:50 | INFO     | app | App created: Elevator Configuration Engine v0.1.0 [development] | API prefix: /api/v1
+2026-07-08 16:07:51 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 16:07:51 | ERROR    | app.utils.catalogue_validator |  - Duplicate ID found for ElevatorCategory: CAT-A
+2026-07-08 16:07:51 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 16:07:51 | ERROR    | app.utils.catalogue_validator |  - Missing 'id' in a ElevatorCategory record.
+2026-07-08 16:07:51 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 16:07:51 | ERROR    | app.utils.catalogue_validator |  - Schema validation failed for Component 'COMP-1': 1 validation error for Component
+category
+  Input should be 'Structural', 'Mechanical', 'Electrical', 'Control', 'Safety', 'Cabin' or 'Door' [type=enum, input_value='INVALID_CATEGORY', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/enum
+2026-07-08 16:07:51 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 16:07:51 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references unknown category_id: BAD-CAT
+2026-07-08 16:07:51 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 16:07:51 | ERROR    | app.utils.catalogue_validator |  - Dependency 'DEP-1' references unknown target_id: BAD-COMP
+2026-07-08 16:07:51 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 16:07:51 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references inactive category_id: CAT-A
+2026-07-08 16:08:16 | INFO     | app | App created: Elevator Configuration Engine v0.1.0 [development] | API prefix: /api/v1
+2026-07-08 16:08:16 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 16:08:16 | ERROR    | app.utils.catalogue_validator |  - Duplicate ID found for ElevatorCategory: CAT-A
+2026-07-08 16:08:16 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 16:08:16 | ERROR    | app.utils.catalogue_validator |  - Missing 'id' in a ElevatorCategory record.
+2026-07-08 16:08:16 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 16:08:16 | ERROR    | app.utils.catalogue_validator |  - Schema validation failed for Component 'COMP-1': 1 validation error for Component
+category
+  Input should be 'Structural', 'Mechanical', 'Electrical', 'Control', 'Safety', 'Cabin' or 'Door' [type=enum, input_value='INVALID_CATEGORY', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/enum
+2026-07-08 16:08:16 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 16:08:16 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references unknown category_id: BAD-CAT
+2026-07-08 16:08:16 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 16:08:16 | ERROR    | app.utils.catalogue_validator |  - Dependency 'DEP-1' references unknown target_id: BAD-COMP
+2026-07-08 16:08:16 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 16:08:16 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references inactive category_id: CAT-A
+2026-07-08 16:08:49 | INFO     | app | App created: Elevator Configuration Engine v0.1.0 [development] | API prefix: /api/v1
+2026-07-08 16:08:49 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 16:08:49 | ERROR    | app.utils.catalogue_validator |  - Duplicate ID found for ElevatorCategory: CAT-A
+2026-07-08 16:08:49 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 16:08:49 | ERROR    | app.utils.catalogue_validator |  - Missing 'id' in a ElevatorCategory record.
+2026-07-08 16:08:49 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 16:08:49 | ERROR    | app.utils.catalogue_validator |  - Schema validation failed for Component 'COMP-1': 1 validation error for Component
+category
+  Input should be 'Structural', 'Mechanical', 'Electrical', 'Control', 'Safety', 'Cabin' or 'Door' [type=enum, input_value='INVALID_CATEGORY', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/enum
+2026-07-08 16:08:49 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 16:08:49 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references unknown category_id: BAD-CAT
+2026-07-08 16:08:49 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 16:08:49 | ERROR    | app.utils.catalogue_validator |  - Dependency 'DEP-1' references unknown target_id: BAD-COMP
+2026-07-08 16:08:49 | ERROR    | app.utils.catalogue_validator | Catalogue validation failed with 1 errors.
+2026-07-08 16:08:49 | ERROR    | app.utils.catalogue_validator |  - Feature 'F-1' references inactive category_id: CAT-A
