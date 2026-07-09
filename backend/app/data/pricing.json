@@ -1,1 +1,10 @@
-{}
+{
+  "catalogue_version": "1.0",
+  "currency": "EUR",
+  "tax_configuration": {
+    "enabled": true,
+    "tax_name": "VAT",
+    "rate": 18.0
+  },
+  "pricing_records": []
+}

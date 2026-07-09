@@ -97,7 +97,16 @@ Ele-pricing/
 
 ---
 
-## Milestone Plan
+To run the full platform using Docker:
+
+```bash
+docker compose up -d
+```
+
+- The UI will be available at `http://localhost:80`
+- The API will be available at `http://localhost:8000`
+
+## Milestones OverviewPlan
 
 | Milestone | Feature |
 |-----------|---------|

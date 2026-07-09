@@ -1,0 +1,31 @@
+name: OpenAPI Drift Protection
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  check-drift:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+
+    - name: Install dependencies
+      working-directory: ./frontend
+      run: npm ci
+
+    - name: Run OpenAPI Generation
+      working-directory: ./frontend
+      run: npm run generate-api
+
+    - name: Check for Uncommitted Changes
+      run: |
+        git diff --exit-code frontend/src/types/api.ts || (echo "Error: OpenAPI schema drift detected! Run 'npm run generate-api' locally and commit the updated api.ts" && exit 1)

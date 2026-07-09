@@ -1,32 +1,53 @@
-# React + TypeScript + Vite
+# Elevator Configurator - Frontend Application (Milestone 7)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+This is the production-grade React 19 frontend application built for the Elevator Configurator.
 
-Currently, two official plugins are available:
+## Architectural Guarantees
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+1. **Zero Business Logic**: The frontend contains exactly zero business logic. All pricing calculations, dependency resolutions, validations, rules, and BOM generations occur strictly in the Version 1.0.0 frozen backend.
+2. **Single Source of Truth**: The `src/types/api.ts` file is generated strictly from the backend's OpenAPI contract. No manual DTOs are created.
+3. **Resilience**: A global React ErrorBoundary prevents runtime crashes from breaking the entire application. API errors are normalized by an Axios interceptor before reaching TanStack Query.
+4. **Performance**: All major feature pages (Dashboard, Wizard, BOM, Pricing, Validation, Quote) are lazily loaded (`React.lazy`). Data fetching happens asynchronously with stale-while-revalidate caching.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19
+- Vite
+- TypeScript
+- TailwindCSS (V4)
+- React Router (v7)
+- TanStack Query (v5)
+- Zustand (v5)
+- React Hook Form + Zod
+- Shadcn UI + Radix
+- Vitest + Testing Library + MSW
 
-## Expanding the Oxlint configuration
+## API Design
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+The API client (`src/api/client.ts`) handles the unwrapping of the backend's standardized envelope format (`APISuccessEnvelope`). The endpoints are modularized by feature (`configuration.ts`, `health.ts`, `system.ts`, etc.). 
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+## State Management
+
+- **Server State**: Managed exclusively by `@tanstack/react-query`. Caches data with specific retry policies (GET: 2, POST: 0).
+- **Client/UI State**: Managed by `zustand` (`src/stores/uiStore.ts`). Tracks Sidebar, Theme, etc. (Persisted to localStorage).
+
+## How to Run
+
+```bash
+# Install dependencies
+npm install
+
+# Start Dev Server
+npm run dev
+
+# Run Tests
+npm run test
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Lighthouse Target Scores
+
+The application components are built with Shadcn/Radix which provide robust accessibility (a11y) out of the box. Expected Lighthouse scores when built for production:
+- Performance: > 90
+- Accessibility: > 95
+- Best Practices: > 90
+- SEO: > 90
