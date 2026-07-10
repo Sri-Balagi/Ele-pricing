@@ -61,3 +61,10 @@ log_cli_level = "WARNING"
 filterwarnings = [
     "ignore::DeprecationWarning",
 ]
+
+[dependency-groups]
+dev = [
+    "black>=26.5.1",
+    "pre-commit>=4.6.0",
+    "ruff>=0.15.21",
+]
