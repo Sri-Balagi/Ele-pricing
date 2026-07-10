@@ -12,19 +12,16 @@ The few legacy sync callers (startup validation, etc.) are not affected
 because they don't call store methods.
 """
 
-import json
 import asyncio
 import logging
-from datetime import datetime, timezone
-from typing import Optional
+from datetime import UTC, datetime
 
-from sqlalchemy import select, func, text, String
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import String, func, select
 
+from app.core.constants import ConfigurationStatus
 from app.db.database import AsyncSessionLocal
 from app.db.models import ConfigurationRecord
 from app.models.domain import Configuration
-from app.core.constants import ConfigurationStatus
 from app.services.store import BaseConfigurationStore
 
 logger = logging.getLogger(__name__)
@@ -33,10 +30,12 @@ _QUOTED_STATUSES = {ConfigurationStatus.QUOTED, ConfigurationStatus.EXPORTED}
 _COMPLETED_STATUSES = {"QUOTED", "EXPORTED"}
 
 
-def _to_record(config: Configuration, existing_id: Optional[int] = None) -> ConfigurationRecord:
+def _to_record(
+    config: Configuration, existing_id: int | None = None
+) -> ConfigurationRecord:
     """Serialize a Configuration domain object into an ORM record."""
-    now = datetime.now(timezone.utc).isoformat()
-    pricing_total: Optional[float] = None
+    now = datetime.now(UTC).isoformat()
+    pricing_total: float | None = None
     if config.pricing_summary:
         try:
             pricing_total = float(config.pricing_summary.total_after_tax)
@@ -46,7 +45,9 @@ def _to_record(config: Configuration, existing_id: Optional[int] = None) -> Conf
         id=existing_id,
         configuration_id=config.configuration_id,
         project_name=config.project_name or "",
-        status=config.status.value if hasattr(config.status, "value") else str(config.status),
+        status=config.status.value
+        if hasattr(config.status, "value")
+        else str(config.status),
         selected_category=config.selected_category or "",
         pricing_total=pricing_total,
         data=config.model_dump_json(),
@@ -66,6 +67,7 @@ def _run_sync(coro):
         loop = asyncio.get_event_loop()
         if loop.is_running():
             import concurrent.futures
+
             with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
                 future = pool.submit(asyncio.run, coro)
                 return future.result()
@@ -90,30 +92,33 @@ class SQLiteConfigurationStore(BaseConfigurationStore):
             if config.project_name:
                 existing = await session.execute(
                     select(ConfigurationRecord).where(
-                        func.lower(ConfigurationRecord.project_name) == config.project_name.strip().lower()
+                        func.lower(ConfigurationRecord.project_name)
+                        == config.project_name.strip().lower()
                     )
                 )
                 if existing.scalar_one_or_none():
-                    raise ValueError(f"A project with the name '{config.project_name}' already exists.")
+                    raise ValueError(
+                        f"A project with the name '{config.project_name}' already exists."
+                    )
 
             record = _to_record(config)
             session.add(record)
             await session.commit()
             await session.refresh(record)
-            
+
             # Reassign configuration_id to be the PK
             new_id = str(record.id)
             config.configuration_id = new_id
             record.configuration_id = new_id
             record.data = config.model_dump_json()
-            
+
             session.add(record)
             await session.commit()
-            
+
         logger.debug("SQLiteStore.create: %s", config.configuration_id)
         return config
 
-    async def get_async(self, configuration_id: str) -> Optional[Configuration]:
+    async def get_async(self, configuration_id: str) -> Configuration | None:
         async with AsyncSessionLocal() as session:
             result = await session.execute(
                 select(ConfigurationRecord).where(
@@ -132,20 +137,33 @@ class SQLiteConfigurationStore(BaseConfigurationStore):
             )
             record = result.scalar_one_or_none()
             if record is None:
-                raise KeyError(f"Configuration {config.configuration_id} not found for update.")
+                raise KeyError(
+                    f"Configuration {config.configuration_id} not found for update."
+                )
 
-            if config.project_name and config.project_name.strip().lower() != (record.project_name or "").strip().lower():
+            if (
+                config.project_name
+                and config.project_name.strip().lower()
+                != (record.project_name or "").strip().lower()
+            ):
                 existing = await session.execute(
                     select(ConfigurationRecord).where(
-                        func.lower(ConfigurationRecord.project_name) == config.project_name.strip().lower()
+                        func.lower(ConfigurationRecord.project_name)
+                        == config.project_name.strip().lower()
                     )
                 )
                 if existing.scalar_one_or_none():
-                    raise ValueError(f"A project with the name '{config.project_name}' already exists.")
+                    raise ValueError(
+                        f"A project with the name '{config.project_name}' already exists."
+                    )
 
-            now = datetime.now(timezone.utc).isoformat()
+            now = datetime.now(UTC).isoformat()
             record.project_name = config.project_name or ""
-            record.status = config.status.value if hasattr(config.status, "value") else str(config.status)
+            record.status = (
+                config.status.value
+                if hasattr(config.status, "value")
+                else str(config.status)
+            )
             record.selected_category = config.selected_category or ""
             if config.pricing_summary:
                 try:
@@ -184,13 +202,12 @@ class SQLiteConfigurationStore(BaseConfigurationStore):
         """Returns list of dicts with display_id computed from row_number."""
         async with AsyncSessionLocal() as session:
             # Use a subquery to assign display_id (sequential, ordered by PK)
-            subq = (
-                select(
-                    ConfigurationRecord,
-                    func.row_number().over(order_by=ConfigurationRecord.id).label("display_id"),
-                )
-                .subquery()
-            )
+            subq = select(
+                ConfigurationRecord,
+                func.row_number()
+                .over(order_by=ConfigurationRecord.id)
+                .label("display_id"),
+            ).subquery()
             result = await session.execute(
                 select(subq).order_by(subq.c.id.desc()).offset(offset).limit(limit)
             )
@@ -198,29 +215,30 @@ class SQLiteConfigurationStore(BaseConfigurationStore):
         configs = []
         for row in rows:
             config = Configuration.model_validate_json(row.data)
-            configs.append({
-                "display_id": row.display_id,
-                "configuration_id": row.configuration_id,
-                "project_name": row.project_name,
-                "status": row.status,
-                "selected_category": row.selected_category,
-                "pricing_total": row.pricing_total,
-                "created_at": row.created_at,
-                "updated_at": row.updated_at,
-                "config": config,
-            })
+            configs.append(
+                {
+                    "display_id": row.display_id,
+                    "configuration_id": row.configuration_id,
+                    "project_name": row.project_name,
+                    "status": row.status,
+                    "selected_category": row.selected_category,
+                    "pricing_total": row.pricing_total,
+                    "created_at": row.created_at,
+                    "updated_at": row.updated_at,
+                    "config": config,
+                }
+            )
         return configs
 
     async def search_async(self, query: str, limit: int = 20) -> list[dict]:
         """Case-insensitive search by project_name or display_id prefix."""
         async with AsyncSessionLocal() as session:
-            subq = (
-                select(
-                    ConfigurationRecord,
-                    func.row_number().over(order_by=ConfigurationRecord.id).label("display_id"),
-                )
-                .subquery()
-            )
+            subq = select(
+                ConfigurationRecord,
+                func.row_number()
+                .over(order_by=ConfigurationRecord.id)
+                .label("display_id"),
+            ).subquery()
             q = query.strip().lower()
             result = await session.execute(
                 select(subq)
@@ -247,11 +265,15 @@ class SQLiteConfigurationStore(BaseConfigurationStore):
 
     async def get_dashboard_metrics_async(self) -> dict:
         async with AsyncSessionLocal() as session:
-            total_result = await session.execute(select(func.count()).select_from(ConfigurationRecord))
+            total_result = await session.execute(
+                select(func.count()).select_from(ConfigurationRecord)
+            )
             total = total_result.scalar() or 0
 
             completed_result = await session.execute(
-                select(func.count()).where(ConfigurationRecord.status.in_(list(_COMPLETED_STATUSES)))
+                select(func.count()).where(
+                    ConfigurationRecord.status.in_(list(_COMPLETED_STATUSES))
+                )
             )
             completed = completed_result.scalar() or 0
 
@@ -275,7 +297,7 @@ class SQLiteConfigurationStore(BaseConfigurationStore):
     def create(self, config: Configuration) -> Configuration:
         return _run_sync(self.create_async(config))
 
-    def get(self, configuration_id: str) -> Optional[Configuration]:
+    def get(self, configuration_id: str) -> Configuration | None:
         return _run_sync(self.get_async(configuration_id))
 
     def update(self, config: Configuration) -> Configuration:

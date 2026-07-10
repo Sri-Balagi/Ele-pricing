@@ -13,14 +13,14 @@ from pydantic import BaseModel, Field
 
 from app.core.constants import (
     ComponentCategory,
-    DependencyType,
-    Unit,
-    RuleTriggerType,
-    RuleSeverity,
-    RuleAction,
     ConfigurationStatus,
-    QuoteStatus,
+    DependencyType,
     ExportFormat,
+    QuoteStatus,
+    RuleAction,
+    RuleSeverity,
+    RuleTriggerType,
+    Unit,
 )
 
 
@@ -147,22 +147,33 @@ class Dependency(BaseModel):
 
 class TaxConfiguration(BaseModel):
     """Configuration for global tax calculation."""
+
     enabled: bool = Field(default=True, description="Whether tax calculation is active")
-    tax_name: str = Field(default="VAT", description="Description of the tax (e.g. 'VAT')")
+    tax_name: str = Field(
+        default="VAT", description="Description of the tax (e.g. 'VAT')"
+    )
     rate: Decimal = Field(..., description="Tax rate percentage (e.g. 18.0 for 18%)")
 
 
 class PricingRecord(BaseModel):
     """A data-driven record defining the base cost and markup for an entity."""
-    entity_id: str = Field(..., description="The ID of the Category, Component, or FeatureOption")
+
+    entity_id: str = Field(
+        ..., description="The ID of the Category, Component, or FeatureOption"
+    )
     entity_type: str = Field(..., description="CATEGORY, COMPONENT, or FEATURE_OPTION")
-    base_cost: Decimal = Field(default=Decimal("0.00"), description="Raw manufacturing or procurement cost")
-    markup_percentage: Decimal = Field(default=Decimal("0.00"), description="Profit markup percentage")
+    base_cost: Decimal = Field(
+        default=Decimal("0.00"), description="Raw manufacturing or procurement cost"
+    )
+    markup_percentage: Decimal = Field(
+        default=Decimal("0.00"), description="Profit markup percentage"
+    )
     price: Decimal = Field(..., description="Final price (base_cost + markup)")
 
 
 class PricingCatalogue(BaseModel):
     """The collection of all pricing data for the product catalogue."""
+
     catalogue_version: str = Field(..., description="Version of the pricing catalogue")
     currency: str = Field(default="EUR", description="Base currency code")
     tax_configuration: TaxConfiguration
@@ -180,7 +191,9 @@ class ProductCatalogue(BaseModel):
     components: list[Component]
     mappings: list[FeatureComponentMapping]
     dependencies: list[Dependency]
-    pricing: PricingCatalogue | None = Field(default=None, description="Pricing data if loaded")
+    pricing: PricingCatalogue | None = Field(
+        default=None, description="Pricing data if loaded"
+    )
 
 
 class Rule(BaseModel):
@@ -189,15 +202,27 @@ class Rule(BaseModel):
     id: str = Field(..., description="Unique identifier (e.g., RULE-SPD-BUF)")
     name: str = Field(..., description="Short descriptive name")
     description: str = Field(default="", description="Detailed explanation")
-    priority: int = Field(default=100, description="Execution priority (lower runs first)")
+    priority: int = Field(
+        default=100, description="Execution priority (lower runs first)"
+    )
     enabled: bool = Field(default=True, description="Whether the rule is active")
-    trigger_type: RuleTriggerType = Field(..., description="When this rule should evaluate")
+    trigger_type: RuleTriggerType = Field(
+        ..., description="When this rule should evaluate"
+    )
     condition: str = Field(..., description="Condition expression (e.g., JSONLogic)")
     action: RuleAction = Field(..., description="Action to take if condition is met")
-    action_payload: dict[str, Any] = Field(default_factory=dict, description="Data for the action")
-    severity: RuleSeverity = Field(default=RuleSeverity.WARNING, description="Severity if action fails or warns")
-    stop_processing: bool = Field(default=False, description="Halt further rules if triggered")
-    metadata: dict[str, Any] = Field(default_factory=dict, description="Arbitrary metadata")
+    action_payload: dict[str, Any] = Field(
+        default_factory=dict, description="Data for the action"
+    )
+    severity: RuleSeverity = Field(
+        default=RuleSeverity.WARNING, description="Severity if action fails or warns"
+    )
+    stop_processing: bool = Field(
+        default=False, description="Halt further rules if triggered"
+    )
+    metadata: dict[str, Any] = Field(
+        default_factory=dict, description="Arbitrary metadata"
+    )
 
 
 class RuleResult(BaseModel):
@@ -205,8 +230,12 @@ class RuleResult(BaseModel):
 
     rule_id: str = Field(..., description="The ID of the rule evaluated")
     triggered: bool = Field(..., description="Whether the rule condition was met")
-    action_taken: str | None = Field(default=None, description="The action that was executed")
-    message: str | None = Field(default=None, description="Human readable message from execution")
+    action_taken: str | None = Field(
+        default=None, description="The action that was executed"
+    )
+    message: str | None = Field(
+        default=None, description="Human readable message from execution"
+    )
 
 
 class ValidationMessage(BaseModel):
@@ -215,13 +244,17 @@ class ValidationMessage(BaseModel):
     severity: RuleSeverity = Field(..., description="Severity of the message")
     code: str = Field(..., description="Standardized error/warning code")
     message: str = Field(..., description="Human readable explanation")
-    source_entity_id: str | None = Field(default=None, description="Entity causing the validation message")
+    source_entity_id: str | None = Field(
+        default=None, description="Entity causing the validation message"
+    )
 
 
 class ValidationResult(BaseModel):
     """The complete result of a validation pass."""
 
-    is_valid: bool = Field(..., description="True if no ERROR or CRITICAL messages exist")
+    is_valid: bool = Field(
+        ..., description="True if no ERROR or CRITICAL messages exist"
+    )
     errors: list[ValidationMessage] = Field(default_factory=list)
     warnings: list[ValidationMessage] = Field(default_factory=list)
     info: list[ValidationMessage] = Field(default_factory=list)
@@ -229,24 +262,35 @@ class ValidationResult(BaseModel):
 
 from enum import Enum
 
+
 class BOMOrigin(str, Enum):
     FEATURE = "FEATURE"
     DEPENDENCY = "DEPENDENCY"
     RULE = "RULE"
     MANUAL = "MANUAL"
 
+
 class BOMItem(BaseModel):
     """A line item in the generated Bill of Materials."""
 
     component_id: str = Field(..., description="The physical component ID")
-    component_name: str | None = Field(default=None, description="The human-readable name of the component")
+    component_name: str | None = Field(
+        default=None, description="The human-readable name of the component"
+    )
     quantity: int = Field(default=1, description="Quantity required")
-    source_feature_option_id: str | None = Field(default=None, description="The feature choice that triggered this")
+    source_feature_option_id: str | None = Field(
+        default=None, description="The feature choice that triggered this"
+    )
     reason: str = Field(default="", description="Explanation of why this is included")
-    origin_type: BOMOrigin = Field(default=BOMOrigin.FEATURE, description="Origin of this BOM item")
-    unit_cost: Decimal | None = Field(default=None, description="Price per unit (populated by Pricing Engine)")
-    pricing_record_id: str | None = Field(default=None, description="The pricing record that provided the unit_cost")
-
+    origin_type: BOMOrigin = Field(
+        default=BOMOrigin.FEATURE, description="Origin of this BOM item"
+    )
+    unit_cost: Decimal | None = Field(
+        default=None, description="Price per unit (populated by Pricing Engine)"
+    )
+    pricing_record_id: str | None = Field(
+        default=None, description="The pricing record that provided the unit_cost"
+    )
 
 
 class BillOfMaterials(BaseModel):
@@ -259,9 +303,13 @@ class BillOfMaterials(BaseModel):
 class PriceAdjustment(BaseModel):
     """A modification to the final price (discount, markup, surcharge)."""
 
-    name: str = Field(..., description="Name of the adjustment (e.g., 'Summer Discount')")
+    name: str = Field(
+        ..., description="Name of the adjustment (e.g., 'Summer Discount')"
+    )
     amount: Decimal = Field(..., description="The adjustment value")
-    is_percentage: bool = Field(default=False, description="True if amount is a percentage")
+    is_percentage: bool = Field(
+        default=False, description="True if amount is a percentage"
+    )
     reason: str = Field(default="", description="Explanation for the adjustment")
 
 
@@ -270,26 +318,53 @@ class PricingSummary(BaseModel):
 
     currency: str = Field(default="EUR", description="Currency code (e.g. EUR, USD)")
     currency_symbol: str = Field(default="€", description="Currency symbol")
-    exchange_rate: Decimal | None = Field(default=None, description="Exchange rate if applicable")
+    exchange_rate: Decimal | None = Field(
+        default=None, description="Exchange rate if applicable"
+    )
 
-    category_cost: Decimal = Field(default=Decimal("0.00"), description="Base category price")
-    component_cost: Decimal = Field(default=Decimal("0.00"), description="Sum of physical component costs")
-    feature_cost: Decimal = Field(default=Decimal("0.00"), description="Sum of feature option upcharges")
-    floor_coverage_cost: Decimal = Field(default=Decimal("0.00"), description="Additional cost for floor coverage")
-    
+    category_cost: Decimal = Field(
+        default=Decimal("0.00"), description="Base category price"
+    )
+    component_cost: Decimal = Field(
+        default=Decimal("0.00"), description="Sum of physical component costs"
+    )
+    feature_cost: Decimal = Field(
+        default=Decimal("0.00"), description="Sum of feature option upcharges"
+    )
+    floor_coverage_cost: Decimal = Field(
+        default=Decimal("0.00"), description="Additional cost for floor coverage"
+    )
+
     # Backward compatible aliases / existing names
-    base_price: Decimal = Field(default=Decimal("0.00"), description="Alias for category_cost")
-    component_costs: Decimal = Field(default=Decimal("0.00"), description="Alias for component_cost")
-    feature_costs: Decimal = Field(default=Decimal("0.00"), description="Alias for feature_cost")
-    
-    subtotal_before_tax: Decimal = Field(default=Decimal("0.00"), description="Total before tax is applied")
-    adjustments: list[PriceAdjustment] = Field(default_factory=list, description="Discounts and markups")
-    tax_amount: Decimal = Field(default=Decimal("0.00"), description="Calculated taxes based on tax configuration")
-    total_after_tax: Decimal = Field(default=Decimal("0.00"), description="Final total price to quote")
-    
+    base_price: Decimal = Field(
+        default=Decimal("0.00"), description="Alias for category_cost"
+    )
+    component_costs: Decimal = Field(
+        default=Decimal("0.00"), description="Alias for component_cost"
+    )
+    feature_costs: Decimal = Field(
+        default=Decimal("0.00"), description="Alias for feature_cost"
+    )
+
+    subtotal_before_tax: Decimal = Field(
+        default=Decimal("0.00"), description="Total before tax is applied"
+    )
+    adjustments: list[PriceAdjustment] = Field(
+        default_factory=list, description="Discounts and markups"
+    )
+    tax_amount: Decimal = Field(
+        default=Decimal("0.00"),
+        description="Calculated taxes based on tax configuration",
+    )
+    total_after_tax: Decimal = Field(
+        default=Decimal("0.00"), description="Final total price to quote"
+    )
+
     # Backward compatible aliases
     taxes: Decimal = Field(default=Decimal("0.00"), description="Alias for tax_amount")
-    total: Decimal = Field(default=Decimal("0.00"), description="Alias for total_after_tax")
+    total: Decimal = Field(
+        default=Decimal("0.00"), description="Alias for total_after_tax"
+    )
 
 
 class QuoteMetadata(BaseModel):
@@ -298,16 +373,25 @@ class QuoteMetadata(BaseModel):
     quote_number: str = Field(..., description="Unique generated quote identifier")
     quote_version: int = Field(default=1, description="Quote version number")
     valid_until: str = Field(..., description="ISO8601 expiry timestamp for this quote")
-    approved_at: str | None = Field(default=None, description="ISO8601 approval timestamp")
-    status: QuoteStatus = Field(default=QuoteStatus.DRAFT, description="Independent quote lifecycle state")
-    quote_hash: str | None = Field(default=None, description="Deterministic fingerprint of the quote components")
+    approved_at: str | None = Field(
+        default=None, description="ISO8601 approval timestamp"
+    )
+    status: QuoteStatus = Field(
+        default=QuoteStatus.DRAFT, description="Independent quote lifecycle state"
+    )
+    quote_hash: str | None = Field(
+        default=None, description="Deterministic fingerprint of the quote components"
+    )
 
 
 class ConfigurationMutation(BaseModel):
     """Tracks atomic changes made to the configuration by engines."""
 
     timestamp: str = Field(..., description="ISO8601 timestamp of the mutation")
-    source_engine: str = Field(..., description="Engine that caused this mutation (e.g., RULE_ENGINE, DEPENDENCY_ENGINE)")
+    source_engine: str = Field(
+        ...,
+        description="Engine that caused this mutation (e.g., RULE_ENGINE, DEPENDENCY_ENGINE)",
+    )
     entity_id: str = Field(..., description="ID of the entity affected")
     mutation_type: str = Field(..., description="ADDED, REMOVED")
     reason: str = Field(default="", description="Reason for the mutation")
@@ -316,21 +400,51 @@ class ConfigurationMutation(BaseModel):
 class Configuration(BaseModel):
     """The core aggregate root representing a customer's specific elevator configuration."""
 
-    configuration_id: str = Field(..., description="Unique ID for this configuration session")
-    project_name: str | None = Field(default=None, description="Customer-given project name (e.g. 'My Apartment')")
-    customer_reference: str | None = Field(default=None, description="Optional CRM/ERP reference ID")
-    created_at: str | None = Field(default=None, description="ISO8601 creation timestamp")
-    expires_at: str | None = Field(default=None, description="ISO8601 quote expiry timestamp")
-    selected_category: str | None = Field(default=None, description="The chosen ElevatorCategory ID")
-    selected_feature_options: list[str] = Field(default_factory=list, description="IDs of selected FeatureOptions")
-    resolved_components: list[str] = Field(default_factory=list, description="IDs of explicitly resolved Components")
-    validation_results: ValidationResult | None = Field(default=None, description="Results of the last validation run")
-    rule_results: list[RuleResult] = Field(default_factory=list, description="Audit log of applied rules")
-    mutations: list[ConfigurationMutation] = Field(default_factory=list, description="Audit log of all state mutations")
-    bill_of_materials: BillOfMaterials | None = Field(default=None, description="The generated BOM")
-    pricing_summary: PricingSummary | None = Field(default=None, description="The calculated pricing")
-    quote_metadata: QuoteMetadata | None = Field(default=None, description="Metadata for the generated quote")
-    status: ConfigurationStatus = Field(default=ConfigurationStatus.DRAFT, description="Current lifecycle state")
+    configuration_id: str = Field(
+        ..., description="Unique ID for this configuration session"
+    )
+    project_name: str | None = Field(
+        default=None, description="Customer-given project name (e.g. 'My Apartment')"
+    )
+    customer_reference: str | None = Field(
+        default=None, description="Optional CRM/ERP reference ID"
+    )
+    created_at: str | None = Field(
+        default=None, description="ISO8601 creation timestamp"
+    )
+    expires_at: str | None = Field(
+        default=None, description="ISO8601 quote expiry timestamp"
+    )
+    selected_category: str | None = Field(
+        default=None, description="The chosen ElevatorCategory ID"
+    )
+    selected_feature_options: list[str] = Field(
+        default_factory=list, description="IDs of selected FeatureOptions"
+    )
+    resolved_components: list[str] = Field(
+        default_factory=list, description="IDs of explicitly resolved Components"
+    )
+    validation_results: ValidationResult | None = Field(
+        default=None, description="Results of the last validation run"
+    )
+    rule_results: list[RuleResult] = Field(
+        default_factory=list, description="Audit log of applied rules"
+    )
+    mutations: list[ConfigurationMutation] = Field(
+        default_factory=list, description="Audit log of all state mutations"
+    )
+    bill_of_materials: BillOfMaterials | None = Field(
+        default=None, description="The generated BOM"
+    )
+    pricing_summary: PricingSummary | None = Field(
+        default=None, description="The calculated pricing"
+    )
+    quote_metadata: QuoteMetadata | None = Field(
+        default=None, description="Metadata for the generated quote"
+    )
+    status: ConfigurationStatus = Field(
+        default=ConfigurationStatus.DRAFT, description="Current lifecycle state"
+    )
 
 
 class RuleContext(BaseModel):
@@ -342,8 +456,12 @@ class RuleContext(BaseModel):
     trigger_type: RuleTriggerType
     execution_timestamp: str = Field(..., description="ISO8601 timestamp of execution")
     correlation_id: str = Field(..., description="Trace ID for this execution run")
-    execution_depth: int = Field(default=0, description="Nesting level of rule execution")
-    execution_history: list[str] = Field(default_factory=list, description="IDs of rules executed so far in this run")
+    execution_depth: int = Field(
+        default=0, description="Nesting level of rule execution"
+    )
+    execution_history: list[str] = Field(
+        default_factory=list, description="IDs of rules executed so far in this run"
+    )
 
 
 class ActionResult(BaseModel):
@@ -384,14 +502,21 @@ class DependencyNode(BaseModel):
 
     entity_id: str = Field(..., description="ID of the FeatureOption or Component")
     entity_type: str = Field(..., description="Type: 'COMPONENT' or 'OPTION'")
-    resolved: bool = Field(default=False, description="Whether this node has been resolved in the current pass")
+    resolved: bool = Field(
+        default=False,
+        description="Whether this node has been resolved in the current pass",
+    )
 
 
 class DependencyEdge(BaseModel):
     """Represents a directed edge between two DependencyNodes."""
 
-    dependency: Dependency = Field(..., description="The underlying dependency relationship")
-    is_active: bool = Field(default=True, description="True if condition_expression evaluated to True")
+    dependency: Dependency = Field(
+        ..., description="The underlying dependency relationship"
+    )
+    is_active: bool = Field(
+        default=True, description="True if condition_expression evaluated to True"
+    )
 
 
 class DependencyGraph(BaseModel):
@@ -405,9 +530,13 @@ class DependencyGraph(BaseModel):
 class DependencyConflict(BaseModel):
     """Structured record of an EXCLUDES violation discovered during resolution."""
 
-    dependency_id: str = Field(..., description="ID of the dependency that caused the conflict")
+    dependency_id: str = Field(
+        ..., description="ID of the dependency that caused the conflict"
+    )
     source_entity_id: str = Field(..., description="Entity that declared the exclusion")
-    target_entity_id: str = Field(..., description="Entity that was excluded but present")
+    target_entity_id: str = Field(
+        ..., description="Entity that was excluded but present"
+    )
     reason: str = Field(..., description="Human-readable explanation")
 
 
@@ -416,9 +545,15 @@ class ResolutionStep(BaseModel):
 
     step_number: int = Field(..., description="Position in execution order")
     entity_id: str = Field(..., description="The target entity affected")
-    dependency_id: str = Field(..., description="The dependency that triggered this step")
-    action_performed: str = Field(..., description="REQUIRES, EXCLUDES, DETERMINES, or RECOMMENDS")
-    mutated: bool = Field(..., description="True if this step changed Configuration state")
+    dependency_id: str = Field(
+        ..., description="The dependency that triggered this step"
+    )
+    action_performed: str = Field(
+        ..., description="REQUIRES, EXCLUDES, DETERMINES, or RECOMMENDS"
+    )
+    mutated: bool = Field(
+        ..., description="True if this step changed Configuration state"
+    )
     timestamp: str = Field(..., description="ISO8601 timestamp of this step")
 
 
@@ -441,7 +576,9 @@ class DependencyResolutionReport(BaseModel):
     configuration_id: str
 
     # Section 1 — Resolution Metrics
-    metrics: DependencyResolutionMetrics = Field(default_factory=DependencyResolutionMetrics)
+    metrics: DependencyResolutionMetrics = Field(
+        default_factory=DependencyResolutionMetrics
+    )
 
     # Section 2 — Configuration Mutations
     components_added: list[str] = Field(default_factory=list)
@@ -467,15 +604,22 @@ class DependencyResolutionContext(BaseModel):
     configuration: Configuration
     catalogue: ProductCatalogue
     graph: DependencyGraph | None = Field(default=None, description="Topology graph")
-    report: DependencyResolutionReport | None = Field(default=None, description="Execution report")
+    report: DependencyResolutionReport | None = Field(
+        default=None, description="Execution report"
+    )
     correlation_id: str = Field(..., description="Trace ID for this resolution run")
     execution_timestamp: str = Field(..., description="ISO8601 timestamp of the run")
-    current_node_id: str | None = Field(default=None, description="Node currently being processed")
-    current_edge: DependencyEdge | None = Field(default=None, description="Edge currently being evaluated")
+    current_node_id: str | None = Field(
+        default=None, description="Node currently being processed"
+    )
+    current_edge: DependencyEdge | None = Field(
+        default=None, description="Edge currently being evaluated"
+    )
 
 
 class PricingMetrics(BaseModel):
     """Metrics produced during a pricing engine run."""
+
     components_priced: int = 0
     features_priced: int = 0
     subtotal: Decimal = Decimal("0.00")
@@ -486,8 +630,11 @@ class PricingMetrics(BaseModel):
 
 class PricingStep(BaseModel):
     """An audit trail step for a pricing calculation."""
+
     step_number: int = Field(..., description="Position in execution order")
-    entity_id: str | None = Field(default=None, description="The entity priced (None for subtotal/tax)")
+    entity_id: str | None = Field(
+        default=None, description="The entity priced (None for subtotal/tax)"
+    )
     description: str = Field(..., description="Description of the calculation step")
     amount: Decimal = Field(..., description="The amount added or calculated")
     timestamp: str = Field(..., description="ISO8601 timestamp of this step")
@@ -495,6 +642,7 @@ class PricingStep(BaseModel):
 
 class PricingReport(BaseModel):
     """The final summary of a pricing engine execution pass."""
+
     configuration_id: str
     metrics: PricingMetrics = Field(default_factory=PricingMetrics)
     pricing_steps: list[PricingStep] = Field(default_factory=list)
@@ -505,6 +653,7 @@ class PricingReport(BaseModel):
 
 class EngineStartupReport(BaseModel):
     """Structured report returned by each engine during startup validation."""
+
     engine_name: str
     ready: bool
     warnings: list[str] = Field(default_factory=list)
@@ -514,6 +663,7 @@ class EngineStartupReport(BaseModel):
 
 class PipelineMetrics(BaseModel):
     """Overall pipeline execution metrics."""
+
     total_execution_time_ms: float = 0.0
     startup_validation_time_ms: float = 0.0
     engines_executed: int = 0
@@ -523,6 +673,7 @@ class PipelineMetrics(BaseModel):
 
 class PipelineExecutionReport(BaseModel):
     """The canonical backend execution artifact."""
+
     correlation_id: str
     final_configuration_status: ConfigurationStatus
     rule_engine_report: ExecutionReport | None = None
@@ -536,6 +687,7 @@ class PipelineExecutionReport(BaseModel):
 
 class PipelineContext(BaseModel):
     """The unified context passed through the orchestration layer."""
+
     configuration: Configuration
     correlation_id: str
     execution_timestamp: str
@@ -545,20 +697,35 @@ class PipelineContext(BaseModel):
 
 class ExportMetadata(BaseModel):
     """Metadata detailing the physical output of an export operation."""
+
     generated_at: str = Field(..., description="ISO8601 generation timestamp")
-    generated_by: str = Field(default="SYSTEM", description="User or system that generated the export")
-    generator_version: str = Field(default="1.0", description="Version of the export generator")
-    backend_version: str = Field(default="0.1.0", description="Backend version that generated the export")
-    schema_version: str = Field(default="1.0", description="Version of the export schema")
-    export_duration_ms: float = Field(default=0.0, description="Generation duration in ms")
+    generated_by: str = Field(
+        default="SYSTEM", description="User or system that generated the export"
+    )
+    generator_version: str = Field(
+        default="1.0", description="Version of the export generator"
+    )
+    backend_version: str = Field(
+        default="0.1.0", description="Backend version that generated the export"
+    )
+    schema_version: str = Field(
+        default="1.0", description="Version of the export schema"
+    )
+    export_duration_ms: float = Field(
+        default=0.0, description="Generation duration in ms"
+    )
     export_format: ExportFormat = Field(..., description="Format of the export")
-    checksum: str | None = Field(default=None, description="SHA-256 checksum of the exported file")
+    checksum: str | None = Field(
+        default=None, description="SHA-256 checksum of the exported file"
+    )
     filename: str = Field(..., description="The generated filename")
     mime_type: str = Field(..., description="MIME type of the generated file")
     file_size: int = Field(..., description="File size in bytes")
 
+
 class ExportManifest(BaseModel):
     """Manifest of exported files in a bundle."""
+
     configuration_id: str
     quote_number: str | None = None
     exported_files: list[str] = Field(default_factory=list)
@@ -571,6 +738,7 @@ class ExportManifest(BaseModel):
 
 class ExportReport(BaseModel):
     """The final summary of an export execution."""
+
     export_format: ExportFormat
     filename: str
     mime_type: str
@@ -579,11 +747,14 @@ class ExportReport(BaseModel):
     generation_time_ms: float = 0.0
     warnings: list[str] = Field(default_factory=list)
     success: bool = False
-    content: bytes | None = Field(default=None, description="The generated export content in memory")
+    content: bytes | None = Field(
+        default=None, description="The generated export content in memory"
+    )
 
 
 class ExportContext(BaseModel):
     """The runtime context passed to a BaseExporter."""
+
     configuration: Configuration
     correlation_id: str = Field(..., description="Trace ID for this export run")
     execution_timestamp: str = Field(..., description="ISO8601 timestamp of the run")

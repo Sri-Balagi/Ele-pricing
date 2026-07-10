@@ -1,17 +1,21 @@
-from typing import Any, TypeVar, Generic
+from typing import Generic, TypeVar
+
 from pydantic import BaseModel, Field
+
 from app.models.domain import (
-    ConfigurationStatus,
-    ValidationResult,
-    PricingSummary,
     BillOfMaterials,
-    PipelineExecutionReport
+    ConfigurationStatus,
+    PipelineExecutionReport,
+    PricingSummary,
+    ValidationResult,
 )
 
 T = TypeVar("T")
 
+
 class APISuccessEnvelope(BaseModel, Generic[T]):
     """Standardized API Success Response Envelope."""
+
     success: bool = Field(default=True)
     data: T
     correlation_id: str | None = None
@@ -20,6 +24,7 @@ class APISuccessEnvelope(BaseModel, Generic[T]):
 
 class ConfigurationResponse(BaseModel):
     """Payload returning the public state of a configuration."""
+
     configuration_id: str
     status: ConfigurationStatus
     customer_reference: str | None
@@ -32,6 +37,7 @@ class ConfigurationResponse(BaseModel):
 
 class ValidationResponse(BaseModel):
     """Payload returning the result of a validation run."""
+
     configuration_id: str
     status: ConfigurationStatus
     validation_results: ValidationResult
@@ -39,6 +45,7 @@ class ValidationResponse(BaseModel):
 
 class PricingResponse(BaseModel):
     """Payload returning the result of a pricing run."""
+
     configuration_id: str
     status: ConfigurationStatus
     pricing_summary: PricingSummary
@@ -47,6 +54,7 @@ class PricingResponse(BaseModel):
 
 class PipelineResponse(BaseModel):
     """Payload returning the execution report from the orchestration layer."""
+
     correlation_id: str
     configuration_id: str
     success: bool

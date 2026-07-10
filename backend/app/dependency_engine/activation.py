@@ -17,7 +17,13 @@ Design guarantees:
 
 import logging
 
-from app.models.domain import Configuration, DependencyGraph, ProductCatalogue, RuleContext, RuleTriggerType
+from app.models.domain import (
+    Configuration,
+    DependencyGraph,
+    ProductCatalogue,
+    RuleContext,
+    RuleTriggerType,
+)
 from app.rules.dsl import ConditionEvaluator, ConditionParser
 
 logger = logging.getLogger(__name__)

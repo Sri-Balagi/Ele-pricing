@@ -1,6 +1,7 @@
 from app.core.exceptions import PricingException
 from app.models.domain import PricingCatalogue
 
+
 class PricingValidationError(PricingException):
     def __init__(self, message: str):
         super().__init__(message=message)
@@ -28,10 +29,14 @@ class PricingValidator:
                 raise PricingValidationError("Pricing record missing entity_id.")
 
             if record.entity_id in seen_ids:
-                raise PricingValidationError(f"Duplicate pricing record for entity: {record.entity_id}")
+                raise PricingValidationError(
+                    f"Duplicate pricing record for entity: {record.entity_id}"
+                )
             seen_ids.add(record.entity_id)
 
             if record.price < 0:
-                raise PricingValidationError(f"Negative price not allowed for {record.entity_id}.")
+                raise PricingValidationError(
+                    f"Negative price not allowed for {record.entity_id}."
+                )
 
         return warnings

@@ -36,23 +36,21 @@ def _write_all_stubs(directory: Path) -> None:
             content = {
                 "catalogue_version": "1.0",
                 "currency": "EUR",
-                "tax_configuration": {
-                    "enabled": True,
-                    "tax_name": "VAT",
-                    "rate": 18.0
-                },
-                "pricing_records": []
+                "tax_configuration": {"enabled": True, "tax_name": "VAT", "rate": 18.0},
+                "pricing_records": [],
             }
         elif filename == "catalog_metadata.json":
-            content = [{
-                "catalogue_version": "1.0",
-                "schema_version": "1.0",
-                "created_date": "2026-01-01T00:00:00Z",
-                "last_updated": "2026-01-01T00:00:00Z",
-                "prototype_version": "1.0",
-                "supported_schema_versions": ["1.0"],
-                "migration_metadata": {}
-            }]
+            content = [
+                {
+                    "catalogue_version": "1.0",
+                    "schema_version": "1.0",
+                    "created_date": "2026-01-01T00:00:00Z",
+                    "last_updated": "2026-01-01T00:00:00Z",
+                    "prototype_version": "1.0",
+                    "supported_schema_versions": ["1.0"],
+                    "migration_metadata": {},
+                }
+            ]
         else:
             content = []
         (directory / filename).write_text(json.dumps(content), encoding="utf-8")
@@ -77,20 +75,22 @@ class TestValidateDataFiles:
                     "tax_configuration": {
                         "enabled": True,
                         "tax_name": "VAT",
-                        "rate": 18.0
+                        "rate": 18.0,
                     },
-                    "pricing_records": []
+                    "pricing_records": [],
                 }
             elif filename == "catalog_metadata.json":
-                content = [{
-                    "catalogue_version": "1.0",
-                    "schema_version": "1.0",
-                    "created_date": "2026-01-01T00:00:00Z",
-                    "last_updated": "2026-01-01T00:00:00Z",
-                    "prototype_version": "1.0",
-                    "supported_schema_versions": ["1.0"],
-                    "migration_metadata": {}
-                }]
+                content = [
+                    {
+                        "catalogue_version": "1.0",
+                        "schema_version": "1.0",
+                        "created_date": "2026-01-01T00:00:00Z",
+                        "last_updated": "2026-01-01T00:00:00Z",
+                        "prototype_version": "1.0",
+                        "supported_schema_versions": ["1.0"],
+                        "migration_metadata": {},
+                    }
+                ]
             else:
                 content = []
             (tmp_path / filename).write_text(json.dumps(content), encoding="utf-8")

@@ -2,16 +2,19 @@
 Configuration CRUD and pipeline orchestration endpoints.
 All existing contracts preserved. Additive: search endpoint, project_name, status reset on edit.
 """
-import uuid
-from datetime import datetime, timezone
-from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status, Response, Request
+import uuid
+from datetime import UTC, datetime
+
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 
 from app.api.v1.dependencies import get_pipeline, get_store
 from app.core.constants import ConfigurationStatus
 from app.models.domain import Configuration
-from app.schemas.api.v1.requests import CreateConfigurationRequest, UpdateConfigurationRequest
+from app.schemas.api.v1.requests import (
+    CreateConfigurationRequest,
+    UpdateConfigurationRequest,
+)
 from app.schemas.api.v1.responses import APISuccessEnvelope
 from app.services.configuration_pipeline import ConfigurationPipeline
 from app.services.store import BaseConfigurationStore
@@ -28,7 +31,7 @@ _EDIT_RESETS_STATUS = {
 
 
 def _now() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def _create_success_envelope(data, correlation_id: str = None) -> APISuccessEnvelope:
@@ -41,6 +44,7 @@ def _create_success_envelope(data, correlation_id: str = None) -> APISuccessEnve
 
 
 # ── SEARCH (must be before /{id} to avoid routing conflict) ──────────────────
+
 
 @router.get(
     "/search",
@@ -60,9 +64,14 @@ async def search_configurations(
         configs = store.list(limit=1000, offset=0)
         ql = q.strip().lower()
         results = [
-            {"display_id": i + 1, "configuration_id": c.configuration_id,
-             "project_name": c.project_name or "", "status": c.status,
-             "selected_category": c.selected_category or "", "pricing_total": None}
+            {
+                "display_id": i + 1,
+                "configuration_id": c.configuration_id,
+                "project_name": c.project_name or "",
+                "status": c.status,
+                "selected_category": c.selected_category or "",
+                "pricing_total": None,
+            }
             for i, c in enumerate(configs)
             if ql in (c.project_name or "").lower() or ql in c.configuration_id.lower()
         ][:limit]
@@ -70,6 +79,7 @@ async def search_configurations(
 
 
 # ── CREATE ────────────────────────────────────────────────────────────────────
+
 
 @router.post(
     "",
@@ -96,11 +106,12 @@ async def create_configuration(
             store.create(new_config)
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
-    
+
     return _create_success_envelope(new_config)
 
 
 # ── LIST ──────────────────────────────────────────────────────────────────────
+
 
 @router.get(
     "",
@@ -136,6 +147,7 @@ async def list_configurations(
 
 # ── GET ───────────────────────────────────────────────────────────────────────
 
+
 @router.get(
     "/{configuration_id}",
     response_model=APISuccessEnvelope,
@@ -155,6 +167,7 @@ async def get_configuration(
 
 
 # ── UPDATE ────────────────────────────────────────────────────────────────────
+
 
 @router.put(
     "/{configuration_id}",
@@ -181,7 +194,9 @@ async def update_configuration(
         config.selected_feature_options = request_data.selected_feature_options
 
     # Auto-reset status to CONFIGURED when customer edits a completed config
-    current = config.status.value if hasattr(config.status, "value") else str(config.status)
+    current = (
+        config.status.value if hasattr(config.status, "value") else str(config.status)
+    )
     if current in {s.value for s in _EDIT_RESETS_STATUS}:
         config.status = ConfigurationStatus.CONFIGURED
 
@@ -192,11 +207,12 @@ async def update_configuration(
             store.update(config)
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
-        
+
     return _create_success_envelope(config)
 
 
 # ── VALIDATE / PIPELINE ───────────────────────────────────────────────────────
+
 
 @router.post(
     "/{configuration_id}/validate",
@@ -226,6 +242,7 @@ async def validate_configuration(
 
 # ── PRICING ───────────────────────────────────────────────────────────────────
 
+
 @router.get(
     "/{configuration_id}/pricing",
     response_model=APISuccessEnvelope,
@@ -242,7 +259,10 @@ async def get_configuration_pricing(
     if not config:
         raise HTTPException(status_code=404, detail="Configuration not found")
     if not config.pricing_summary:
-        raise HTTPException(status_code=404, detail="Pricing summary not available yet. Run validate first.")
+        raise HTTPException(
+            status_code=404,
+            detail="Pricing summary not available yet. Run validate first.",
+        )
 
     # Promote status
     if config.status not in (ConfigurationStatus.QUOTED, ConfigurationStatus.EXPORTED):
@@ -256,6 +276,7 @@ async def get_configuration_pricing(
 
 
 # ── VALIDATION RESULTS ────────────────────────────────────────────────────────
+
 
 @router.get(
     "/{configuration_id}/validation",
@@ -272,10 +293,13 @@ async def get_configuration_validation(
         config = store.get(configuration_id)
     if not config:
         raise HTTPException(status_code=404, detail="Configuration not found")
-    return _create_success_envelope({"status": config.status, "validation_results": config.validation_results})
+    return _create_success_envelope(
+        {"status": config.status, "validation_results": config.validation_results}
+    )
 
 
 # ── BOM ───────────────────────────────────────────────────────────────────────
+
 
 @router.get(
     "/{configuration_id}/bom",
@@ -293,12 +317,15 @@ async def get_configuration_bom(
     if not config:
         raise HTTPException(status_code=404, detail="Configuration not found")
     if not config.bill_of_materials:
-        raise HTTPException(status_code=404, detail="BOM not available yet. Run validate first.")
-    
+        raise HTTPException(
+            status_code=404, detail="BOM not available yet. Run validate first."
+        )
+
     return _create_success_envelope(config.bill_of_materials.model_dump())
 
 
 # ── DELETE ────────────────────────────────────────────────────────────────────
+
 
 @router.delete(
     "/{configuration_id}",

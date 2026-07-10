@@ -16,8 +16,8 @@ Coverage:
   - Regression: all prior tests still pass
 """
 
+
 import pytest
-from datetime import datetime, timezone
 
 from app.core.constants import (
     ComponentCategory,
@@ -25,37 +25,36 @@ from app.core.constants import (
     DependencyType,
     Unit,
 )
+from app.dependency_engine.activation import DependencyActivationEngine
+from app.dependency_engine.cycle_detector import CircularDependencyError, CycleDetector
+from app.dependency_engine.graph_builder import GraphBuilder
+from app.dependency_engine.graph_cache import GraphCache
+from app.dependency_engine.graph_validator import GraphValidationError, GraphValidator
+from app.dependency_engine.registry import DependencyRegistry
+from app.dependency_engine.resolver import DependencyResolver
+from app.dependency_engine.validator import (
+    DependencyValidationError,
+    DependencyValidator,
+)
 from app.models.domain import (
     CatalogMetadata,
     Component,
     Configuration,
-    ConfigurationMutation,
     Dependency,
     DependencyEdge,
     DependencyGraph,
+    DependencyNode,
     DependencyResolutionContext,
     DependencyResolutionReport,
-    DependencyNode,
     FeatureOption,
     ProductCatalogue,
     ValidationResult,
 )
-from app.dependency_engine.validator import DependencyValidator, DependencyValidationError
-from app.dependency_engine.registry import DependencyRegistry
-from app.dependency_engine.graph_builder import GraphBuilder
-from app.dependency_engine.graph_cache import GraphCache
-from app.dependency_engine.graph_validator import GraphValidator, GraphValidationError
-from app.dependency_engine.activation import DependencyActivationEngine
-from app.dependency_engine.cycle_detector import CycleDetector, CircularDependencyError
-from app.dependency_engine.traversal import TraversalEngine
-from app.dependency_engine.conflict_resolver import ConflictResolver
-from app.dependency_engine.executor import ResolutionExecutor
-from app.dependency_engine.resolver import DependencyResolver
-
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Shared fixtures
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def _make_component(id_: str) -> Component:
     return Component(
@@ -64,9 +63,7 @@ def _make_component(id_: str) -> Component:
 
 
 def _make_option(id_: str) -> FeatureOption:
-    return FeatureOption(
-        id=id_, feature_id="F1", display_name=id_, internal_value=id_
-    )
+    return FeatureOption(id=id_, feature_id="F1", display_name=id_, internal_value=id_)
 
 
 def _make_dep(id_, source, target, dep_type=DependencyType.REQUIRES, cond=None):
@@ -127,6 +124,7 @@ def base_config():
 # DependencyValidator
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 class TestDependencyValidator:
     def test_valid_dependencies_pass(self, base_catalogue):
         validator = DependencyValidator(base_catalogue)
@@ -136,13 +134,17 @@ class TestDependencyValidator:
     def test_unknown_source_raises(self, base_catalogue):
         bad = [_make_dep("BAD", "GHOST", "A")]
         validator = DependencyValidator(base_catalogue)
-        with pytest.raises(DependencyValidationError, match="unknown source entity 'GHOST'"):
+        with pytest.raises(
+            DependencyValidationError, match="unknown source entity 'GHOST'"
+        ):
             validator.validate(bad)
 
     def test_unknown_target_raises(self, base_catalogue):
         bad = [_make_dep("BAD", "A", "PHANTOM")]
         validator = DependencyValidator(base_catalogue)
-        with pytest.raises(DependencyValidationError, match="unknown target entity 'PHANTOM'"):
+        with pytest.raises(
+            DependencyValidationError, match="unknown target entity 'PHANTOM'"
+        ):
             validator.validate(bad)
 
     def test_self_loop_raises(self, base_catalogue):
@@ -161,6 +163,7 @@ class TestDependencyValidator:
 # ─────────────────────────────────────────────────────────────────────────────
 # DependencyRegistry
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 class MockRepository:
     def __init__(self, deps):
@@ -210,6 +213,7 @@ class TestDependencyRegistry:
 # ─────────────────────────────────────────────────────────────────────────────
 # GraphBuilder
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 class TestGraphBuilder:
     def test_nodes_created_for_all_entities(self, base_catalogue):
@@ -262,6 +266,7 @@ class TestGraphBuilder:
 # ─────────────────────────────────────────────────────────────────────────────
 # GraphCache
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 class TestGraphCache:
     def test_builds_on_first_call(self, base_catalogue):
@@ -324,6 +329,7 @@ class TestGraphCache:
 # GraphValidator
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 class TestGraphValidator:
     def _make_graph(self, deps, catalogue):
         repo = MockRepository(deps)
@@ -342,7 +348,9 @@ class TestGraphValidator:
     def test_orphan_node_produces_warning(self, base_catalogue):
         # An isolated node (no edges) should produce a warning
         graph = DependencyGraph(
-            nodes={"ORPHAN": DependencyNode(entity_id="ORPHAN", entity_type="COMPONENT")},
+            nodes={
+                "ORPHAN": DependencyNode(entity_id="ORPHAN", entity_type="COMPONENT")
+            },
             adjacency_list={},
             reverse_adjacency={},
         )
@@ -366,19 +374,28 @@ class TestGraphValidator:
 # CycleDetector
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 class TestCycleDetector:
     def _make_simple_graph(self, edges):
         """Helper: edges = [(source, target), ...]"""
         nodes = {}
         adj = {}
         for i, (src, tgt) in enumerate(edges):
-            nodes.setdefault(src, DependencyNode(entity_id=src, entity_type="COMPONENT"))
-            nodes.setdefault(tgt, DependencyNode(entity_id=tgt, entity_type="COMPONENT"))
-            dep = Dependency(
-                id=f"D{i}", source_id=src, target_id=tgt,
-                dependency_type=DependencyType.REQUIRES
+            nodes.setdefault(
+                src, DependencyNode(entity_id=src, entity_type="COMPONENT")
             )
-            adj.setdefault(src, []).append(DependencyEdge(dependency=dep, is_active=True))
+            nodes.setdefault(
+                tgt, DependencyNode(entity_id=tgt, entity_type="COMPONENT")
+            )
+            dep = Dependency(
+                id=f"D{i}",
+                source_id=src,
+                target_id=tgt,
+                dependency_type=DependencyType.REQUIRES,
+            )
+            adj.setdefault(src, []).append(
+                DependencyEdge(dependency=dep, is_active=True)
+            )
         return DependencyGraph(nodes=nodes, adjacency_list=adj, reverse_adjacency={})
 
     def test_acyclic_graph_returns_order(self):
@@ -401,8 +418,18 @@ class TestCycleDetector:
             "A": DependencyNode(entity_id="A", entity_type="COMPONENT"),
             "B": DependencyNode(entity_id="B", entity_type="COMPONENT"),
         }
-        dep_ab = Dependency(id="D1", source_id="A", target_id="B", dependency_type=DependencyType.REQUIRES)
-        dep_ba = Dependency(id="D2", source_id="B", target_id="A", dependency_type=DependencyType.REQUIRES)
+        dep_ab = Dependency(
+            id="D1",
+            source_id="A",
+            target_id="B",
+            dependency_type=DependencyType.REQUIRES,
+        )
+        dep_ba = Dependency(
+            id="D2",
+            source_id="B",
+            target_id="A",
+            dependency_type=DependencyType.REQUIRES,
+        )
         adj = {
             "A": [DependencyEdge(dependency=dep_ab, is_active=True)],
             "B": [DependencyEdge(dependency=dep_ba, is_active=False)],  # inactive
@@ -416,6 +443,7 @@ class TestCycleDetector:
 # ─────────────────────────────────────────────────────────────────────────────
 # DependencyActivationEngine
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 class TestDependencyActivationEngine:
     def test_unconditional_edge_stays_active(self, base_catalogue, base_config):
@@ -434,7 +462,9 @@ class TestDependencyActivationEngine:
         )
         assert d1_edge.is_active is True
 
-    def test_conditional_edge_deactivated_when_option_absent(self, base_catalogue, base_config):
+    def test_conditional_edge_deactivated_when_option_absent(
+        self, base_catalogue, base_config
+    ):
         repo = MockRepository(base_catalogue.dependencies)
         registry = DependencyRegistry(base_catalogue, repo)
         registry.load_and_validate()
@@ -450,7 +480,9 @@ class TestDependencyActivationEngine:
         )
         assert d4_edge.is_active is False
 
-    def test_conditional_edge_activated_when_option_present(self, base_catalogue, base_config):
+    def test_conditional_edge_activated_when_option_present(
+        self, base_catalogue, base_config
+    ):
         base_config.selected_feature_options = ["OPT_Z"]
         repo = MockRepository(base_catalogue.dependencies)
         registry = DependencyRegistry(base_catalogue, repo)
@@ -471,6 +503,7 @@ class TestDependencyActivationEngine:
 # DependencyResolver (Integration)
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 class TestDependencyResolverIntegration:
     def _make_resolver(self, catalogue):
         repo = MockRepository(catalogue.dependencies)
@@ -484,7 +517,7 @@ class TestDependencyResolverIntegration:
             catalogue=catalogue,
             report=report,
             correlation_id="test-corr",
-            execution_timestamp="2026-01-01T00:00:00Z"
+            execution_timestamp="2026-01-01T00:00:00Z",
         )
         return resolver.resolve(context)
 
@@ -538,12 +571,15 @@ class TestDependencyResolverIntegration:
     def test_recommends_produces_step_and_warning(self, base_catalogue):
         catalogue = ProductCatalogue(
             metadata=CatalogMetadata(
-                catalogue_version="1.0", schema_version="1.0",
+                catalogue_version="1.0",
+                schema_version="1.0",
                 created_date="2026-07-08T00:00:00Z",
                 last_updated="2026-07-08T00:00:00Z",
                 prototype_version="1.0",
             ),
-            categories=[], feature_groups=[], features=[],
+            categories=[],
+            feature_groups=[],
+            features=[],
             components=[_make_component("SRC"), _make_component("REC")],
             feature_options=[],
             mappings=[],
@@ -563,11 +599,15 @@ class TestDependencyResolverIntegration:
         # RECOMMENDS: config NOT mutated
         assert "REC" not in config.resolved_components
         # Step recorded with mutated=False
-        rec_steps = [s for s in report.execution_order if s.action_performed == "RECOMMENDS"]
+        rec_steps = [
+            s for s in report.execution_order if s.action_performed == "RECOMMENDS"
+        ]
         assert len(rec_steps) == 1
         assert rec_steps[0].mutated is False
         # Warning recorded
-        assert any("RECOMMENDATION" in w or "recommend" in w.lower() for w in report.warnings)
+        assert any(
+            "RECOMMENDATION" in w or "recommend" in w.lower() for w in report.warnings
+        )
 
     def test_resolution_steps_ordered(self, base_catalogue, base_config):
         resolver = self._make_resolver(base_catalogue)
@@ -602,14 +642,22 @@ class TestDependencyResolverIntegration:
         ]
         catalogue = ProductCatalogue(
             metadata=CatalogMetadata(
-                catalogue_version="1.0", schema_version="1.0",
+                catalogue_version="1.0",
+                schema_version="1.0",
                 created_date="2026-07-08T00:00:00Z",
                 last_updated="2026-07-08T00:00:00Z",
                 prototype_version="1.0",
             ),
-            categories=[], feature_groups=[], features=[],
-            components=[_make_component("A"), _make_component("B"), _make_component("C")],
-            feature_options=[], mappings=[],
+            categories=[],
+            feature_groups=[],
+            features=[],
+            components=[
+                _make_component("A"),
+                _make_component("B"),
+                _make_component("C"),
+            ],
+            feature_options=[],
+            mappings=[],
             dependencies=cyclic_deps,
         )
         config = Configuration(
@@ -634,14 +682,18 @@ class TestDependencyResolverIntegration:
     def test_determines_acts_like_requires(self, base_catalogue):
         catalogue = ProductCatalogue(
             metadata=CatalogMetadata(
-                catalogue_version="1.0", schema_version="1.0",
+                catalogue_version="1.0",
+                schema_version="1.0",
                 created_date="2026-07-08T00:00:00Z",
                 last_updated="2026-07-08T00:00:00Z",
                 prototype_version="1.0",
             ),
-            categories=[], feature_groups=[], features=[],
+            categories=[],
+            feature_groups=[],
+            features=[],
             components=[_make_component("M"), _make_component("N")],
-            feature_options=[], mappings=[],
+            feature_options=[],
+            mappings=[],
             dependencies=[_make_dep("DD", "M", "N", DependencyType.DETERMINES)],
         )
         config = Configuration(

@@ -12,7 +12,6 @@ Design:
 """
 
 from collections import deque
-from typing import Dict, List
 
 from app.models.domain import DependencyGraph
 
@@ -20,7 +19,7 @@ from app.models.domain import DependencyGraph
 class CircularDependencyError(Exception):
     """Raised when a cycle is detected in the active dependency graph."""
 
-    def __init__(self, guilty_nodes: List[str]) -> None:
+    def __init__(self, guilty_nodes: list[str]) -> None:
         self.guilty_nodes = guilty_nodes
         super().__init__(
             f"Circular dependency detected. Involved nodes: {guilty_nodes}"
@@ -30,7 +29,7 @@ class CircularDependencyError(Exception):
 class CycleDetector:
     """Detects cycles in the dependency graph using Kahn's algorithm."""
 
-    def check_and_sort(self, graph: DependencyGraph) -> List[str]:
+    def check_and_sort(self, graph: DependencyGraph) -> list[str]:
         """
         Runs Kahn's algorithm on the active subgraph.
 
@@ -40,7 +39,7 @@ class CycleDetector:
         Raises:
             CircularDependencyError: if any cycle is detected.
         """
-        in_degree: Dict[str, int] = {node_id: 0 for node_id in graph.nodes}
+        in_degree: dict[str, int] = dict.fromkeys(graph.nodes, 0)
 
         # Count in-degrees from active edges only
         for edges in graph.adjacency_list.values():
@@ -48,10 +47,8 @@ class CycleDetector:
                 if edge.is_active:
                     in_degree[edge.dependency.target_id] += 1
 
-        queue = deque(
-            node_id for node_id, degree in in_degree.items() if degree == 0
-        )
-        topo_order: List[str] = []
+        queue = deque(node_id for node_id, degree in in_degree.items() if degree == 0)
+        topo_order: list[str] = []
 
         while queue:
             node_id = queue.popleft()

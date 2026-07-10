@@ -1,5 +1,4 @@
 import logging
-from typing import Optional
 
 from app.models.domain import PricingCatalogue, PricingRecord, TaxConfiguration
 from app.pricing_engine.repository import PricingRepository
@@ -17,13 +16,13 @@ class PricingRegistry:
     def __init__(self, repository: PricingRepository, validator: PricingValidator):
         self._repository = repository
         self._validator = validator
-        
+
         # O(1) lookup cache
         self._record_cache: dict[str, PricingRecord] = {}
-        self._tax_config: Optional[TaxConfiguration] = None
+        self._tax_config: TaxConfiguration | None = None
         self._catalogue_version: str = ""
         self._currency: str = "EUR"
-        
+
         self._is_loaded = False
 
     def load_and_validate(self) -> None:
@@ -33,7 +32,7 @@ class PricingRegistry:
 
         logger.info("Loading pricing catalogue...")
         catalogue: PricingCatalogue = self._repository.get_all()
-        
+
         warnings = self._validator.validate(catalogue)
         for w in warnings:
             logger.warning("Pricing Validator Warning: %s", w)
@@ -51,10 +50,10 @@ class PricingRegistry:
             "Pricing registry loaded successfully (Version: %s, Currency: %s, Records: %d).",
             self._catalogue_version,
             self._currency,
-            len(self._record_cache)
+            len(self._record_cache),
         )
 
-    def get_pricing_record(self, entity_id: str) -> Optional[PricingRecord]:
+    def get_pricing_record(self, entity_id: str) -> PricingRecord | None:
         """Fetch a pricing record by entity_id (O(1)). Returns None if not found."""
         if not self._is_loaded:
             self.load_and_validate()
@@ -71,7 +70,7 @@ class PricingRegistry:
         if not self._is_loaded:
             self.load_and_validate()
         return self._currency
-    
+
     # Extension point: Future cache invalidation method (e.g. invalidate())
     def invalidate(self) -> None:
         """Clear cache. Implement future Cache Extension point here."""

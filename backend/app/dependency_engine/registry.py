@@ -12,11 +12,10 @@ Responsibilities:
   - Support forced reload for administrative tooling
 """
 
-from typing import Dict, List, Optional
 
-from app.models.domain import Dependency, ProductCatalogue
 from app.dependency_engine.repository import DependencyRepository
 from app.dependency_engine.validator import DependencyValidator
+from app.models.domain import Dependency, ProductCatalogue
 
 
 class DependencyRegistry:
@@ -25,17 +24,19 @@ class DependencyRegistry:
     def __init__(
         self,
         catalogue: ProductCatalogue,
-        repository: Optional[DependencyRepository] = None,
+        repository: DependencyRepository | None = None,
     ) -> None:
         self._catalogue = catalogue
         self._repository = repository or DependencyRepository()
         self._validator = DependencyValidator(catalogue)
 
         # Caches
-        self._dependencies: List[Dependency] = []
-        self._by_id: Dict[str, Dependency] = {}
-        self._adjacency: Dict[str, List[Dependency]] = {}       # source_id → [Dependency]
-        self._reverse_adjacency: Dict[str, List[Dependency]] = {}  # target_id → [Dependency]
+        self._dependencies: list[Dependency] = []
+        self._by_id: dict[str, Dependency] = {}
+        self._adjacency: dict[str, list[Dependency]] = {}  # source_id → [Dependency]
+        self._reverse_adjacency: dict[
+            str, list[Dependency]
+        ] = {}  # target_id → [Dependency]
         self._is_loaded = False
 
     # ── Loading ───────────────────────────────────────────────────────────────
@@ -67,20 +68,20 @@ class DependencyRegistry:
 
     # ── Lookups ───────────────────────────────────────────────────────────────
 
-    def get_all(self) -> List[Dependency]:
+    def get_all(self) -> list[Dependency]:
         self._ensure_loaded()
         return list(self._dependencies)
 
-    def get_by_id(self, dep_id: str) -> Optional[Dependency]:
+    def get_by_id(self, dep_id: str) -> Dependency | None:
         self._ensure_loaded()
         return self._by_id.get(dep_id)
 
-    def get_outgoing(self, source_id: str) -> List[Dependency]:
+    def get_outgoing(self, source_id: str) -> list[Dependency]:
         """Returns all dependencies where source_id is the origin."""
         self._ensure_loaded()
         return list(self._adjacency.get(source_id, []))
 
-    def get_incoming(self, target_id: str) -> List[Dependency]:
+    def get_incoming(self, target_id: str) -> list[Dependency]:
         """Returns all dependencies where target_id is the destination."""
         self._ensure_loaded()
         return list(self._reverse_adjacency.get(target_id, []))

@@ -49,14 +49,15 @@ class Environment(StrEnum):
 
 # ── Application Health ────────────────────────────────────────────────────────
 class HealthStatus(StrEnum):
-    HEALTHY = "healthy"       # All systems nominal
-    DEGRADED = "degraded"     # Running but with partial data issues
-    UNHEALTHY = "unhealthy"   # Critical failure, cannot serve requests
+    HEALTHY = "healthy"  # All systems nominal
+    DEGRADED = "degraded"  # Running but with partial data issues
+    UNHEALTHY = "unhealthy"  # Critical failure, cannot serve requests
 
 
 # ── Rule Engine ───────────────────────────────────────────────────────────────
 class RuleAction(StrEnum):
     """Actions a rule can trigger during configuration evaluation."""
+
     ADD_COMPONENT = "ADD_COMPONENT"
     REMOVE_COMPONENT = "REMOVE_COMPONENT"
     REQUIRE_OPTION = "REQUIRE_OPTION"
@@ -82,7 +83,7 @@ class RuleSeverity(StrEnum):
 
 class ConfigurationStatus(StrEnum):
     CONFIGURED = "CONFIGURED"  # Customer-visible initial state (replaces DRAFT for UI)
-    DRAFT = "DRAFT"            # Internal pipeline alias (kept for backward compat)
+    DRAFT = "DRAFT"  # Internal pipeline alias (kept for backward compat)
     VALIDATED = "VALIDATED"
     PRICED = "PRICED"
     QUOTED = "QUOTED"
@@ -106,9 +107,9 @@ class ExportFormat(StrEnum):
 
 # ── Component Lifecycle ───────────────────────────────────────────────────────
 class ComponentStatus(StrEnum):
-    ACTIVE = "active"               # Available for selection
-    DEPRECATED = "deprecated"       # Available but flagged for removal
-    DISCONTINUED = "discontinued"   # No longer orderable
+    ACTIVE = "active"  # Available for selection
+    DEPRECATED = "deprecated"  # Available but flagged for removal
+    DISCONTINUED = "discontinued"  # No longer orderable
 
 
 class DependencyType(StrEnum):
@@ -125,6 +126,7 @@ class DependencyCategory(StrEnum):
     SAFETY = "SAFETY"
     BUSINESS = "BUSINESS"
 
+
 # ── Engineering Standardization ───────────────────────────────────────────────
 class ComponentCategory(StrEnum):
     STRUCTURAL = "Structural"
@@ -134,6 +136,7 @@ class ComponentCategory(StrEnum):
     SAFETY = "Safety"
     CABIN = "Cabin"
     DOOR = "Door"
+
 
 class Unit(StrEnum):
     PCS = "pcs"
@@ -151,11 +154,12 @@ API_V1_TAG: str = "v1"
 LOG_FORMAT: str = "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
 LOG_DATE_FORMAT: str = "%Y-%m-%d %H:%M:%S"
 
+
 # ── Error Codes ───────────────────────────────────────────────────────────────
 class ErrorCode(StrEnum):
     """Standardized error codes for backend execution errors."""
+
     RULE_001 = "RULE_001"
     DEP_001 = "DEP_001"
     PRICE_001 = "PRICE_001"
     PIPELINE_001 = "PIPELINE_001"
-

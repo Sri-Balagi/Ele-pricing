@@ -13,7 +13,7 @@ Design:
 """
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, List, Set
+from typing import TYPE_CHECKING
 
 from app.models.domain import DependencyResolutionContext
 
@@ -27,10 +27,10 @@ class BaseResolutionStrategy(ABC):
     @abstractmethod
     def execute(
         self,
-        topo_order: List[str],
-        reachable_set: Set[str],
+        topo_order: list[str],
+        reachable_set: set[str],
         context: DependencyResolutionContext,
-        executor: "ResolutionExecutor",  # noqa: F821 — forward ref
+        executor: "ResolutionExecutor",
     ) -> None:
         """
         Iterates over nodes in the appropriate order and delegates to executor.
@@ -53,10 +53,10 @@ class TopologicalResolutionStrategy(BaseResolutionStrategy):
 
     def execute(
         self,
-        topo_order: List[str],
-        reachable_set: Set[str],
+        topo_order: list[str],
+        reachable_set: set[str],
         context: DependencyResolutionContext,
-        executor: "ResolutionExecutor",  # noqa: F821
+        executor: "ResolutionExecutor",
     ) -> None:
         for node_id in topo_order:
             context.current_node_id = node_id
@@ -75,5 +75,3 @@ class TopologicalResolutionStrategy(BaseResolutionStrategy):
                 context.current_edge = None
 
             context.report.metrics.resolved_nodes += 1
-
-

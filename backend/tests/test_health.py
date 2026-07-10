@@ -41,7 +41,14 @@ class TestHealthResponseShape:
 
     def test_has_all_required_top_level_keys(self, client: TestClient) -> None:
         data = client.get("/api/v1/health").json()
-        required = {"status", "version", "environment", "uptime_seconds", "data_initialized", "data_files"}
+        required = {
+            "status",
+            "version",
+            "environment",
+            "uptime_seconds",
+            "data_initialized",
+            "data_files",
+        }
         assert required.issubset(data.keys())
 
     def test_data_files_has_all_required_keys(self, client: TestClient) -> None:
@@ -91,4 +98,6 @@ class TestHealthResponseValues:
     def test_all_data_files_true_when_present(self, client: TestClient) -> None:
         data = client.get("/api/v1/health").json()
         for file_key in ("components", "features", "dependencies", "rules", "pricing"):
-            assert data["data_files"][file_key] is True, f"Expected {file_key} to be True"
+            assert data["data_files"][file_key] is True, (
+                f"Expected {file_key} to be True"
+            )

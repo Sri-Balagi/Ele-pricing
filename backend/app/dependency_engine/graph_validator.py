@@ -15,28 +15,26 @@ Rules:
     - Orphan nodes: nodes with no inbound AND no outbound active edges
 """
 
-from typing import List, Tuple
 
 from app.models.domain import DependencyGraph
 
 
 class GraphValidationError(Exception):
     """Raised when the graph contains structural errors that prevent safe traversal."""
+
     pass
 
 
 class GraphValidator:
     """Validates the structural integrity of a DependencyGraph."""
 
-    def validate(
-        self, graph: DependencyGraph
-    ) -> List[str]:
+    def validate(self, graph: DependencyGraph) -> list[str]:
         """
         Validates the graph. Returns a list of warning strings (orphan nodes etc.).
         Raises GraphValidationError if any structural errors are found.
         """
-        errors: List[str] = []
-        warnings: List[str] = []
+        errors: list[str] = []
+        warnings: list[str] = []
 
         self._check_self_loops(graph, errors)
         self._check_invalid_references(graph, errors)
@@ -53,7 +51,7 @@ class GraphValidator:
 
     # ── Error Checks (halt on failure) ────────────────────────────────────────
 
-    def _check_self_loops(self, graph: DependencyGraph, errors: List[str]) -> None:
+    def _check_self_loops(self, graph: DependencyGraph, errors: list[str]) -> None:
         for source_id, edges in graph.adjacency_list.items():
             for edge in edges:
                 if edge.dependency.source_id == edge.dependency.target_id:
@@ -63,7 +61,7 @@ class GraphValidator:
                     )
 
     def _check_invalid_references(
-        self, graph: DependencyGraph, errors: List[str]
+        self, graph: DependencyGraph, errors: list[str]
     ) -> None:
         for source_id, edges in graph.adjacency_list.items():
             for edge in edges:
@@ -78,10 +76,8 @@ class GraphValidator:
                         f"'{edge.dependency.target_id}'"
                     )
 
-    def _check_duplicate_edges(
-        self, graph: DependencyGraph, errors: List[str]
-    ) -> None:
-        seen: set[Tuple[str, str, str]] = set()
+    def _check_duplicate_edges(self, graph: DependencyGraph, errors: list[str]) -> None:
+        seen: set[tuple[str, str, str]] = set()
         for source_id, edges in graph.adjacency_list.items():
             for edge in edges:
                 key = (
@@ -98,9 +94,7 @@ class GraphValidator:
 
     # ── Warning Checks (continue on detection) ────────────────────────────────
 
-    def _check_orphan_nodes(
-        self, graph: DependencyGraph, warnings: List[str]
-    ) -> None:
+    def _check_orphan_nodes(self, graph: DependencyGraph, warnings: list[str]) -> None:
         nodes_with_edges = set(graph.adjacency_list.keys()) | set(
             graph.reverse_adjacency.keys()
         )

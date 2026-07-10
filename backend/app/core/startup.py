@@ -21,19 +21,22 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from app.core.constants import ExportFormat
 from app.core.exceptions import DataFileNotFoundException, DataFormatException
-from app.utils.data_loader import DataLoader
-from app.utils.catalogue_validator import CatalogueValidator, CatalogueValidationException
-from app.services.bom_generator import BOMGenerator
-from app.services.quote_generator import QuoteGenerator
-from app.export.registry import ExporterRegistry
+from app.db.database import create_tables
+from app.export.excel_exporter import ExcelExporter
 from app.export.factory import ExportFactory
 from app.export.json_exporter import JSONExporter
 from app.export.pdf_exporter import PDFExporter
-from app.export.excel_exporter import ExcelExporter
+from app.export.registry import ExporterRegistry
 from app.export.zip_exporter import ZIPExporter
-from app.core.constants import ExportFormat
-from app.db.database import create_tables
+from app.services.bom_generator import BOMGenerator
+from app.services.quote_generator import QuoteGenerator
+from app.utils.catalogue_validator import (
+    CatalogueValidationException,
+    CatalogueValidator,
+)
+from app.utils.data_loader import DataLoader
 
 logger = logging.getLogger(__name__)
 
@@ -107,7 +110,11 @@ def build_lifespan(data_dir: str):
     """
 
     @asynccontextmanager
-    async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:  # app parameter required by FastAPI lifespan protocol
+    async def lifespan(
+        app: FastAPI,
+    ) -> AsyncGenerator[
+        None, None
+    ]:  # app parameter required by FastAPI lifespan protocol
         # ── STARTUP ───────────────────────────────────────────────
         logger.info("=" * 60)
         logger.info(" Elevator Configuration Engine — Starting up")
@@ -115,32 +122,33 @@ def build_lifespan(data_dir: str):
 
         try:
             import time
+
             app_start_t0 = time.perf_counter()
-            
+
             validate_data_files(data_dir)
-            
+
             repo_start_t0 = time.perf_counter()
             _prewarm_cache(data_dir)
-            
+
             # Initialize core orchestrator and store
-            from app.utils.data_loader import DataLoader
-            from app.models.domain import ProductCatalogue
-            from app.services.configuration_pipeline import ConfigurationPipeline
-            from app.rules.evaluator import RuleEvaluator
-            from app.rules.registry import RuleRegistry
-            from app.rules.action_handlers import ActionRegistry
             from app.dependency_engine.resolver import DependencyResolver
+            from app.models.domain import ProductCatalogue
             from app.pricing_engine.engine import PricingEngine
             from app.pricing_engine.registry import PricingRegistry
             from app.pricing_engine.validator import PricingValidator
+            from app.rules.action_handlers import ActionRegistry
+            from app.rules.evaluator import RuleEvaluator
+            from app.rules.registry import RuleRegistry
+            from app.services.configuration_pipeline import ConfigurationPipeline
             from app.services.sqlite_store import SQLiteConfigurationStore
-            
+            from app.utils.data_loader import DataLoader
+
             # Initialise SQLite tables (idempotent)
             await create_tables()
             logger.info("SQLite database tables ready.")
-            
+
             loader = DataLoader(data_dir=data_dir)
-            
+
             # Load raw data and build ProductCatalogue aggregate
             catalogue_data = {
                 "metadata": (loader.load("catalog_metadata.json") or [{}])[0],
@@ -155,46 +163,53 @@ def build_lifespan(data_dir: str):
             }
             catalogue = ProductCatalogue(**catalogue_data)
             repo_duration_ms = (time.perf_counter() - repo_start_t0) * 1000
-            
+
             reg_start_t0 = time.perf_counter()
             rule_registry = RuleRegistry(catalogue=catalogue)
             rule_registry.load_and_validate()
-            
+
             action_registry = ActionRegistry()
             # In a real app we'd register actual actions here, but for now we just provide the registry
-            
+
             from app.pricing_engine.repository import PricingRepository
-            pricing_registry = PricingRegistry(repository=PricingRepository(), validator=PricingValidator())
+
+            pricing_registry = PricingRegistry(
+                repository=PricingRepository(), validator=PricingValidator()
+            )
             pricing_registry.load_and_validate()
             reg_duration_ms = (time.perf_counter() - reg_start_t0) * 1000
-            
+
             pipe_start_t0 = time.perf_counter()
             pipeline = ConfigurationPipeline(
                 catalogue=catalogue,
-                rule_evaluator=RuleEvaluator(catalogue=catalogue, rule_registry=rule_registry, action_registry=action_registry),
+                rule_evaluator=RuleEvaluator(
+                    catalogue=catalogue,
+                    rule_registry=rule_registry,
+                    action_registry=action_registry,
+                ),
                 dependency_resolver=DependencyResolver(catalogue=catalogue),
                 pricing_engine=PricingEngine(),
                 pricing_registry=pricing_registry,
                 bom_generator=BOMGenerator(catalogue=catalogue),
-                quote_generator=QuoteGenerator()
+                quote_generator=QuoteGenerator(),
             )
             store = SQLiteConfigurationStore()
-            
+
             # Export Framework Initialization
             export_registry = ExporterRegistry()
             export_registry.register(ExportFormat.JSON, JSONExporter())
             export_registry.register(ExportFormat.PDF, PDFExporter())
             export_registry.register(ExportFormat.EXCEL, ExcelExporter())
             export_registry.register(ExportFormat.ZIP, ZIPExporter())
-            
+
             export_factory = ExportFactory(registry=export_registry)
-            
+
             pipe_duration_ms = (time.perf_counter() - pipe_start_t0) * 1000
-            
+
             app.state.pipeline = pipeline
             app.state.store = store
             app.state.export_factory = export_factory
-            
+
             app_duration_ms = (time.perf_counter() - app_start_t0) * 1000
             app.state.startup_metrics = {
                 "application_startup_duration_ms": app_duration_ms,
@@ -203,7 +218,12 @@ def build_lifespan(data_dir: str):
                 "pipeline_initialization_ms": pipe_duration_ms,
             }
 
-        except (DataFileNotFoundException, DataFormatException, RuntimeError, CatalogueValidationException) as exc:
+        except (
+            DataFileNotFoundException,
+            DataFormatException,
+            RuntimeError,
+            CatalogueValidationException,
+        ) as exc:
             logger.critical("Fatal startup error: %s", exc)
             raise
 

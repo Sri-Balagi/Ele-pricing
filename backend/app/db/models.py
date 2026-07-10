@@ -1,5 +1,7 @@
 """ORM models for persistent configuration storage."""
-from sqlalchemy import Column, Integer, String, Float, Text
+
+from sqlalchemy import Column, Float, Integer, String, Text
+
 from app.db.database import Base
 
 

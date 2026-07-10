@@ -11,6 +11,7 @@ without starting a real server.
 """
 
 import logging
+from datetime import UTC
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -98,11 +99,14 @@ def create_app() -> FastAPI:
 
 def _get_request_metadata(request: Request) -> dict:
     from datetime import datetime, timezone
+
     # Prefer an explicitly passed correlation ID in headers or state
-    corr_id = getattr(request.state, "correlation_id", request.headers.get("X-Correlation-ID"))
+    corr_id = getattr(
+        request.state, "correlation_id", request.headers.get("X-Correlation-ID")
+    )
     return {
         "correlation_id": corr_id,
-        "timestamp": datetime.now(timezone.utc).isoformat()
+        "timestamp": datetime.now(UTC).isoformat(),
     }
 
 

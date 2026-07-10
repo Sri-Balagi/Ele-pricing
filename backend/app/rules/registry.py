@@ -1,4 +1,3 @@
-from typing import Dict, List, Optional
 
 from app.core.constants import RuleTriggerType
 from app.models.domain import ProductCatalogue, Rule
@@ -10,11 +9,11 @@ class RuleRegistry:
     """Manages enabled rules, trigger-based indexing, and cached lookups."""
 
     def __init__(
-        self, catalogue: ProductCatalogue, repository: Optional[RuleRepository] = None
+        self, catalogue: ProductCatalogue, repository: RuleRepository | None = None
     ) -> None:
         self.repository = repository or RuleRepository()
         self.validator = RuleValidator(catalogue)
-        self._rules_by_trigger: Dict[RuleTriggerType, List[Rule]] = {}
+        self._rules_by_trigger: dict[RuleTriggerType, list[Rule]] = {}
         self._is_loaded = False
 
     def load_and_validate(self) -> None:
@@ -33,7 +32,7 @@ class RuleRegistry:
 
         self._is_loaded = True
 
-    def get_rules_by_trigger(self, trigger_type: RuleTriggerType) -> List[Rule]:
+    def get_rules_by_trigger(self, trigger_type: RuleTriggerType) -> list[Rule]:
         """Returns the sorted list of valid rules for the given trigger."""
         if not self._is_loaded:
             self.load_and_validate()

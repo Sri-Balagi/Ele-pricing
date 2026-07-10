@@ -6,9 +6,8 @@ from fastapi import APIRouter, Depends, Request
 from app.core.config import Settings, get_settings
 from app.core.constants import HealthStatus
 from app.schemas.health import (
-    LivenessResponse,
-    ReadinessResponse,
     DetailedHealthResponse,
+    ReadinessResponse,
 )
 
 logger = logging.getLogger(__name__)
@@ -27,10 +26,10 @@ async def liveness_probe(
     settings: Settings = Depends(get_settings),
 ) -> DetailedHealthResponse:
     pipeline = getattr(request.app.state, "pipeline", None)
-    
+
     pipeline_ready = False
     engine_reports = []
-    
+
     if pipeline:
         try:
             startup_reports = pipeline.validate_startup()
@@ -44,7 +43,7 @@ async def liveness_probe(
         "features": True,
         "dependencies": True,
         "rules": True,
-        "pricing": True
+        "pricing": True,
     }
 
     return DetailedHealthResponse(
@@ -58,6 +57,7 @@ async def liveness_probe(
         engine_reports=engine_reports,
     )
 
+
 @router.get(
     "/health/ready",
     response_model=ReadinessResponse,
@@ -65,7 +65,7 @@ async def liveness_probe(
 )
 async def readiness_probe(request: Request) -> ReadinessResponse:
     pipeline = getattr(request.app.state, "pipeline", None)
-    
+
     if pipeline is None:
         return ReadinessResponse(status=HealthStatus.UNHEALTHY, ready=False)
 

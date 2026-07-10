@@ -1,14 +1,13 @@
 import time
-from decimal import Decimal
 
-from app.core.constants import ConfigurationStatus
 from app.core.engine_base import BaseEngine
 from app.models.domain import PricingReport, PricingSummary
-from app.pricing_engine.context import PricingContext
-from app.pricing_engine.calculator import PricingCalculator, PricingCalculationError
-from app.pricing_engine.tax_calculator import TaxCalculator
 from app.pricing_engine.bom_resolver import BOMCostResolver
+from app.pricing_engine.calculator import PricingCalculationError, PricingCalculator
+from app.pricing_engine.context import PricingContext
 from app.pricing_engine.logger import PricingLogger
+from app.pricing_engine.tax_calculator import TaxCalculator
+
 
 class PricingEngine(BaseEngine[PricingContext, PricingReport]):
     """
@@ -21,11 +20,13 @@ class PricingEngine(BaseEngine[PricingContext, PricingReport]):
         self._tax_calculator = TaxCalculator()
         self._bom_resolver = BOMCostResolver()
         self._logger = PricingLogger()
-        self._startup_context = None # type: ignore
+        self._startup_context = None  # type: ignore
 
     def validate_startup(self) -> "EngineStartupReport":
         import time
+
         from app.models.domain import EngineStartupReport
+
         t0 = time.perf_counter()
         ready = True
         warnings = []
@@ -37,7 +38,7 @@ class PricingEngine(BaseEngine[PricingContext, PricingReport]):
             ready=ready,
             warnings=warnings,
             errors=errors,
-            execution_time_ms=(time.perf_counter() - t0) * 1000
+            execution_time_ms=(time.perf_counter() - t0) * 1000,
         )
 
     def resolve(self, context: PricingContext) -> PricingReport:
@@ -47,7 +48,7 @@ class PricingEngine(BaseEngine[PricingContext, PricingReport]):
         corr_id = context.correlation_id
 
         self._logger.before_pricing(corr_id, config.configuration_id)
-        
+
         # Load registry if needed
         if not context.pricing_registry._is_loaded:
             context.pricing_registry.load_and_validate()
@@ -56,24 +57,32 @@ class PricingEngine(BaseEngine[PricingContext, PricingReport]):
 
         try:
             # 1. Category Base Price
-            category_cost, step = self._calculator.calculate_category_cost(context, current_step)
+            category_cost, step = self._calculator.calculate_category_cost(
+                context, current_step
+            )
             report.pricing_steps.append(step)
             current_step += 1
 
             # 1.5. Floor Coverage Cost
-            floor_cost, floor_step = self._calculator.calculate_floor_coverage_cost(context, current_step)
+            floor_cost, floor_step = self._calculator.calculate_floor_coverage_cost(
+                context, current_step
+            )
             if floor_step:
                 report.pricing_steps.append(floor_step)
                 current_step += 1
 
             # 2. Feature Costs
-            feature_cost, f_steps = self._calculator.calculate_feature_costs(context, current_step)
+            feature_cost, f_steps = self._calculator.calculate_feature_costs(
+                context, current_step
+            )
             report.pricing_steps.extend(f_steps)
             current_step += len(f_steps)
             report.metrics.features_priced = len(f_steps)
 
             # 3. Component Costs
-            component_cost, c_steps = self._calculator.calculate_component_costs(context, current_step)
+            component_cost, c_steps = self._calculator.calculate_component_costs(
+                context, current_step
+            )
             report.pricing_steps.extend(c_steps)
             current_step += len(c_steps)
             report.metrics.components_priced = len(c_steps)
@@ -84,10 +93,14 @@ class PricingEngine(BaseEngine[PricingContext, PricingReport]):
 
             # 5. Tax Calculation
             self._logger.before_tax(corr_id, float(subtotal))
-            tax_amount, t_step = self._tax_calculator.calculate_tax(context, subtotal, current_step)
+            tax_amount, t_step = self._tax_calculator.calculate_tax(
+                context, subtotal, current_step
+            )
             if t_step:
                 report.pricing_steps.append(t_step)
-            self._logger.after_tax(corr_id, float(tax_amount), float(subtotal + tax_amount))
+            self._logger.after_tax(
+                corr_id, float(tax_amount), float(subtotal + tax_amount)
+            )
             report.metrics.taxes = tax_amount
 
             # 6. Final Total
@@ -102,7 +115,7 @@ class PricingEngine(BaseEngine[PricingContext, PricingReport]):
             # 8. Pricing Summary
             self._logger.before_summary(corr_id)
             currency = context.pricing_registry.get_currency()
-            
+
             summary = PricingSummary(
                 currency=currency,
                 category_cost=category_cost,
@@ -116,20 +129,22 @@ class PricingEngine(BaseEngine[PricingContext, PricingReport]):
                 tax_amount=tax_amount,
                 total_after_tax=total_after_tax,
                 taxes=tax_amount,
-                total=total_after_tax
+                total=total_after_tax,
             )
             config.pricing_summary = summary
-            
+
             # The ConfigurationPipeline now owns status transitions.
-            
+
             self._logger.after_summary(corr_id, summary)
 
         except PricingCalculationError as exc:
             self._logger.validation_error(corr_id, str(exc))
             report.errors.append(f"PRICING_ERROR: {exc}")
-            report.summary = f"Pricing aborted due to missing price record for: {exc.entity_id}"
+            report.summary = (
+                f"Pricing aborted due to missing price record for: {exc.entity_id}"
+            )
             # Configuration status remains unchanged
-            
+
         except Exception as exc:
             self._logger.validation_error(corr_id, f"Unexpected error: {exc}")
             report.errors.append(f"UNEXPECTED_ERROR: {exc}")
@@ -137,9 +152,11 @@ class PricingEngine(BaseEngine[PricingContext, PricingReport]):
 
         if not report.errors:
             report.summary = "Pricing calculation completed successfully."
-            
+
         t1 = time.perf_counter()
         report.metrics.execution_time_ms = (t1 - t0) * 1000
 
-        self._logger.after_pricing(corr_id, config.configuration_id, float(report.metrics.total))
+        self._logger.after_pricing(
+            corr_id, config.configuration_id, float(report.metrics.total)
+        )
         return report

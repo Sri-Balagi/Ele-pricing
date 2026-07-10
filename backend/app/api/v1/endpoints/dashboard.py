@@ -1,9 +1,12 @@
 """Dashboard metrics endpoint."""
+
+from datetime import UTC, datetime
+
 from fastapi import APIRouter, Depends
+
 from app.api.v1.dependencies import get_store
-from app.services.store import BaseConfigurationStore
 from app.schemas.api.v1.responses import APISuccessEnvelope
-from datetime import datetime, timezone
+from app.services.store import BaseConfigurationStore
 
 router = APIRouter(tags=["Dashboard"])
 
@@ -32,10 +35,12 @@ async def get_dashboard_metrics(store: BaseConfigurationStore = Depends(get_stor
             "total_configurations": len(configs),
             "completed_quotes": len(completed),
             "configurations_on_hold": len(configs) - len(completed),
-            "average_quote_value": round(sum(totals) / len(totals), 2) if totals else 0.0,
+            "average_quote_value": round(sum(totals) / len(totals), 2)
+            if totals
+            else 0.0,
         }
     return APISuccessEnvelope(
         success=True,
         data=metrics,
-        timestamp=datetime.now(timezone.utc).isoformat(),
+        timestamp=datetime.now(UTC).isoformat(),
     )

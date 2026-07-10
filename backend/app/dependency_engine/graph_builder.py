@@ -11,16 +11,14 @@ Responsibilities:
   - Return an immutable topology (is_active defaults to True)
 """
 
-from typing import List
 
+from app.dependency_engine.registry import DependencyRegistry
 from app.models.domain import (
-    Dependency,
     DependencyEdge,
     DependencyGraph,
     DependencyNode,
     ProductCatalogue,
 )
-from app.dependency_engine.registry import DependencyRegistry
 
 
 class GraphBuilder:

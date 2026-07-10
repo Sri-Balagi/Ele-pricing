@@ -1,9 +1,10 @@
-from decimal import Decimal, ROUND_HALF_UP
 import logging
+from decimal import ROUND_HALF_UP, Decimal
 
 from app.pricing_engine.context import PricingContext
 
 logger = logging.getLogger(__name__)
+
 
 class BOMCostResolver:
     """
@@ -24,10 +25,14 @@ class BOMCostResolver:
         for item in context.configuration.bill_of_materials.items:
             record = context.pricing_registry.get_pricing_record(item.component_id)
             if record:
-                item.unit_cost = record.price.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+                item.unit_cost = record.price.quantize(
+                    Decimal("0.01"), rounding=ROUND_HALF_UP
+                )
                 item.pricing_record_id = record.entity_id
                 items_priced += 1
             else:
-                logger.warning("No pricing record found for BOM item: %s", item.component_id)
+                logger.warning(
+                    "No pricing record found for BOM item: %s", item.component_id
+                )
 
         return items_priced

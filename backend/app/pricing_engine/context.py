@@ -1,11 +1,11 @@
-import logging
 from typing import Any
 
 from app.models.domain import (
     Configuration,
-    ProductCatalogue,
     PricingReport,
+    ProductCatalogue,
 )
+
 
 class PricingContext:
     """
@@ -27,4 +27,6 @@ class PricingContext:
         self.pricing_registry = pricing_registry
         self.correlation_id = correlation_id
         self.execution_timestamp = execution_timestamp
-        self.report = report or PricingReport(configuration_id=configuration.configuration_id)
+        self.report = report or PricingReport(
+            configuration_id=configuration.configuration_id
+        )

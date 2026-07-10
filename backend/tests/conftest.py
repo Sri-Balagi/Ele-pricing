@@ -35,15 +35,17 @@ def tmp_data_dir(tmp_path_factory: pytest.TempPathFactory) -> Path:
     data_dir = tmp_path_factory.mktemp("data")
 
     stubs: dict[str, list | dict] = {
-        "catalog_metadata.json": [{
-            "catalogue_version": "1.0",
-            "schema_version": "1.0",
-            "created_date": "2026-01-01T00:00:00Z",
-            "last_updated": "2026-01-01T00:00:00Z",
-            "prototype_version": "1.0",
-            "supported_schema_versions": ["1.0"],
-            "migration_metadata": {}
-        }],
+        "catalog_metadata.json": [
+            {
+                "catalogue_version": "1.0",
+                "schema_version": "1.0",
+                "created_date": "2026-01-01T00:00:00Z",
+                "last_updated": "2026-01-01T00:00:00Z",
+                "prototype_version": "1.0",
+                "supported_schema_versions": ["1.0"],
+                "migration_metadata": {},
+            }
+        ],
         "categories.json": [],
         "feature_groups.json": [],
         "features.json": [],
@@ -55,12 +57,8 @@ def tmp_data_dir(tmp_path_factory: pytest.TempPathFactory) -> Path:
         "pricing.json": {
             "catalogue_version": "1.0",
             "currency": "EUR",
-            "tax_configuration": {
-                "enabled": True,
-                "tax_name": "VAT",
-                "rate": 18.0
-            },
-            "pricing_records": []
+            "tax_configuration": {"enabled": True, "tax_name": "VAT", "rate": 18.0},
+            "pricing_records": [],
         },
     }
 
@@ -101,6 +99,7 @@ def client(tmp_data_dir: Path) -> Generator[TestClient, None, None]:
 
 from app.models.domain import Configuration, ConfigurationStatus
 
+
 @pytest.fixture
 def sample_configuration():
     return Configuration(
@@ -109,5 +108,5 @@ def sample_configuration():
         project_name="Test Project",
         selected_category="CAT-1",
         selected_feature_options=["OPT-1"],
-        resolved_components=["COMP-1"]
+        resolved_components=["COMP-1"],
     )

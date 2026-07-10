@@ -1,7 +1,7 @@
 import copy
 import time
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from app.core.constants import DependencyType, RuleSeverity, RuleTriggerType
 from app.dependency_engine.graph import GraphBuilder
@@ -31,7 +31,7 @@ class DependencyEngine:
     def resolve(self, configuration: Configuration) -> DependencyResolutionReport:
         """Evaluates graph edge conditions and traverses it topologically to resolve engineering constraints."""
         start_time = time.perf_counter()
-        timestamp = datetime.now(timezone.utc).isoformat()
+        timestamp = datetime.now(UTC).isoformat()
         correlation_id = str(uuid.uuid4())
 
         # Deepcopy because we will mutate is_active based on conditions
@@ -57,14 +57,14 @@ class DependencyEngine:
                             edge.dependency.condition_expression
                         )
                         edge.is_active = self.evaluator.evaluate(ast_node, context)
-                    except Exception as e:
+                    except Exception:
                         # Log parsing/eval failures, deactivate edge for safety
                         edge.is_active = False
                         if not configuration.validation_results:
-                            pass # Typically engine ensures this is initialized
-                            
+                            pass  # Typically engine ensures this is initialized
+
         # 2. Get Topological Sort Order
-        # Any CircularDependencyError thrown here will be caught by the router, 
+        # Any CircularDependencyError thrown here will be caught by the router,
         # or we could catch it and fail gracefully.
         topo_order = GraphBuilder.get_topological_sort(graph)
 
@@ -94,10 +94,13 @@ class DependencyEngine:
                     dep_type = edge.dependency.dependency_type
                     node_type = graph.nodes[target_id].entity_type
 
-                    if dep_type == DependencyType.REQUIRES or dep_type == DependencyType.DETERMINES:
+                    if (
+                        dep_type == DependencyType.REQUIRES
+                        or dep_type == DependencyType.DETERMINES
+                    ):
                         if target_id not in active_set:
                             active_set.add(target_id)
-                            
+
                             # Mutate configuration
                             if node_type == "COMPONENT":
                                 configuration.resolved_components.append(target_id)
@@ -116,7 +119,7 @@ class DependencyEngine:
                                     reason=f"Required by {node_id} ({edge.dependency.id})",
                                 )
                             )
-                            
+
                     elif dep_type == DependencyType.EXCLUDES:
                         if target_id in active_set:
                             # Conflict!
@@ -127,7 +130,7 @@ class DependencyEngine:
                                         severity=RuleSeverity.ERROR,
                                         code="DEP_CONFLICT",
                                         message=f"{node_id} strictly excludes {target_id}, but both are present.",
-                                        source_entity_id=edge.dependency.id
+                                        source_entity_id=edge.dependency.id,
                                     )
                                 )
                                 configuration.validation_results.is_valid = False
@@ -140,7 +143,7 @@ class DependencyEngine:
                                         severity=RuleSeverity.INFO,
                                         code="DEP_RECOMMENDS",
                                         message=f"{node_id} recommends {target_id}.",
-                                        source_entity_id=edge.dependency.id
+                                        source_entity_id=edge.dependency.id,
                                     )
                                 )
 

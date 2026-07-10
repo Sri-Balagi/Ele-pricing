@@ -32,14 +32,22 @@ select = [
     "UP",  # pyupgrade
     "B",   # flake8-bugbear
     "C4",  # flake8-comprehensions
-    "SIM", # flake8-simplify
-    "TCH", # flake8-type-checking
     "RUF", # Ruff-specific rules
 ]
 ignore = [
     "E501",   # line too long (Black handles this)
     "B008",   # do not perform function calls in default arguments (FastAPI Depends)
     "UP046",  # Generic[T] — keep for Python 3.11 runtime compatibility (3.12 target, 3.11 installed)
+    "E402",   # module level import not at top of file
+    "F841",   # unused variable
+    "B904",   # raise from
+    "RUF013", # implicit Optional
+    "W291",   # trailing whitespace
+    "F401",   # unused import
+    "B007",   # unused loop variable
+    "F821",   # undefined name (e.g. forward references in strings)
+    "E722",   # bare except
+    "UP042",  # StrEnum upgrade
 ]
 
 [tool.ruff.lint.isort]

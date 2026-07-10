@@ -1,10 +1,7 @@
 import time
-import uuid
-from datetime import datetime, timezone
 
-from app.core.constants import RuleTriggerType
+from app.core.engine_base import BaseEngine
 from app.models.domain import (
-    Configuration,
     ExecutionReport,
     ProductCatalogue,
     RuleContext,
@@ -14,7 +11,6 @@ from app.models.domain import (
 from app.rules.action_handlers import ActionRegistry
 from app.rules.dsl import ConditionEvaluator, ConditionParser
 from app.rules.registry import RuleRegistry
-from app.core.engine_base import BaseEngine
 
 
 class RuleEvaluator(BaseEngine[RuleContext, ExecutionReport]):
@@ -34,32 +30,34 @@ class RuleEvaluator(BaseEngine[RuleContext, ExecutionReport]):
 
     def validate_startup(self) -> "EngineStartupReport":
         import time
+
         from app.models.domain import EngineStartupReport
+
         t0 = time.perf_counter()
         ready = True
         warnings = []
         errors = []
-        
+
         try:
             if not self.rule_registry._is_loaded:
                 self.rule_registry.load_and_validate()
         except Exception as e:
             ready = False
             errors.append(f"Failed to load rule registry: {e}")
-            
+
         return EngineStartupReport(
             engine_name="RuleEngine",
             ready=ready,
             warnings=warnings,
             errors=errors,
-            execution_time_ms=(time.perf_counter() - t0) * 1000
+            execution_time_ms=(time.perf_counter() - t0) * 1000,
         )
 
     def resolve(self, context: RuleContext) -> ExecutionReport:
         """Runs the rule engine pipeline for the given context."""
-        
+
         start_time = time.perf_counter()
-        
+
         metrics = RuleMetrics()
         executed_rules = []
         skipped_rules = []

@@ -38,10 +38,12 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next) -> Response:
         request_id = str(uuid.uuid4())
         # Attach a unified correlation ID to the request state
-        request.state.correlation_id = request.headers.get("X-Correlation-ID", f"PIPE-{request_id}")
-        
+        request.state.correlation_id = request.headers.get(
+            "X-Correlation-ID", f"PIPE-{request_id}"
+        )
+
         start_time = time.perf_counter()
-        
+
         # We can't safely get request size without consuming the body, which might break endpoints.
         # We'll just read content-length header if provided.
         req_size = request.headers.get("content-length", "0")
@@ -51,13 +53,13 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
         response: Response = await call_next(request)
 
         duration_ms = (time.perf_counter() - start_time) * 1000
-        
+
         # Operational Enhancements (M5 Hardening)
         response.headers[REQUEST_ID_HEADER] = request_id
         response.headers["X-Correlation-ID"] = request.state.correlation_id
         response.headers["X-API-Version"] = "v1"
         response.headers["X-Process-Time"] = f"{duration_ms:.2f}"
-        
+
         resp_size = response.headers.get("content-length", "0")
 
         logger.info(
@@ -71,7 +73,7 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
             client_ip,
             user_agent,
             req_size,
-            resp_size
+            resp_size,
         )
 
         return response

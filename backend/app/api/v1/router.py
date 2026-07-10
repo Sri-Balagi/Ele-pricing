@@ -23,6 +23,7 @@ router = APIRouter()
 router.include_router(health.router)
 
 from app.api.v1.endpoints import dashboard
+
 router.include_router(dashboard.router, prefix="/dashboard", tags=["Dashboard"])
 
 # ── Future Milestone Routers (uncomment when implemented) ─────────────────────
@@ -30,15 +31,21 @@ router.include_router(dashboard.router, prefix="/dashboard", tags=["Dashboard"])
 # router.include_router(components.router, prefix="/components", tags=["Components"])
 
 from app.api.v1.endpoints import configuration
-router.include_router(configuration.router, prefix="/configurations", tags=["Configuration"])
+
+router.include_router(
+    configuration.router, prefix="/configurations", tags=["Configuration"]
+)
 
 from app.api.v1.endpoints import system
+
 router.include_router(system.router, prefix="/system", tags=["System"])
 
 from app.api.v1.endpoints import export
+
 router.include_router(export.router, prefix="/configurations", tags=["Export"])
 
 from app.api.v1.endpoints import catalogue
+
 router.include_router(catalogue.router, prefix="/catalogue", tags=["Catalogue"])
 
 # from app.api.v1.endpoints import pricing

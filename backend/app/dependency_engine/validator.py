@@ -11,13 +11,13 @@ Responsibilities:
   - Reject self-referencing dependencies (source == target)
 """
 
-from typing import List
 
 from app.models.domain import Dependency, ProductCatalogue
 
 
 class DependencyValidationError(Exception):
     """Raised when raw dependency data fails catalogue-level validation."""
+
     pass
 
 
@@ -29,13 +29,13 @@ class DependencyValidator:
         self._known_options = {o.id for o in catalogue.feature_options}
         self._known_entities = self._known_components | self._known_options
 
-    def validate(self, dependencies: List[Dependency]) -> List[Dependency]:
+    def validate(self, dependencies: list[Dependency]) -> list[Dependency]:
         """
         Validates all dependencies. Returns the validated list.
         Raises DependencyValidationError on any structural failure.
         """
         seen_ids: set[str] = set()
-        errors: List[str] = []
+        errors: list[str] = []
 
         for dep in dependencies:
             # Duplicate IDs

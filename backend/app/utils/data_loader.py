@@ -91,7 +91,9 @@ class DataLoader:
 
     def reload_all(self) -> None:
         """Invalidate the entire in-memory cache. All files will be re-read on next access."""
-        logger.info("Invalidating entire DataLoader cache (%d entries).", len(self._cache))
+        logger.info(
+            "Invalidating entire DataLoader cache (%d entries).", len(self._cache)
+        )
         self._cache.clear()
 
     def validate_file(self, filename: str) -> bool:
@@ -107,7 +109,11 @@ class DataLoader:
         try:
             self._read(filename)
             return True
-        except (DataFileNotFoundException, DataFormatException, DataLoadException) as exc:
+        except (
+            DataFileNotFoundException,
+            DataFormatException,
+            DataLoadException,
+        ) as exc:
             logger.warning("Validation failed for '%s': %s", filename, exc.message)
             return False
 
@@ -127,7 +133,10 @@ class DataLoader:
                 "pricing.json": True,
             }
         """
-        return {data_file.value: self.validate_file(data_file.value) for data_file in DataFile}
+        return {
+            data_file.value: self.validate_file(data_file.value)
+            for data_file in DataFile
+        }
 
     # ── Internal ──────────────────────────────────────────────────────────────
 

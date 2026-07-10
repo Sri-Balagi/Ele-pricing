@@ -15,16 +15,16 @@ Every applied action produces a ResolutionStep in the report's execution_order.
 """
 
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from app.core.constants import DependencyType
+from app.dependency_engine.conflict_resolver import ConflictResolver
 from app.models.domain import (
     ConfigurationMutation,
     DependencyEdge,
     DependencyResolutionContext,
     ResolutionStep,
 )
-from app.dependency_engine.conflict_resolver import ConflictResolver
 
 logger = logging.getLogger(__name__)
 
@@ -51,13 +51,12 @@ class ResolutionExecutor:
         dep_type = dep.dependency_type
         target_id = dep.target_id
         source_id = dep.source_id
-        timestamp = datetime.now(timezone.utc).isoformat()
+        timestamp = datetime.now(UTC).isoformat()
 
         # Build the active set once per call for lookup efficiency
-        active_set: set[str] = (
-            set(context.configuration.selected_feature_options)
-            | set(context.configuration.resolved_components)
-        )
+        active_set: set[str] = set(
+            context.configuration.selected_feature_options
+        ) | set(context.configuration.resolved_components)
 
         step_number = len(context.report.execution_order) + 1
 
@@ -67,9 +66,7 @@ class ResolutionExecutor:
             )
 
         elif dep_type == DependencyType.EXCLUDES:
-            self._apply_excludes(
-                edge, active_set, context, step_number, timestamp
-            )
+            self._apply_excludes(edge, active_set, context, step_number, timestamp)
 
         elif dep_type == DependencyType.RECOMMENDS:
             self._apply_recommends(

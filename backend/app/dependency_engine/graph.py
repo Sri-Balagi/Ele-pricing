@@ -1,11 +1,16 @@
 from collections import deque
-from typing import Dict, List
 
-from app.models.domain import Dependency, DependencyEdge, DependencyGraph, DependencyNode
+from app.models.domain import (
+    Dependency,
+    DependencyEdge,
+    DependencyGraph,
+    DependencyNode,
+)
 
 
 class CircularDependencyError(Exception):
     """Raised when a cycle is detected in the dependency graph."""
+
     pass
 
 
@@ -13,7 +18,7 @@ class GraphBuilder:
     """Constructs and analyzes the DependencyGraph."""
 
     @staticmethod
-    def build_graph(dependencies: List[Dependency]) -> DependencyGraph:
+    def build_graph(dependencies: list[Dependency]) -> DependencyGraph:
         """Builds a DependencyGraph from a list of dependencies."""
         graph = DependencyGraph(nodes={}, adjacency_list={}, reverse_adjacency={})
 
@@ -56,13 +61,13 @@ class GraphBuilder:
                 node.entity_type = "UNKNOWN"
 
     @staticmethod
-    def get_topological_sort(graph: DependencyGraph) -> List[str]:
+    def get_topological_sort(graph: DependencyGraph) -> list[str]:
         """
         Returns a list of node IDs in topological order using Kahn's algorithm.
         Only considers active edges.
         Raises CircularDependencyError if a cycle is detected.
         """
-        in_degree: Dict[str, int] = {node_id: 0 for node_id in graph.nodes}
+        in_degree: dict[str, int] = dict.fromkeys(graph.nodes, 0)
 
         # Calculate in-degrees considering only active edges
         for u in graph.adjacency_list:

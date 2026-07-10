@@ -17,10 +17,9 @@ Design:
 """
 
 import logging
-from typing import List, Set, Tuple
 
-from app.models.domain import Configuration, DependencyGraph
 from app.dependency_engine.cycle_detector import CycleDetector
+from app.models.domain import Configuration, DependencyGraph
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +34,7 @@ class TraversalEngine:
         self,
         graph: DependencyGraph,
         configuration: Configuration,
-    ) -> Tuple[List[str], Set[str]]:
+    ) -> tuple[list[str], set[str]]:
         """
         Computes the traversal order and the reachable node set.
 
@@ -61,16 +60,15 @@ class TraversalEngine:
 
     def _bfs_reachable(
         self, graph: DependencyGraph, configuration: Configuration
-    ) -> Set[str]:
+    ) -> set[str]:
         """
         BFS from the union of selected options and resolved components
         to determine which nodes are reachable through active REQUIRES edges.
         """
-        seeds: Set[str] = (
-            set(configuration.selected_feature_options)
-            | set(configuration.resolved_components)
+        seeds: set[str] = set(configuration.selected_feature_options) | set(
+            configuration.resolved_components
         )
-        visited: Set[str] = set()
+        visited: set[str] = set()
         queue = list(seeds & graph.nodes.keys())  # Only seeds that are graph nodes
 
         while queue:

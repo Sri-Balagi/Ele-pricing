@@ -17,7 +17,6 @@ Lifecycle events:
 """
 
 import logging
-from typing import List
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +27,8 @@ class ResolutionLogger:
     def before_graph(self, correlation_id: str, catalogue_version: str) -> None:
         logger.info(
             "[%s] BeforeGraph — catalogue_version='%s'",
-            correlation_id, catalogue_version,
+            correlation_id,
+            catalogue_version,
         )
 
     def after_graph(
@@ -36,28 +36,39 @@ class ResolutionLogger:
         correlation_id: str,
         node_count: int,
         edge_count: int,
-        warnings: List[str],
+        warnings: list[str],
     ) -> None:
         logger.info(
             "[%s] AfterGraph — nodes=%d edges=%d graph_warnings=%d",
-            correlation_id, node_count, edge_count, len(warnings),
+            correlation_id,
+            node_count,
+            edge_count,
+            len(warnings),
         )
         for w in warnings:
             logger.warning("[%s] GraphWarning: %s", correlation_id, w)
 
     def before_traversal(self, correlation_id: str) -> None:
-        logger.info("[%s] BeforeTraversal — running activation + cycle detection", correlation_id)
+        logger.info(
+            "[%s] BeforeTraversal — running activation + cycle detection",
+            correlation_id,
+        )
 
-    def after_traversal(self, correlation_id: str, topo_len: int, reachable: int) -> None:
+    def after_traversal(
+        self, correlation_id: str, topo_len: int, reachable: int
+    ) -> None:
         logger.info(
             "[%s] AfterTraversal — topo_order=%d reachable=%d",
-            correlation_id, topo_len, reachable,
+            correlation_id,
+            topo_len,
+            reachable,
         )
 
     def before_resolution(self, correlation_id: str, strategy_name: str) -> None:
         logger.info(
             "[%s] BeforeResolution — strategy='%s'",
-            correlation_id, strategy_name,
+            correlation_id,
+            strategy_name,
         )
 
     def after_resolution(
@@ -65,7 +76,10 @@ class ResolutionLogger:
     ) -> None:
         logger.info(
             "[%s] AfterResolution — resolved=%d skipped=%d conflicts=%d",
-            correlation_id, resolved, skipped, conflicts,
+            correlation_id,
+            resolved,
+            skipped,
+            conflicts,
         )
 
     def before_node(self, correlation_id: str, node_id: str) -> None:

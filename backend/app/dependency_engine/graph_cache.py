@@ -15,19 +15,18 @@ This prototype runs single-threaded, so no internal locking is applied.
 """
 
 import copy
-from typing import Optional
 
-from app.models.domain import DependencyGraph, ProductCatalogue
 from app.dependency_engine.graph_builder import GraphBuilder
 from app.dependency_engine.registry import DependencyRegistry
+from app.models.domain import DependencyGraph, ProductCatalogue
 
 
 class GraphCache:
     """Version-keyed cache for DependencyGraph topology."""
 
     def __init__(self) -> None:
-        self._cached_graph: Optional[DependencyGraph] = None
-        self._cached_version: Optional[str] = None
+        self._cached_graph: DependencyGraph | None = None
+        self._cached_version: str | None = None
 
     def get_or_build(
         self,
@@ -57,7 +56,7 @@ class GraphCache:
         self._cached_version = None
 
     @property
-    def cached_version(self) -> Optional[str]:
+    def cached_version(self) -> str | None:
         """Returns the currently cached catalogue version, or None if empty."""
         return self._cached_version
 

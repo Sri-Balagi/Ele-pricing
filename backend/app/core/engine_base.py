@@ -25,7 +25,7 @@ class BaseEngine(ABC, Generic[ContextT, ReportT]):
         """
         Verify that all required registries, repositories, and caches
         are loaded and ready to process requests.
-        
+
         Returns:
             EngineStartupReport indicating readiness.
         """

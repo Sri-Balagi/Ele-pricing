@@ -3,6 +3,7 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
+
 class PricingLogger:
     """
     Structured lifecycle logging for the Pricing Engine.
@@ -34,7 +35,9 @@ class PricingLogger:
         logger.debug("[%s] Populating BOM unit costs...", correlation_id)
 
     def after_bom(self, correlation_id: str, items_priced: int) -> None:
-        logger.debug("[%s] Populated %d BOM items with unit costs.", correlation_id, items_priced)
+        logger.debug(
+            "[%s] Populated %d BOM items with unit costs.", correlation_id, items_priced
+        )
 
     def before_summary(self, correlation_id: str) -> None:
         logger.debug("[%s] Generating final PricingSummary...", correlation_id)
@@ -42,7 +45,9 @@ class PricingLogger:
     def after_summary(self, correlation_id: str, summary: Any) -> None:
         logger.info("[%s] PricingSummary generated successfully.", correlation_id)
 
-    def after_pricing(self, correlation_id: str, configuration_id: str, total: float) -> None:
+    def after_pricing(
+        self, correlation_id: str, configuration_id: str, total: float
+    ) -> None:
         logger.info(
             "[%s] Pricing Engine completed for Configuration %s. Total: %.2f",
             correlation_id,

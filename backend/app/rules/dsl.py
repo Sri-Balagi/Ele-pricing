@@ -4,8 +4,8 @@ from typing import Any
 
 from app.models.domain import RuleContext
 
-
 # --- DSL AST Nodes ---
+
 
 class ConditionNode(ABC):
     @abstractmethod
@@ -57,6 +57,7 @@ class HasComponentNode(ConditionNode):
 
 # --- Parser ---
 
+
 class ConditionParser:
     """Parses a DSL string into our custom AST."""
 
@@ -79,22 +80,28 @@ class ConditionParser:
             elif isinstance(node.op, ast.Or):
                 return self._fold_boolop(OrNode, node.values)
             else:
-                raise ValueError(f"Unsupported boolean operator: {type(node.op).__name__}")
-        
+                raise ValueError(
+                    f"Unsupported boolean operator: {type(node.op).__name__}"
+                )
+
         elif isinstance(node, ast.UnaryOp):
             if isinstance(node.op, ast.Not):
                 return NotNode(self._transform(node.operand))
             else:
-                raise ValueError(f"Unsupported unary operator: {type(node.op).__name__}")
+                raise ValueError(
+                    f"Unsupported unary operator: {type(node.op).__name__}"
+                )
 
         elif isinstance(node, ast.Call):
             if not isinstance(node.func, ast.Name):
                 raise ValueError("Only simple function calls are supported in DSL")
-            
+
             func_name = node.func.id
             if len(node.args) != 1 or not isinstance(node.args[0], ast.Constant):
-                raise ValueError(f"{func_name}() expects exactly one string literal argument")
-                
+                raise ValueError(
+                    f"{func_name}() expects exactly one string literal argument"
+                )
+
             arg_val = node.args[0].value
             if not isinstance(arg_val, str):
                 raise ValueError(f"{func_name}() argument must be a string")
@@ -113,16 +120,17 @@ class ConditionParser:
         """Folds n-ary bool ops from Python AST into binary nodes."""
         if len(values) < 2:
             raise ValueError("Boolean operation must have at least two operands")
-            
+
         left = self._transform(values[0])
         for val in values[1:]:
             right = self._transform(val)
             left = node_class(left, right)
-            
+
         return left
 
 
 # --- Evaluator ---
+
 
 class ConditionEvaluator:
     """Evaluates a parsed DSL AST against a RuleContext."""

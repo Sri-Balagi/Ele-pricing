@@ -30,9 +30,7 @@ SAMPLE_DATA = [
 
 @pytest.fixture()
 def data_dir(tmp_path: Path) -> Path:
-    (tmp_path / "components.json").write_text(
-        json.dumps(SAMPLE_DATA), encoding="utf-8"
-    )
+    (tmp_path / "components.json").write_text(json.dumps(SAMPLE_DATA), encoding="utf-8")
     (tmp_path / "empty.json").write_text("[]", encoding="utf-8")
     (tmp_path / "not_array.json").write_text('{"key": "value"}', encoding="utf-8")
     (tmp_path / "custom_id.json").write_text(
@@ -107,16 +105,12 @@ class TestExists:
 
 class TestCustomIdField:
     def test_custom_id_field_get_by_id(self, loader: DataLoader) -> None:
-        repo = JSONRepository(
-            filename="custom_id.json", loader=loader, id_field="code"
-        )
+        repo = JSONRepository(filename="custom_id.json", loader=loader, id_field="code")
         result = repo.get_by_id("SKU001")
         assert result is not None
         assert result["label"] == "Item A"
 
     def test_custom_id_field_exists(self, loader: DataLoader) -> None:
-        repo = JSONRepository(
-            filename="custom_id.json", loader=loader, id_field="code"
-        )
+        repo = JSONRepository(filename="custom_id.json", loader=loader, id_field="code")
         assert repo.exists("SKU001") is True
         assert repo.exists("SKU999") is False
