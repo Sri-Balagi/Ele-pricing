@@ -1,6 +1,190 @@
 [
   {
-    "id": "MAP-CAP630-SAF",
+    "id": "MAP-AUTO-1",
+    "feature_option_id": "OPT-A-CAP-450",
+    "component_id": "COMP-FRAME-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-2",
+    "feature_option_id": "OPT-A-CAP-450",
+    "component_id": "COMP-MOT-10",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-3",
+    "feature_option_id": "OPT-A-CAP-450",
+    "component_id": "COMP-SAF-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-4",
+    "feature_option_id": "OPT-A-CAP-630",
+    "component_id": "COMP-FRAME-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-5",
+    "feature_option_id": "OPT-A-CAP-630",
+    "component_id": "COMP-MOT-10",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-6",
+    "feature_option_id": "OPT-A-CAP-630",
+    "component_id": "COMP-SAF-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-7",
+    "feature_option_id": "OPT-A-SPD-63",
+    "component_id": "COMP-OVS-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-8",
+    "feature_option_id": "OPT-A-SPD-63",
+    "component_id": "COMP-BUF-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-9",
+    "feature_option_id": "OPT-A-SPD-100",
+    "component_id": "COMP-OVS-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-10",
+    "feature_option_id": "OPT-A-SPD-100",
+    "component_id": "COMP-BUF-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-11",
+    "feature_option_id": "OPT-A-DOOR-CO",
+    "component_id": "COMP-DOP-CO",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-12",
+    "feature_option_id": "OPT-A-DOOR-CO",
+    "component_id": "COMP-DPL-CO",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-13",
+    "feature_option_id": "OPT-A-DOOR-CO",
+    "component_id": "COMP-LDR-CO",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-14",
+    "feature_option_id": "OPT-A-DOOR-SO",
+    "component_id": "COMP-DOP-SO",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-15",
+    "feature_option_id": "OPT-A-DOOR-SO",
+    "component_id": "COMP-DPL-SO",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-16",
+    "feature_option_id": "OPT-A-DOOR-SO",
+    "component_id": "COMP-LDR-SO",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-17",
+    "feature_option_id": "OPT-A-FIN-SS",
+    "component_id": "COMP-CAB-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-18",
+    "feature_option_id": "OPT-A-FIN-SS",
+    "component_id": "COMP-PNL-SS",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-19",
+    "feature_option_id": "OPT-A-FIN-PC",
+    "component_id": "COMP-CAB-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-20",
+    "feature_option_id": "OPT-A-FIN-PC",
+    "component_id": "COMP-PNL-PC",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-21",
+    "feature_option_id": "OPT-B-CAP-630",
+    "component_id": "COMP-FRAME-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-22",
+    "feature_option_id": "OPT-B-CAP-630",
+    "component_id": "COMP-MOT-10",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-23",
+    "feature_option_id": "OPT-B-CAP-630",
+    "component_id": "COMP-DRV-10",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-24",
     "feature_option_id": "OPT-B-CAP-630",
     "component_id": "COMP-SAF-01",
     "quantity": 1,
@@ -8,7 +192,31 @@
     "active": true
   },
   {
-    "id": "MAP-CAP1000-SAF",
+    "id": "MAP-AUTO-25",
+    "feature_option_id": "OPT-B-CAP-1000",
+    "component_id": "COMP-FRAME-02",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-26",
+    "feature_option_id": "OPT-B-CAP-1000",
+    "component_id": "COMP-MOT-15",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-27",
+    "feature_option_id": "OPT-B-CAP-1000",
+    "component_id": "COMP-DRV-15",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-28",
     "feature_option_id": "OPT-B-CAP-1000",
     "component_id": "COMP-SAF-02",
     "quantity": 1,
@@ -16,7 +224,31 @@
     "active": true
   },
   {
-    "id": "MAP-CAP1600-SAF",
+    "id": "MAP-AUTO-29",
+    "feature_option_id": "OPT-B-CAP-1275",
+    "component_id": "COMP-FRAME-02",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-30",
+    "feature_option_id": "OPT-B-CAP-1275",
+    "component_id": "COMP-MOT-22",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-31",
+    "feature_option_id": "OPT-B-CAP-1275",
+    "component_id": "COMP-DRV-22",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-32",
     "feature_option_id": "OPT-B-CAP-1275",
     "component_id": "COMP-SAF-03",
     "quantity": 1,
@@ -24,49 +256,753 @@
     "active": true
   },
   {
-    "id": "MAP-DOOR-CO",
-    "feature_option_id": "OPT-B-DOOR-CO",
+    "id": "MAP-AUTO-33",
+    "feature_option_id": "OPT-B-SPEED-10",
+    "component_id": "COMP-OVS-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-34",
+    "feature_option_id": "OPT-B-SPEED-10",
+    "component_id": "COMP-BUF-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-35",
+    "feature_option_id": "OPT-B-SPEED-16",
+    "component_id": "COMP-OVS-02",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-36",
+    "feature_option_id": "OPT-B-SPEED-16",
+    "component_id": "COMP-BUF-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-37",
+    "feature_option_id": "OPT-B-SPEED-25",
+    "component_id": "COMP-OVS-03",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-38",
+    "feature_option_id": "OPT-B-SPEED-25",
+    "component_id": "COMP-BUF-02",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-39",
+    "feature_option_id": "OPT-B-DOOR-CENTER",
     "component_id": "COMP-DOP-CO",
     "quantity": 1,
     "action": "ADD",
     "active": true
   },
   {
-    "id": "MAP-DOOR-SO",
-    "feature_option_id": "OPT-B-DOOR-SO",
+    "id": "MAP-AUTO-40",
+    "feature_option_id": "OPT-B-DOOR-CENTER",
+    "component_id": "COMP-DPL-CO",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-41",
+    "feature_option_id": "OPT-B-DOOR-CENTER",
+    "component_id": "COMP-LDR-CO",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-42",
+    "feature_option_id": "OPT-B-DOOR-SIDE",
     "component_id": "COMP-DOP-SO",
     "quantity": 1,
     "action": "ADD",
     "active": true
   },
   {
-    "id": "MAP-FIN-SS",
-    "feature_option_id": "OPT-B-FIN-SS",
+    "id": "MAP-AUTO-43",
+    "feature_option_id": "OPT-B-DOOR-SIDE",
+    "component_id": "COMP-DPL-SO",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-44",
+    "feature_option_id": "OPT-B-DOOR-SIDE",
+    "component_id": "COMP-LDR-SO",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-45",
+    "feature_option_id": "OPT-B-DOOR-REAR",
+    "component_id": "COMP-DOP-CO",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-46",
+    "feature_option_id": "OPT-B-DOOR-REAR",
+    "component_id": "COMP-DPL-CO",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-47",
+    "feature_option_id": "OPT-B-DOOR-REAR",
+    "component_id": "COMP-LDR-CO",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-48",
+    "feature_option_id": "OPT-B-DOOR-REAR",
+    "component_id": "COMP-DOP-CO",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-49",
+    "feature_option_id": "OPT-B-WALL-SS",
+    "component_id": "COMP-CAB-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-50",
+    "feature_option_id": "OPT-B-WALL-SS",
     "component_id": "COMP-PNL-SS",
     "quantity": 1,
     "action": "ADD",
     "active": true
   },
   {
-    "id": "MAP-FIN-GLASS",
-    "feature_option_id": "OPT-B-FIN-GLS",
+    "id": "MAP-AUTO-51",
+    "feature_option_id": "OPT-B-WALL-PC",
+    "component_id": "COMP-CAB-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-52",
+    "feature_option_id": "OPT-B-WALL-PC",
+    "component_id": "COMP-PNL-PC",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-53",
+    "feature_option_id": "OPT-B-WALL-GLASS",
+    "component_id": "COMP-CAB-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-54",
+    "feature_option_id": "OPT-B-WALL-GLASS",
     "component_id": "COMP-PNL-GL",
     "quantity": 1,
     "action": "ADD",
     "active": true
   },
   {
-    "id": "MAP-DRV-TRAC",
-    "feature_option_id": "OPT-B-DEST-CONV",
+    "id": "MAP-AUTO-55",
+    "feature_option_id": "OPT-B-WALL-MIRROR",
+    "component_id": "COMP-CAB-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-56",
+    "feature_option_id": "OPT-B-WALL-MIRROR",
+    "component_id": "COMP-PNL-SS",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-57",
+    "feature_option_id": "OPT-B-WALL-MIRROR",
+    "component_id": "COMP-MIR-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-58",
+    "feature_option_id": "OPT-B-FLOOR-PVC",
+    "component_id": "COMP-FLR-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-59",
+    "feature_option_id": "OPT-B-FLOOR-MARBLE",
+    "component_id": "COMP-FLR-02",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-60",
+    "feature_option_id": "OPT-B-CEIL-STD",
+    "component_id": "COMP-LIGHT-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-61",
+    "feature_option_id": "OPT-B-CEIL-STD",
+    "component_id": "COMP-FAN-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-62",
+    "feature_option_id": "OPT-B-CEIL-HALO",
+    "component_id": "COMP-LIGHT-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-63",
+    "feature_option_id": "OPT-B-CEIL-HALO",
+    "component_id": "COMP-FAN-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-64",
+    "feature_option_id": "OPT-B-CEIL-STAR",
+    "component_id": "COMP-LIGHT-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-65",
+    "feature_option_id": "OPT-B-CEIL-STAR",
+    "component_id": "COMP-FAN-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-66",
+    "feature_option_id": "OPT-B-RAIL-FULL",
+    "component_id": "COMP-RAIL-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-67",
+    "feature_option_id": "OPT-B-RAIL-REAR",
+    "component_id": "COMP-RAIL-02",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-68",
+    "feature_option_id": "OPT-B-COP-PUSH",
+    "component_id": "COMP-COP-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-69",
+    "feature_option_id": "OPT-B-COP-PUSH",
+    "component_id": "COMP-LOP-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-70",
+    "feature_option_id": "OPT-B-COP-TOUCH",
+    "component_id": "COMP-COP-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-71",
+    "feature_option_id": "OPT-B-COP-TOUCH",
+    "component_id": "COMP-LOP-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-72",
+    "feature_option_id": "OPT-B-DEST-STD",
+    "component_id": "COMP-CTRL-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-73",
+    "feature_option_id": "OPT-B-DEST-AI",
+    "component_id": "COMP-DEST-AI",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-74",
+    "feature_option_id": "OPT-B-DRIVE-GEARED",
+    "component_id": "COMP-DRV-15",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-75",
+    "feature_option_id": "OPT-B-DRIVE-GEARLESS",
+    "component_id": "COMP-DRV-10",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-76",
+    "feature_option_id": "OPT-B-SUSP-ROPE",
+    "component_id": "COMP-ROPE-10",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-77",
+    "feature_option_id": "OPT-B-SUSP-BELT",
+    "component_id": "COMP-ROPE-08",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-78",
+    "feature_option_id": "OPT-B-CWT-SIDE",
+    "component_id": "COMP-CWT-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-79",
+    "feature_option_id": "OPT-B-CWT-SIDE",
+    "component_id": "COMP-CWT-02",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-80",
+    "feature_option_id": "OPT-B-CWT-REAR",
+    "component_id": "COMP-CWT-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-81",
+    "feature_option_id": "OPT-B-CWT-REAR",
+    "component_id": "COMP-CWT-02",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-82",
+    "feature_option_id": "OPT-B-SHAFT-CONCRETE",
+    "component_id": "COMP-BRACKET-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-83",
+    "feature_option_id": "OPT-B-SHAFT-STEEL",
+    "component_id": "COMP-BRACKET-02",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-84",
+    "feature_option_id": "OPT-B-SHAFT-GLASS",
+    "component_id": "COMP-BRACKET-02",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-85",
+    "feature_option_id": "OPT-B-NRG-ECO",
+    "component_id": "COMP-CTRL-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-86",
+    "feature_option_id": "OPT-B-NRG-REGEN",
+    "component_id": "COMP-NRG-REGEN",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-87",
+    "feature_option_id": "OPT-B-GRP-SIMP",
+    "component_id": "COMP-CTRL-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-88",
+    "feature_option_id": "OPT-B-GRP-DUP",
+    "component_id": "COMP-CTRL-02",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-89",
+    "feature_option_id": "OPT-B-GRP-TRIP",
+    "component_id": "COMP-CTRL-TRIP",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-90",
+    "feature_option_id": "OPT-B-PIT-STD",
+    "component_id": "COMP-BUF-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-91",
+    "feature_option_id": "OPT-B-PIT-RED",
+    "component_id": "COMP-BUF-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-92",
+    "feature_option_id": "OPT-C-CERT-EN",
+    "component_id": "COMP-CERT-EN",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-93",
+    "feature_option_id": "OPT-C-CERT-ATEX",
+    "component_id": "COMP-CERT-ATEX",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-94",
+    "feature_option_id": "OPT-C-CERT-DNV",
+    "component_id": "COMP-CERT-DNV",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-95",
+    "feature_option_id": "OPT-C-DRV-75",
     "component_id": "COMP-MOT-10",
     "quantity": 1,
     "action": "ADD",
     "active": true
   },
   {
-    "id": "MAP-CTRL-SIMP",
-    "feature_option_id": "OPT-B-GRP-STD",
-    "component_id": "COMP-CTRL-01",
+    "id": "MAP-AUTO-96",
+    "feature_option_id": "OPT-C-DRV-75",
+    "component_id": "COMP-DRV-10",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-97",
+    "feature_option_id": "OPT-C-DRV-15",
+    "component_id": "COMP-MOT-15",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-98",
+    "feature_option_id": "OPT-C-DRV-15",
+    "component_id": "COMP-DRV-15",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-99",
+    "feature_option_id": "OPT-C-DRV-22",
+    "component_id": "COMP-MOT-22",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-100",
+    "feature_option_id": "OPT-C-DRV-22",
+    "component_id": "COMP-DRV-22",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-101",
+    "feature_option_id": "OPT-C-DRV-37",
+    "component_id": "COMP-MOT-37",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-102",
+    "feature_option_id": "OPT-C-DRV-37",
+    "component_id": "COMP-DRV-37",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-103",
+    "feature_option_id": "OPT-C-COR-C3",
+    "component_id": "COMP-COR-C3",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-104",
+    "feature_option_id": "OPT-C-COR-C4",
+    "component_id": "COMP-COR-C4",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-105",
+    "feature_option_id": "OPT-C-COR-C5",
+    "component_id": "COMP-COR-C5",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-106",
+    "feature_option_id": "OPT-C-SHF-CON",
+    "component_id": "COMP-BRACKET-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-107",
+    "feature_option_id": "OPT-C-SHF-STL",
+    "component_id": "COMP-BRACKET-02",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-108",
+    "feature_option_id": "OPT-C-SHF-RET",
+    "component_id": "COMP-BRACKET-02",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-109",
+    "feature_option_id": "OPT-C-INC-0",
+    "component_id": "COMP-FRAME-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-110",
+    "feature_option_id": "OPT-C-INC-15",
+    "component_id": "COMP-FRAME-INC",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-111",
+    "feature_option_id": "OPT-C-INC-30",
+    "component_id": "COMP-FRAME-INC",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-112",
+    "feature_option_id": "OPT-C-VIB-STD",
+    "component_id": "COMP-VIB-STD",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-113",
+    "feature_option_id": "OPT-C-VIB-ANTI",
+    "component_id": "COMP-VIB-ANTI",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-114",
+    "feature_option_id": "OPT-C-VIB-SEIS",
+    "component_id": "COMP-VIB-SEIS",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-115",
+    "feature_option_id": "OPT-C-FIR-NONE",
+    "component_id": "COMP-DOOR-STD",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-116",
+    "feature_option_id": "OPT-C-FIR-P1",
+    "component_id": "COMP-DOOR-FIR1",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-117",
+    "feature_option_id": "OPT-C-FIR-P2",
+    "component_id": "COMP-DOOR-FIR2",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-118",
+    "feature_option_id": "OPT-C-LOD-STD",
+    "component_id": "COMP-FRAME-01",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-119",
+    "feature_option_id": "OPT-C-LOD-HVY",
+    "component_id": "COMP-FRAME-02",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-120",
+    "feature_option_id": "OPT-C-LOD-ULT",
+    "component_id": "COMP-FRAME-03",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-121",
+    "feature_option_id": "OPT-C-DRP-STD",
+    "component_id": "COMP-PNL-SS",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-122",
+    "feature_option_id": "OPT-C-DRP-ROB",
+    "component_id": "COMP-PNL-ROB",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-123",
+    "feature_option_id": "OPT-C-DRP-BLST",
+    "component_id": "COMP-PNL-BLST",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-124",
+    "feature_option_id": "OPT-C-MON-NONE",
+    "component_id": "COMP-MON-NONE",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-125",
+    "feature_option_id": "OPT-C-MON-GSM",
+    "component_id": "COMP-MON-GSM",
+    "quantity": 1,
+    "action": "ADD",
+    "active": true
+  },
+  {
+    "id": "MAP-AUTO-126",
+    "feature_option_id": "OPT-C-MON-SCADA",
+    "component_id": "COMP-MON-SCADA",
     "quantity": 1,
     "action": "ADD",
     "active": true

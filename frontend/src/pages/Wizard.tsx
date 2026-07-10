@@ -127,6 +127,11 @@ export default function Wizard() {
     queryFn: catalogueApi.getFeatureOptions,
   });
 
+  const { data: dependencies = [], isLoading: loadingDeps } = useQuery({
+    queryKey: ["catalogue", "dependencies"],
+    queryFn: catalogueApi.getDependencies,
+  });
+
   // Populate featureSelections once catalogue is loaded
   useEffect(() => {
     if (draftLoaded && isEditMode && existingConfigEnv?.configuration_id && !loadingFeatures && !loadingOptions && !isDirty) {
@@ -161,7 +166,33 @@ export default function Wizard() {
     }
   }, [isEditMode, existingConfigEnv, loadingFeatures, loadingOptions, features, featureOptions, draftLoaded, isDirty]);
 
-  const catalogueLoading = loadingCats || loadingFeatures || loadingOptions || loadingConfig;
+  const catalogueLoading = loadingCats || loadingFeatures || loadingOptions || loadingConfig || loadingDeps;
+  
+  const getIncompatibilities = (optionId: string) => {
+    if (selectedCategory !== "CAT-B") return null;
+    const selectedIds = Object.values(featureSelections).flat().filter(Boolean) as string[];
+    const conflicts = (dependencies as any[]).filter(d => d.dependency_type === "EXCLUDES").filter(d => {
+      if (d.target_id === optionId && selectedIds.includes(d.source_id)) return true;
+      if (d.source_id === optionId && selectedIds.includes(d.target_id)) return true;
+      return false;
+    });
+    if (conflicts.length > 0) {
+      const messages = conflicts.map(c => {
+        const conflictingId = c.source_id === optionId ? c.target_id : c.source_id;
+        const conflictOpt = (featureOptions as any[]).find(o => o.id === conflictingId);
+        if (conflictOpt) {
+          const conflictFeat = (features as any[]).find(f => f.id === conflictOpt.feature_id);
+          if (conflictFeat) {
+            return `${conflictFeat.name} (${conflictOpt.display_name})`;
+          }
+          return conflictOpt.display_name;
+        }
+        return "Unknown selection";
+      });
+      return `Incompatible with: ${messages.join(" and ")}`;
+    }
+    return null;
+  };
 
   // Filter features to only show ones for the selected category
   const activeFeatures = (features as any[]).filter(f => f.category_id === selectedCategory);
@@ -245,12 +276,22 @@ export default function Wizard() {
       setFeatureSelections({ 
         [`FEAT-B-STOPS`]: "STOPS-4", // min stops for CAT-B is 4
         "FEAT-B-CAPACITY": "OPT-B-CAP-630",
-        "FEAT-B-SPEED": "OPT-B-SPD-100",
-        "FEAT-B-DOOR-TYPE": "OPT-B-DOOR-SO",
-        "FEAT-B-CABIN-FINISH": "OPT-B-FIN-SS",
-        "FEAT-B-DEST-CTRL": "OPT-B-DEST-CONV",
-        "FEAT-B-ENERGY-MODE": "OPT-B-NRG-STD",
-        "FEAT-B-GROUP-CTRL": "OPT-B-GRP-STD"
+        "FEAT-B-SPEED": "OPT-B-SPEED-10",
+        "FEAT-B-DOOR-TYPE": "OPT-B-DOOR-SIDE",
+        "FEAT-B-CABIN-FINISH": "OPT-B-WALL-SS",
+        "FEAT-B-DOOR-DIM": "OPT-B-DIM-900",
+        "FEAT-B-FLOORING": "OPT-B-FLOOR-PVC",
+        "FEAT-B-CEILING": "OPT-B-CEIL-STD",
+        "FEAT-B-HANDRAIL": "OPT-B-RAIL-REAR",
+        "FEAT-B-COP": "OPT-B-COP-PUSH",
+        "FEAT-B-DEST-CTRL": "OPT-B-DEST-NONE",
+        "FEAT-B-DRIVE": "OPT-B-DRIVE-GEARED",
+        "FEAT-B-SUSPENSION": "OPT-B-SUSP-ROPE",
+        "FEAT-B-CWT-LOC": "OPT-B-CWT-SIDE",
+        "FEAT-B-SHAFT": "OPT-B-SHAFT-CONCRETE",
+        "FEAT-B-ENERGY-MODE": "OPT-B-NRG-ECO",
+        "FEAT-B-GROUP-CTRL": "OPT-B-GRP-SIMP",
+        "FEAT-B-PIT-DEPTH": "OPT-B-PIT-STD"
       });
     } else if (val === "CAT-C") {
       setFeatureSelections({
@@ -274,6 +315,11 @@ export default function Wizard() {
   };
 
   const handleDropdownChange = (featureId: string, optionId: string) => {
+    const inc = getIncompatibilities(optionId);
+    if (inc) {
+      toast.error(inc);
+      return;
+    }
     setFeatureSelections((prev) => ({ ...prev, [featureId]: optionId }));
     setIsDirty(true);
   };
@@ -587,19 +633,22 @@ export default function Wizard() {
                                 </SelectTrigger>
                                 <SelectContent>
                                   {opts.length > 0 ? (
-                                    opts.map((opt: any) => (
-                                      <SelectItem key={opt.id} value={opt.id}>
-                                        <div className="flex flex-col text-left">
-                                          <div className="flex items-center justify-between gap-4">
-                                            <span className="font-medium">{opt.display_name}</span>
-                                            <span className="text-xs font-semibold text-muted-foreground">+${(opt.price || 0).toFixed(2)}</span>
+                                    opts.map((opt: any) => {
+                                      const inc = getIncompatibilities(opt.id);
+                                      return (
+                                        <SelectItem key={opt.id} value={opt.id} className={inc ? "opacity-50 text-muted-foreground" : ""}>
+                                          <div className="flex flex-col text-left">
+                                            <div className="flex items-center justify-between gap-4">
+                                              <span className="font-medium">{opt.display_name}</span>
+                                              <span className="text-xs font-semibold text-muted-foreground">+${(opt.price || 0).toFixed(2)}</span>
+                                            </div>
+                                            {opt.description && (
+                                              <span className="text-xs text-muted-foreground">{opt.description}</span>
+                                            )}
                                           </div>
-                                          {opt.description && (
-                                            <span className="text-xs text-muted-foreground">{opt.description}</span>
-                                          )}
-                                        </div>
-                                      </SelectItem>
-                                    ))
+                                        </SelectItem>
+                                      );
+                                    })
                                   ) : (
                                     <SelectItem value="__none__" disabled>No options available</SelectItem>
                                   )}

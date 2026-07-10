@@ -1,62 +1,776 @@
 [
-  { "id": "OPT-A-CAP-450", "feature_id": "FEAT-A-CAPACITY", "display_name": "450 kg (6 Persons)", "internal_value": 450, "description": "Small residential.", "active": true, "metadata": {} },
-  { "id": "OPT-A-CAP-630", "feature_id": "FEAT-A-CAPACITY", "display_name": "630 kg (8 Persons)", "internal_value": 630, "description": "Standard residential.", "active": true, "metadata": {} },
-  { "id": "OPT-A-SPD-63",  "feature_id": "FEAT-A-SPEED",    "display_name": "0.63 m/s",           "internal_value": 0.63, "description": "Low speed.", "active": true, "metadata": {} },
-  { "id": "OPT-A-SPD-100", "feature_id": "FEAT-A-SPEED",    "display_name": "1.0 m/s",            "internal_value": 1.0,  "description": "Standard speed.", "active": true, "metadata": {} },
-  { "id": "OPT-A-DOOR-CO", "feature_id": "FEAT-A-DOOR-TYPE", "display_name": "Centre-Opening",  "internal_value": "CO", "description": "Standard doors.", "active": true, "metadata": {} },
-  { "id": "OPT-A-DOOR-SO", "feature_id": "FEAT-A-DOOR-TYPE", "display_name": "Side-Opening",    "internal_value": "SO", "description": "Space saving doors.", "active": true, "metadata": {} },
-  { "id": "OPT-A-FIN-SS",  "feature_id": "FEAT-A-CABIN-FINISH", "display_name": "Hairline Stainless Steel", "internal_value": "SS_HAIRLINE", "description": "Durable.", "active": true, "metadata": {} },
-  { "id": "OPT-A-FIN-PC",  "feature_id": "FEAT-A-CABIN-FINISH", "display_name": "Powder Coat White", "internal_value": "PC_WHITE", "description": "Economical.", "active": true, "metadata": {} },
-
-  { "id": "OPT-B-CAP-630", "feature_id": "FEAT-B-CAPACITY", "display_name": "630 kg (8 Persons)", "internal_value": 630, "description": "Standard commercial.", "active": true, "metadata": {} },
-  { "id": "OPT-B-CAP-1000","feature_id": "FEAT-B-CAPACITY", "display_name": "1000 kg (13 Persons)", "internal_value": 1000, "description": "Large commercial.", "active": true, "metadata": {} },
-  { "id": "OPT-B-CAP-1275","feature_id": "FEAT-B-CAPACITY", "display_name": "1275 kg (17 Persons)", "internal_value": 1275, "description": "Heavy commercial.", "active": true, "metadata": {} },
-  { "id": "OPT-B-SPD-100", "feature_id": "FEAT-B-SPEED",    "display_name": "1.0 m/s",            "internal_value": 1.0,  "description": "Standard speed.", "active": true, "metadata": {} },
-  { "id": "OPT-B-SPD-160", "feature_id": "FEAT-B-SPEED",    "display_name": "1.6 m/s",            "internal_value": 1.6,  "description": "Mid-rise speed.", "active": true, "metadata": {} },
-  { "id": "OPT-B-SPD-250", "feature_id": "FEAT-B-SPEED",    "display_name": "2.5 m/s",            "internal_value": 2.5,  "description": "High-rise speed.", "active": true, "metadata": {} },
-  { "id": "OPT-B-DOOR-CO", "feature_id": "FEAT-B-DOOR-TYPE", "display_name": "Centre-Opening",  "internal_value": "CO", "description": "Standard doors.", "active": true, "metadata": {} },
-  { "id": "OPT-B-DOOR-SO", "feature_id": "FEAT-B-DOOR-TYPE", "display_name": "Side-Opening",    "internal_value": "SO", "description": "Space saving doors.", "active": true, "metadata": {} },
-  { "id": "OPT-B-DOOR-RO", "feature_id": "FEAT-B-DOOR-TYPE", "display_name": "Rear-Opening",    "internal_value": "RO", "description": "Through-car doors.", "active": true, "metadata": {} },
-  { "id": "OPT-B-FIN-SS",  "feature_id": "FEAT-B-CABIN-FINISH", "display_name": "Brushed Stainless Steel", "internal_value": "SS_BRUSHED", "description": "Durable.", "active": true, "metadata": {} },
-  { "id": "OPT-B-FIN-MSS", "feature_id": "FEAT-B-CABIN-FINISH", "display_name": "Mirror Stainless Steel", "internal_value": "SS_MIRROR", "description": "Premium.", "active": true, "metadata": {} },
-  { "id": "OPT-B-FIN-GLS", "feature_id": "FEAT-B-CABIN-FINISH", "display_name": "Glass Panoramic", "internal_value": "GLASS", "description": "Scenic.", "active": true, "metadata": {} },
-  { "id": "OPT-B-DEST-CONV","feature_id": "FEAT-B-DEST-CTRL","display_name": "Conventional Call", "internal_value": "CONV", "description": "Standard up/down buttons.", "active": true, "metadata": {} },
-  { "id": "OPT-B-DEST-DISP","feature_id": "FEAT-B-DEST-CTRL","display_name": "Destination Dispatch", "internal_value": "DEST", "description": "Floor selection before entry.", "active": true, "metadata": {} },
-  { "id": "OPT-B-NRG-STD",  "feature_id": "FEAT-B-ENERGY-MODE", "display_name": "Standard Drive", "internal_value": "STD", "description": "Non-regenerative.", "active": true, "metadata": {} },
-  { "id": "OPT-B-NRG-REG",  "feature_id": "FEAT-B-ENERGY-MODE", "display_name": "Regenerative Drive", "internal_value": "REG", "description": "Feeds power back to grid.", "active": true, "metadata": {} },
-  { "id": "OPT-B-GRP-STD",  "feature_id": "FEAT-B-GROUP-CTRL", "display_name": "Standalone", "internal_value": "1", "description": "Single car.", "active": true, "metadata": {} },
-  { "id": "OPT-B-GRP-2",    "feature_id": "FEAT-B-GROUP-CTRL", "display_name": "2-Car Group", "internal_value": "2", "description": "Duplex operation.", "active": true, "metadata": {} },
-  { "id": "OPT-B-GRP-4",    "feature_id": "FEAT-B-GROUP-CTRL", "display_name": "4-Car Group", "internal_value": "4", "description": "Quadruplex operation.", "active": true, "metadata": {} },
-
-  { "id": "OPT-C-CERT-EN",  "feature_id": "FEAT-C-CERT-TYPE", "display_name": "EN 81-20 Standard", "internal_value": "EN81", "description": "Standard European compliance.", "active": true, "metadata": {} },
-  { "id": "OPT-C-CERT-ATEX","feature_id": "FEAT-C-CERT-TYPE", "display_name": "ATEX Zone 1", "internal_value": "ATEX", "description": "Explosion proof.", "active": true, "metadata": {} },
-  { "id": "OPT-C-CERT-DNV", "feature_id": "FEAT-C-CERT-TYPE", "display_name": "DNVGL Marine", "internal_value": "DNVGL", "description": "Marine and offshore certified.", "active": true, "metadata": {} },
-  { "id": "OPT-C-DRV-75",   "feature_id": "FEAT-C-DRIVE-RATING", "display_name": "7.5 kW", "internal_value": 7.5, "description": "Standard motor.", "active": true, "metadata": {} },
-  { "id": "OPT-C-DRV-15",   "feature_id": "FEAT-C-DRIVE-RATING", "display_name": "15 kW", "internal_value": 15, "description": "Heavy motor.", "active": true, "metadata": {} },
-  { "id": "OPT-C-DRV-22",   "feature_id": "FEAT-C-DRIVE-RATING", "display_name": "22 kW", "internal_value": 22, "description": "Ultra-heavy motor.", "active": true, "metadata": {} },
-  { "id": "OPT-C-DRV-37",   "feature_id": "FEAT-C-DRIVE-RATING", "display_name": "37 kW", "internal_value": 37, "description": "Extreme duty motor.", "active": true, "metadata": {} },
-  { "id": "OPT-C-COR-C3",   "feature_id": "FEAT-C-CORR-PROT", "display_name": "C3 Moderate", "internal_value": "C3", "description": "Standard protection.", "active": true, "metadata": {} },
-  { "id": "OPT-C-COR-C4",   "feature_id": "FEAT-C-CORR-PROT", "display_name": "C4 High", "internal_value": "C4", "description": "High humidity protection.", "active": true, "metadata": {} },
-  { "id": "OPT-C-COR-C5",   "feature_id": "FEAT-C-CORR-PROT", "display_name": "C5-M Marine", "internal_value": "C5M", "description": "Offshore protection.", "active": true, "metadata": {} },
-  { "id": "OPT-C-SHF-CON",  "feature_id": "FEAT-C-SHAFT-TYPE", "display_name": "Concrete Enclosed", "internal_value": "CONCRETE", "description": "Standard shaft.", "active": true, "metadata": {} },
-  { "id": "OPT-C-SHF-STL",  "feature_id": "FEAT-C-SHAFT-TYPE", "display_name": "Steel Frame Open", "internal_value": "STEEL", "description": "Scenic shaft.", "active": true, "metadata": {} },
-  { "id": "OPT-C-SHF-RET",  "feature_id": "FEAT-C-SHAFT-TYPE", "display_name": "Existing Shaft Retrofit", "internal_value": "RETROFIT", "description": "Custom fit.", "active": true, "metadata": {} },
-  { "id": "OPT-C-INC-0",    "feature_id": "FEAT-C-INCLINATION", "display_name": "Vertical (0°)", "internal_value": 0, "description": "Standard vertical.", "active": true, "metadata": {} },
-  { "id": "OPT-C-INC-15",   "feature_id": "FEAT-C-INCLINATION", "display_name": "Inclined ≤15°", "internal_value": 15, "description": "Slight incline.", "active": true, "metadata": {} },
-  { "id": "OPT-C-INC-30",   "feature_id": "FEAT-C-INCLINATION", "display_name": "Inclined >15°", "internal_value": 30, "description": "Steep incline.", "active": true, "metadata": {} },
-  { "id": "OPT-C-VIB-STD",  "feature_id": "FEAT-C-VIB-ISO", "display_name": "Standard Mounts", "internal_value": "STD", "description": "Basic isolation.", "active": true, "metadata": {} },
-  { "id": "OPT-C-VIB-ANTI", "feature_id": "FEAT-C-VIB-ISO", "display_name": "Anti-Vibration Mounts", "internal_value": "ANTI", "description": "Reduced noise.", "active": true, "metadata": {} },
-  { "id": "OPT-C-VIB-SEIS", "feature_id": "FEAT-C-VIB-ISO", "display_name": "Seismic Isolators", "internal_value": "SEISMIC", "description": "Earthquake rated.", "active": true, "metadata": {} },
-  { "id": "OPT-C-FIR-NONE", "feature_id": "FEAT-C-FIRE-EVAC", "display_name": "None", "internal_value": "NONE", "description": "No special fire mode.", "active": true, "metadata": {} },
-  { "id": "OPT-C-FIR-P1",   "feature_id": "FEAT-C-FIRE-EVAC", "display_name": "Phase-I Recall", "internal_value": "PHASE1", "description": "Automatic recall to ground.", "active": true, "metadata": {} },
-  { "id": "OPT-C-FIR-P2",   "feature_id": "FEAT-C-FIRE-EVAC", "display_name": "Phase-II Firefighter", "internal_value": "PHASE2", "description": "Firefighter manual operation.", "active": true, "metadata": {} },
-  { "id": "OPT-C-LOD-STD",  "feature_id": "FEAT-C-LOAD-CLASS", "display_name": "Standard", "internal_value": "STD", "description": "Normal passenger load.", "active": true, "metadata": {} },
-  { "id": "OPT-C-LOD-HVY",  "feature_id": "FEAT-C-LOAD-CLASS", "display_name": "Heavy Cargo (2500 kg)", "internal_value": "HEAVY", "description": "Freight elevator.", "active": true, "metadata": {} },
-  { "id": "OPT-C-LOD-ULT",  "feature_id": "FEAT-C-LOAD-CLASS", "display_name": "Ultra-Heavy (5000 kg)", "internal_value": "ULTRA", "description": "Vehicle or extreme freight.", "active": true, "metadata": {} },
-  { "id": "OPT-C-DRP-STD",  "feature_id": "FEAT-C-DOOR-PROTECT", "display_name": "Standard", "internal_value": "STD", "description": "Basic durability.", "active": true, "metadata": {} },
-  { "id": "OPT-C-DRP-ROB",  "feature_id": "FEAT-C-DOOR-PROTECT", "display_name": "Robust (50 kJ)", "internal_value": "ROBUST", "description": "Industrial impact rated.", "active": true, "metadata": {} },
-  { "id": "OPT-C-DRP-BLST", "feature_id": "FEAT-C-DOOR-PROTECT", "display_name": "Blast-Resistant", "internal_value": "BLAST", "description": "Explosion proof door panels.", "active": true, "metadata": {} },
-  { "id": "OPT-C-MON-NONE", "feature_id": "FEAT-C-REMOTE-MON", "display_name": "None", "internal_value": "NONE", "description": "Local control only.", "active": true, "metadata": {} },
-  { "id": "OPT-C-MON-GSM",  "feature_id": "FEAT-C-REMOTE-MON", "display_name": "GSM/LTE Modem", "internal_value": "GSM", "description": "Cellular remote monitoring.", "active": true, "metadata": {} },
-  { "id": "OPT-C-MON-SCADA","feature_id": "FEAT-C-REMOTE-MON", "display_name": "Full SCADA Integration", "internal_value": "SCADA", "description": "Building management system link.", "active": true, "metadata": {} }
+  {
+    "id": "OPT-A-CAP-450",
+    "feature_id": "FEAT-A-CAPACITY",
+    "display_name": "450 kg (6 Persons)",
+    "internal_value": 450,
+    "description": "Small residential.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-A-CAP-630",
+    "feature_id": "FEAT-A-CAPACITY",
+    "display_name": "630 kg (8 Persons)",
+    "internal_value": 630,
+    "description": "Standard residential.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-A-SPD-63",
+    "feature_id": "FEAT-A-SPEED",
+    "display_name": "0.63 m/s",
+    "internal_value": 0.63,
+    "description": "Low speed.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-A-SPD-100",
+    "feature_id": "FEAT-A-SPEED",
+    "display_name": "1.0 m/s",
+    "internal_value": 1.0,
+    "description": "Standard speed.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-A-DOOR-CO",
+    "feature_id": "FEAT-A-DOOR-TYPE",
+    "display_name": "Centre-Opening",
+    "internal_value": "CO",
+    "description": "Standard doors.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-A-DOOR-SO",
+    "feature_id": "FEAT-A-DOOR-TYPE",
+    "display_name": "Side-Opening",
+    "internal_value": "SO",
+    "description": "Space saving doors.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-A-FIN-SS",
+    "feature_id": "FEAT-A-CABIN-FINISH",
+    "display_name": "Hairline Stainless Steel",
+    "internal_value": "SS_HAIRLINE",
+    "description": "Durable.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-A-FIN-PC",
+    "feature_id": "FEAT-A-CABIN-FINISH",
+    "display_name": "Powder Coat White",
+    "internal_value": "PC_WHITE",
+    "description": "Economical.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-CERT-EN",
+    "feature_id": "FEAT-C-CERT-TYPE",
+    "display_name": "EN 81-20 Standard",
+    "internal_value": "EN81",
+    "description": "Standard European compliance.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-CERT-ATEX",
+    "feature_id": "FEAT-C-CERT-TYPE",
+    "display_name": "ATEX Zone 1",
+    "internal_value": "ATEX",
+    "description": "Explosion proof.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-CERT-DNV",
+    "feature_id": "FEAT-C-CERT-TYPE",
+    "display_name": "DNVGL Marine",
+    "internal_value": "DNVGL",
+    "description": "Marine and offshore certified.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-DRV-75",
+    "feature_id": "FEAT-C-DRIVE-RATING",
+    "display_name": "7.5 kW",
+    "internal_value": 7.5,
+    "description": "Standard motor.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-DRV-15",
+    "feature_id": "FEAT-C-DRIVE-RATING",
+    "display_name": "15 kW",
+    "internal_value": 15,
+    "description": "Heavy motor.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-DRV-22",
+    "feature_id": "FEAT-C-DRIVE-RATING",
+    "display_name": "22 kW",
+    "internal_value": 22,
+    "description": "Ultra-heavy motor.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-DRV-37",
+    "feature_id": "FEAT-C-DRIVE-RATING",
+    "display_name": "37 kW",
+    "internal_value": 37,
+    "description": "Extreme duty motor.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-COR-C3",
+    "feature_id": "FEAT-C-CORR-PROT",
+    "display_name": "C3 Moderate",
+    "internal_value": "C3",
+    "description": "Standard protection.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-COR-C4",
+    "feature_id": "FEAT-C-CORR-PROT",
+    "display_name": "C4 High",
+    "internal_value": "C4",
+    "description": "High humidity protection.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-COR-C5",
+    "feature_id": "FEAT-C-CORR-PROT",
+    "display_name": "C5-M Marine",
+    "internal_value": "C5M",
+    "description": "Offshore protection.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-SHF-CON",
+    "feature_id": "FEAT-C-SHAFT-TYPE",
+    "display_name": "Concrete Enclosed",
+    "internal_value": "CONCRETE",
+    "description": "Standard shaft.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-SHF-STL",
+    "feature_id": "FEAT-C-SHAFT-TYPE",
+    "display_name": "Steel Frame Open",
+    "internal_value": "STEEL",
+    "description": "Scenic shaft.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-SHF-RET",
+    "feature_id": "FEAT-C-SHAFT-TYPE",
+    "display_name": "Existing Shaft Retrofit",
+    "internal_value": "RETROFIT",
+    "description": "Custom fit.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-INC-0",
+    "feature_id": "FEAT-C-INCLINATION",
+    "display_name": "Vertical (0\u00b0)",
+    "internal_value": 0,
+    "description": "Standard vertical.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-INC-15",
+    "feature_id": "FEAT-C-INCLINATION",
+    "display_name": "Inclined \u226415\u00b0",
+    "internal_value": 15,
+    "description": "Slight incline.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-INC-30",
+    "feature_id": "FEAT-C-INCLINATION",
+    "display_name": "Inclined >15\u00b0",
+    "internal_value": 30,
+    "description": "Steep incline.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-VIB-STD",
+    "feature_id": "FEAT-C-VIB-ISO",
+    "display_name": "Standard Mounts",
+    "internal_value": "STD",
+    "description": "Basic isolation.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-VIB-ANTI",
+    "feature_id": "FEAT-C-VIB-ISO",
+    "display_name": "Anti-Vibration Mounts",
+    "internal_value": "ANTI",
+    "description": "Reduced noise.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-VIB-SEIS",
+    "feature_id": "FEAT-C-VIB-ISO",
+    "display_name": "Seismic Isolators",
+    "internal_value": "SEISMIC",
+    "description": "Earthquake rated.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-FIR-NONE",
+    "feature_id": "FEAT-C-FIRE-EVAC",
+    "display_name": "None",
+    "internal_value": "NONE",
+    "description": "No special fire mode.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-FIR-P1",
+    "feature_id": "FEAT-C-FIRE-EVAC",
+    "display_name": "Phase-I Recall",
+    "internal_value": "PHASE1",
+    "description": "Automatic recall to ground.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-FIR-P2",
+    "feature_id": "FEAT-C-FIRE-EVAC",
+    "display_name": "Phase-II Firefighter",
+    "internal_value": "PHASE2",
+    "description": "Firefighter manual operation.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-LOD-STD",
+    "feature_id": "FEAT-C-LOAD-CLASS",
+    "display_name": "Standard",
+    "internal_value": "STD",
+    "description": "Normal passenger load.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-LOD-HVY",
+    "feature_id": "FEAT-C-LOAD-CLASS",
+    "display_name": "Heavy Cargo (2500 kg)",
+    "internal_value": "HEAVY",
+    "description": "Freight elevator.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-LOD-ULT",
+    "feature_id": "FEAT-C-LOAD-CLASS",
+    "display_name": "Ultra-Heavy (5000 kg)",
+    "internal_value": "ULTRA",
+    "description": "Vehicle or extreme freight.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-DRP-STD",
+    "feature_id": "FEAT-C-DOOR-PROTECT",
+    "display_name": "Standard",
+    "internal_value": "STD",
+    "description": "Basic durability.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-DRP-ROB",
+    "feature_id": "FEAT-C-DOOR-PROTECT",
+    "display_name": "Robust (50 kJ)",
+    "internal_value": "ROBUST",
+    "description": "Industrial impact rated.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-DRP-BLST",
+    "feature_id": "FEAT-C-DOOR-PROTECT",
+    "display_name": "Blast-Resistant",
+    "internal_value": "BLAST",
+    "description": "Explosion proof door panels.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-MON-NONE",
+    "feature_id": "FEAT-C-REMOTE-MON",
+    "display_name": "None",
+    "internal_value": "NONE",
+    "description": "Local control only.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-MON-GSM",
+    "feature_id": "FEAT-C-REMOTE-MON",
+    "display_name": "GSM/LTE Modem",
+    "internal_value": "GSM",
+    "description": "Cellular remote monitoring.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-C-MON-SCADA",
+    "feature_id": "FEAT-C-REMOTE-MON",
+    "display_name": "Full SCADA Integration",
+    "internal_value": "SCADA",
+    "description": "Building management system link.",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-CAP-630",
+    "feature_id": "FEAT-B-CAPACITY",
+    "display_name": "630 kg (8 persons)",
+    "internal_value": 630,
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-CAP-1000",
+    "feature_id": "FEAT-B-CAPACITY",
+    "display_name": "1000 kg (13 persons)",
+    "internal_value": 1000,
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-CAP-1275",
+    "feature_id": "FEAT-B-CAPACITY",
+    "display_name": "1275 kg (17 persons)",
+    "internal_value": 1275,
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-SPEED-10",
+    "feature_id": "FEAT-B-SPEED",
+    "display_name": "1.0 m/s",
+    "internal_value": 1.0,
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-SPEED-16",
+    "feature_id": "FEAT-B-SPEED",
+    "display_name": "1.6 m/s",
+    "internal_value": 1.6,
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-SPEED-25",
+    "feature_id": "FEAT-B-SPEED",
+    "display_name": "2.5 m/s",
+    "internal_value": 2.5,
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-DOOR-SIDE",
+    "feature_id": "FEAT-B-DOOR-TYPE",
+    "display_name": "Side Opening",
+    "internal_value": "SIDE",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-DOOR-CENTER",
+    "feature_id": "FEAT-B-DOOR-TYPE",
+    "display_name": "Center Opening",
+    "internal_value": "CENTER",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-DOOR-REAR",
+    "feature_id": "FEAT-B-DOOR-TYPE",
+    "display_name": "Rear Opening",
+    "internal_value": "REAR",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-WALL-PC",
+    "feature_id": "FEAT-B-CABIN-FINISH",
+    "display_name": "Powder Coated",
+    "internal_value": "PC",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-WALL-SS",
+    "feature_id": "FEAT-B-CABIN-FINISH",
+    "display_name": "Hairline SS",
+    "internal_value": "SS",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-WALL-MIRROR",
+    "feature_id": "FEAT-B-CABIN-FINISH",
+    "display_name": "Mirror SS",
+    "internal_value": "MIRROR",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-WALL-GLASS",
+    "feature_id": "FEAT-B-CABIN-FINISH",
+    "display_name": "Glass Panoramic",
+    "internal_value": "GLASS",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-DIM-800",
+    "feature_id": "FEAT-B-DOOR-DIM",
+    "display_name": "800x2000 mm",
+    "internal_value": 800,
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-DIM-900",
+    "feature_id": "FEAT-B-DOOR-DIM",
+    "display_name": "900x2100 mm",
+    "internal_value": 900,
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-DIM-1000",
+    "feature_id": "FEAT-B-DOOR-DIM",
+    "display_name": "1000x2100 mm",
+    "internal_value": 1000,
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-FLOOR-PVC",
+    "feature_id": "FEAT-B-FLOORING",
+    "display_name": "PVC",
+    "internal_value": "PVC",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-FLOOR-STONE",
+    "feature_id": "FEAT-B-FLOORING",
+    "display_name": "Artificial Stone",
+    "internal_value": "STONE",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-FLOOR-MARBLE",
+    "feature_id": "FEAT-B-FLOORING",
+    "display_name": "Natural Marble",
+    "internal_value": "MARBLE",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-CEIL-STD",
+    "feature_id": "FEAT-B-CEILING",
+    "display_name": "Standard LED",
+    "internal_value": "STD",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-CEIL-HALO",
+    "feature_id": "FEAT-B-CEILING",
+    "display_name": "Halo LED",
+    "internal_value": "HALO",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-CEIL-STAR",
+    "feature_id": "FEAT-B-CEILING",
+    "display_name": "Starry Night",
+    "internal_value": "STAR",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-RAIL-NONE",
+    "feature_id": "FEAT-B-HANDRAIL",
+    "display_name": "None",
+    "internal_value": "NONE",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-RAIL-REAR",
+    "feature_id": "FEAT-B-HANDRAIL",
+    "display_name": "Single Rear",
+    "internal_value": "REAR",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-RAIL-FULL",
+    "feature_id": "FEAT-B-HANDRAIL",
+    "display_name": "Three Sides",
+    "internal_value": "FULL",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-COP-PUSH",
+    "feature_id": "FEAT-B-COP",
+    "display_name": "Push Button",
+    "internal_value": "PUSH",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-COP-TOUCH",
+    "feature_id": "FEAT-B-COP",
+    "display_name": "Touchscreen",
+    "internal_value": "TOUCH",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-DEST-NONE",
+    "feature_id": "FEAT-B-DEST-CTRL",
+    "display_name": "None",
+    "internal_value": "NONE",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-DEST-STD",
+    "feature_id": "FEAT-B-DEST-CTRL",
+    "display_name": "Standard DCS",
+    "internal_value": "STD",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-DEST-AI",
+    "feature_id": "FEAT-B-DEST-CTRL",
+    "display_name": "Advanced AI DCS",
+    "internal_value": "AI",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-DRIVE-GEARED",
+    "feature_id": "FEAT-B-DRIVE",
+    "display_name": "Geared Traction",
+    "internal_value": "GEARED",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-DRIVE-GEARLESS",
+    "feature_id": "FEAT-B-DRIVE",
+    "display_name": "Gearless Traction",
+    "internal_value": "GEARLESS",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-SUSP-ROPE",
+    "feature_id": "FEAT-B-SUSPENSION",
+    "display_name": "Steel Rope",
+    "internal_value": "ROPE",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-SUSP-BELT",
+    "feature_id": "FEAT-B-SUSPENSION",
+    "display_name": "Polyurethane Belt",
+    "internal_value": "BELT",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-CWT-SIDE",
+    "feature_id": "FEAT-B-CWT-LOC",
+    "display_name": "Side",
+    "internal_value": "SIDE",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-CWT-REAR",
+    "feature_id": "FEAT-B-CWT-LOC",
+    "display_name": "Rear",
+    "internal_value": "REAR",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-SHAFT-CONCRETE",
+    "feature_id": "FEAT-B-SHAFT",
+    "display_name": "Concrete",
+    "internal_value": "CONC",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-SHAFT-STEEL",
+    "feature_id": "FEAT-B-SHAFT",
+    "display_name": "Steel Frame",
+    "internal_value": "STEEL",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-SHAFT-GLASS",
+    "feature_id": "FEAT-B-SHAFT",
+    "display_name": "Glass Panoramic",
+    "internal_value": "GLASS",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-NRG-OFF",
+    "feature_id": "FEAT-B-ENERGY-MODE",
+    "display_name": "Off",
+    "internal_value": "OFF",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-NRG-ECO",
+    "feature_id": "FEAT-B-ENERGY-MODE",
+    "display_name": "EcoMode",
+    "internal_value": "ECO",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-NRG-REGEN",
+    "feature_id": "FEAT-B-ENERGY-MODE",
+    "display_name": "Regen Drive",
+    "internal_value": "REGEN",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-GRP-SIMP",
+    "feature_id": "FEAT-B-GROUP-CTRL",
+    "display_name": "Simplex",
+    "internal_value": "SIMP",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-GRP-DUP",
+    "feature_id": "FEAT-B-GROUP-CTRL",
+    "display_name": "Duplex",
+    "internal_value": "DUP",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-GRP-TRIP",
+    "feature_id": "FEAT-B-GROUP-CTRL",
+    "display_name": "Triplex",
+    "internal_value": "TRIP",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-PIT-STD",
+    "feature_id": "FEAT-B-PIT-DEPTH",
+    "display_name": "Standard",
+    "internal_value": "STD",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "OPT-B-PIT-RED",
+    "feature_id": "FEAT-B-PIT-DEPTH",
+    "display_name": "Reduced",
+    "internal_value": "RED",
+    "description": "",
+    "active": true,
+    "metadata": {}
+  }
 ]

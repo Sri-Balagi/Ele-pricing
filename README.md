@@ -106,18 +106,20 @@ docker compose up -d
 - The UI will be available at `http://localhost:80`
 - The API will be available at `http://localhost:8000`
 
-## Milestones OverviewPlan
+## Milestones Overview
 
 | Milestone | Feature |
 |-----------|---------|
 | **Setup** ✅ | Project structure, FastAPI, tests, tooling |
 | **M1** ✅ | Product Domain Modeling & Component Catalogue (9 entities, referential integrity) |
-| **M2** | Rule engine (10 engineering rules) |
-| **M3** | Dependency resolution engine |
-| **M4** | Dynamic pricing engine |
-| **M5** | Full configuration API |
-| **M6** | Configuration export |
-| **M7** | Frontend UI |
+| **M2** ✅ | Rule engine (10 engineering rules) |
+| **M3** ✅ | Dependency resolution engine |
+| **M4** ✅ | Dynamic pricing engine |
+| **M5** ✅ | Full configuration API |
+| **M6** ✅ | Configuration export & BOM |
+| **M7** ✅ | Frontend UI (Configurator Wizard) |
+| **M8** ✅ | Realistic Data & Validation Mappings |
+| **M9** ✅ | Final Polish & Production Readiness |
 
 ---
 

@@ -45,15 +45,6 @@
     "condition_expression": null
   },
   {
-    "id": "DEP-SPD25-EXC-BUF01",
-    "source_id": "OPT-B-SPD-250",
-    "target_id": "COMP-BUF-01",
-    "dependency_type": "EXCLUDES",
-    "description": "High speed excludes standard PU buffer.",
-    "priority": 200,
-    "condition_expression": null
-  },
-  {
     "id": "DEP-DOPCO-LDRCO",
     "source_id": "COMP-DOP-CO",
     "target_id": "COMP-LDR-CO",
@@ -72,21 +63,73 @@
     "condition_expression": null
   },
   {
-    "id": "DEP-CAP1600-MOT22",
-    "source_id": "OPT-B-CAP-1275",
-    "target_id": "COMP-MOT-22",
-    "dependency_type": "RECOMMENDS",
-    "description": "1600kg capacity recommends 22kW motor.",
-    "priority": 50,
-    "condition_expression": null
+    "id": "DEP-B-1",
+    "source_id": "OPT-B-SHAFT-GLASS",
+    "target_id": "OPT-B-CWT-REAR",
+    "dependency_type": "EXCLUDES",
+    "description": "Glass Panoramic Shaft EXCLUDES Rear Counterweight"
   },
   {
-    "id": "DEP-CAP1600-FRAME02",
-    "source_id": "OPT-B-CAP-1275",
-    "target_id": "COMP-FRAME-02",
-    "dependency_type": "DETERMINES",
-    "description": "1600kg capacity determines Heavy Duty Frame.",
-    "priority": 150,
-    "condition_expression": null
+    "id": "DEP-B-2",
+    "source_id": "OPT-B-SPEED-25",
+    "target_id": "OPT-B-DRIVE-GEARED",
+    "dependency_type": "EXCLUDES",
+    "description": "Rated Speed 2.5 m/s EXCLUDES Geared Traction Drive"
+  },
+  {
+    "id": "DEP-B-3",
+    "source_id": "OPT-B-SPEED-25",
+    "target_id": "OPT-B-PIT-RED",
+    "dependency_type": "EXCLUDES",
+    "description": "Rated Speed 2.5 m/s EXCLUDES Reduced Pit Depth"
+  },
+  {
+    "id": "DEP-B-4",
+    "source_id": "OPT-B-FLOOR-MARBLE",
+    "target_id": "OPT-B-CAP-630",
+    "dependency_type": "EXCLUDES",
+    "description": "Natural Marble Flooring EXCLUDES Load Capacity 630kg"
+  },
+  {
+    "id": "DEP-B-5",
+    "source_id": "OPT-B-SUSP-BELT",
+    "target_id": "OPT-B-SPEED-25",
+    "dependency_type": "EXCLUDES",
+    "description": "Polyurethane Belt Suspension EXCLUDES Rated Speed 2.5 m/s"
+  },
+  {
+    "id": "DEP-B-6",
+    "source_id": "OPT-B-DEST-AI",
+    "target_id": "OPT-B-COP-PUSH",
+    "dependency_type": "EXCLUDES",
+    "description": "Advanced AI Destination Control EXCLUDES Push Button COP"
+  },
+  {
+    "id": "DEP-B-8",
+    "source_id": "OPT-B-SHAFT-GLASS",
+    "target_id": "OPT-B-WALL-SS",
+    "dependency_type": "EXCLUDES",
+    "description": "Glass Panoramic Shaft EXCLUDES Hairline SS Cabin Wall"
+  },
+  {
+    "id": "DEP-B-9",
+    "source_id": "OPT-B-NRG-REGEN",
+    "target_id": "OPT-B-DRIVE-GEARED",
+    "dependency_type": "EXCLUDES",
+    "description": "Regen Drive Energy Mode EXCLUDES Geared Traction Drive"
+  },
+  {
+    "id": "DEP-B-10",
+    "source_id": "OPT-B-DIM-1000",
+    "target_id": "OPT-B-CAP-630",
+    "dependency_type": "EXCLUDES",
+    "description": "Door Dimension 1000mm EXCLUDES Load Capacity 630kg"
+  },
+  {
+    "id": "DEP-B-7",
+    "source_id": "OPT-B-GRP-TRIP",
+    "target_id": "OPT-B-DEST-NONE",
+    "dependency_type": "EXCLUDES",
+    "description": "Triplex Group Control EXCLUDES Destination Control None"
   }
 ]

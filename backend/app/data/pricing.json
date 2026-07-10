@@ -31,359 +31,359 @@
     {
       "entity_id": "COMP-FRAME-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 1090.9090909090908,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 1200.0
     },
     {
       "entity_id": "COMP-FRAME-02",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 1818.181818181818,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 2000.0
     },
     {
       "entity_id": "COMP-CWT-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 727.2727272727273,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 800.0
     },
     {
       "entity_id": "COMP-CWT-02",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 454.5454545454545,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 500.0
     },
     {
       "entity_id": "COMP-RAIL-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 272.7272727272727,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 300.0
     },
     {
       "entity_id": "COMP-RAIL-02",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 454.5454545454545,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 500.0
     },
     {
       "entity_id": "COMP-BRACKET-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 45.45454545454545,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 50.0
     },
     {
       "entity_id": "COMP-MOT-10",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 3181.8181818181815,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 3500.0
     },
     {
       "entity_id": "COMP-MOT-15",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 4090.9090909090905,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 4500.0
     },
     {
       "entity_id": "COMP-MOT-22",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 5454.545454545454,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 6000.0
     },
     {
       "entity_id": "COMP-ROPE-08",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 363.6363636363636,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 400.0
     },
     {
       "entity_id": "COMP-ROPE-10",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 545.4545454545454,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 600.0
     },
     {
       "entity_id": "COMP-PULLEY-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 318.18181818181813,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 350.0
     },
     {
       "entity_id": "COMP-PULLEY-02",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 454.5454545454545,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 500.0
     },
     {
       "entity_id": "COMP-OVS-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 363.6363636363636,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 400.0
     },
     {
       "entity_id": "COMP-OVS-02",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 454.5454545454545,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 500.0
     },
     {
       "entity_id": "COMP-OVS-03",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 727.2727272727273,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 800.0
     },
     {
       "entity_id": "COMP-CBL-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 272.7272727272727,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 300.0
     },
     {
       "entity_id": "COMP-ENC-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 227.27272727272725,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 250.0
     },
     {
       "entity_id": "COMP-SW-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 90.9090909090909,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 100.0
     },
     {
       "entity_id": "COMP-LIGHT-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 136.36363636363635,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 150.0
     },
     {
       "entity_id": "COMP-FAN-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 90.9090909090909,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 100.0
     },
     {
       "entity_id": "COMP-BAT-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 181.8181818181818,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 200.0
     },
     {
       "entity_id": "COMP-CTRL-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 4545.454545454545,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 5000.0
     },
     {
       "entity_id": "COMP-CTRL-02",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 5909.090909090909,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 6500.0
     },
     {
       "entity_id": "COMP-DRV-10",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 1363.6363636363635,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 1500.0
     },
     {
       "entity_id": "COMP-DRV-15",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 1818.181818181818,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 2000.0
     },
     {
       "entity_id": "COMP-DRV-22",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 2727.272727272727,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 3000.0
     },
     {
       "entity_id": "COMP-COP-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 727.2727272727273,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 800.0
     },
     {
       "entity_id": "COMP-LOP-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 136.36363636363635,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 150.0
     },
     {
       "entity_id": "COMP-SAF-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 363.6363636363636,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 400.0
     },
     {
       "entity_id": "COMP-SAF-02",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 545.4545454545454,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 600.0
     },
     {
       "entity_id": "COMP-SAF-03",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 818.1818181818181,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 900.0
     },
     {
       "entity_id": "COMP-BUF-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 136.36363636363635,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 150.0
     },
     {
       "entity_id": "COMP-BUF-02",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 409.09090909090907,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 450.0
     },
     {
       "entity_id": "COMP-BRAKE-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 545.4545454545454,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 600.0
     },
     {
       "entity_id": "COMP-LC-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 318.18181818181813,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 350.0
     },
     {
       "entity_id": "COMP-CAB-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 2272.7272727272725,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 2500.0
     },
     {
       "entity_id": "COMP-PNL-SS",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 1636.3636363636363,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 1800.0
     },
     {
       "entity_id": "COMP-PNL-GL",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 3181.8181818181815,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 3500.0
     },
     {
       "entity_id": "COMP-FLR-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 181.8181818181818,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 200.0
     },
     {
       "entity_id": "COMP-FLR-02",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 818.1818181818181,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 900.0
     },
     {
       "entity_id": "COMP-HAND-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 136.36363636363635,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 150.0
     },
     {
       "entity_id": "COMP-MIR-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 227.27272727272725,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 250.0
     },
     {
       "entity_id": "COMP-DOP-CO",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 1090.9090909090908,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 1200.0
     },
     {
       "entity_id": "COMP-DOP-SO",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 999.9999999999999,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 1100.0
     },
     {
       "entity_id": "COMP-DPL-CO",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 545.4545454545454,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 600.0
     },
     {
       "entity_id": "COMP-DPL-SO",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 454.5454545454545,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 500.0
     },
     {
       "entity_id": "COMP-LDR-CO",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 727.2727272727273,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 800.0
     },
     {
       "entity_id": "COMP-LDR-SO",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 681.8181818181818,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 750.0
     },
     {
       "entity_id": "COMP-LCURT-01",
       "entity_type": "COMPONENT",
-      "base_cost": 100.0,
+      "base_cost": 272.7272727272727,
       "markup_percentage": 10.0,
-      "price": 110.00000000000001
+      "price": 300.0
     },
     {
       "entity_id": "OPT-A-CAP-450",
@@ -440,139 +440,6 @@
       "base_cost": 0.0,
       "markup_percentage": 0.0,
       "price": 0.0
-    },
-    {
-      "entity_id": "OPT-B-CAP-630",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 0.0,
-      "markup_percentage": 0.0,
-      "price": 0.0
-    },
-    {
-      "entity_id": "OPT-B-CAP-1000",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 30.0,
-      "markup_percentage": 0.0,
-      "price": 30.0
-    },
-    {
-      "entity_id": "OPT-B-CAP-1275",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 70.0,
-      "markup_percentage": 0.0,
-      "price": 70.0
-    },
-    {
-      "entity_id": "OPT-B-SPD-100",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 0.0,
-      "markup_percentage": 0.0,
-      "price": 0.0
-    },
-    {
-      "entity_id": "OPT-B-SPD-160",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 30.0,
-      "markup_percentage": 0.0,
-      "price": 30.0
-    },
-    {
-      "entity_id": "OPT-B-SPD-250",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 70.0,
-      "markup_percentage": 0.0,
-      "price": 70.0
-    },
-    {
-      "entity_id": "OPT-B-DOOR-CO",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 30.0,
-      "markup_percentage": 0.0,
-      "price": 30.0
-    },
-    {
-      "entity_id": "OPT-B-DOOR-SO",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 0.0,
-      "markup_percentage": 0.0,
-      "price": 0.0
-    },
-    {
-      "entity_id": "OPT-B-DOOR-RO",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 70.0,
-      "markup_percentage": 0.0,
-      "price": 70.0
-    },
-    {
-      "entity_id": "OPT-B-FIN-SS",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 55.0,
-      "markup_percentage": 0.0,
-      "price": 55.0
-    },
-    {
-      "entity_id": "OPT-B-FIN-MSS",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 60.0,
-      "markup_percentage": 0.0,
-      "price": 60.0
-    },
-    {
-      "entity_id": "OPT-B-FIN-GLS",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 70.0,
-      "markup_percentage": 0.0,
-      "price": 70.0
-    },
-    {
-      "entity_id": "OPT-B-DEST-CONV",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 0.0,
-      "markup_percentage": 0.0,
-      "price": 0.0
-    },
-    {
-      "entity_id": "OPT-B-DEST-DISP",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 60.0,
-      "markup_percentage": 0.0,
-      "price": 60.0
-    },
-    {
-      "entity_id": "OPT-B-NRG-STD",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 0.0,
-      "markup_percentage": 0.0,
-      "price": 0.0
-    },
-    {
-      "entity_id": "OPT-B-NRG-REG",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 60.0,
-      "markup_percentage": 0.0,
-      "price": 60.0
-    },
-    {
-      "entity_id": "OPT-B-GRP-STD",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 0.0,
-      "markup_percentage": 0.0,
-      "price": 0.0
-    },
-    {
-      "entity_id": "OPT-B-GRP-2",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 60.0,
-      "markup_percentage": 0.0,
-      "price": 60.0
-    },
-    {
-      "entity_id": "OPT-B-GRP-4",
-      "entity_type": "FEATURE_OPTION",
-      "base_cost": 120.0,
-      "markup_percentage": 0.0,
-      "price": 120.0
     },
     {
       "entity_id": "OPT-C-CERT-EN",
@@ -790,6 +657,517 @@
       "base_cost": 1000.0,
       "price": 1000.0,
       "markup_percentage": 0.0
+    },
+    {
+      "entity_id": "OPT-B-CAP-630",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 0,
+      "markup_percentage": 0.0,
+      "price": 0
+    },
+    {
+      "entity_id": "OPT-B-CAP-1000",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 30,
+      "markup_percentage": 0.0,
+      "price": 30
+    },
+    {
+      "entity_id": "OPT-B-CAP-1275",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 70,
+      "markup_percentage": 0.0,
+      "price": 70
+    },
+    {
+      "entity_id": "OPT-B-SPEED-10",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 0,
+      "markup_percentage": 0.0,
+      "price": 0
+    },
+    {
+      "entity_id": "OPT-B-SPEED-16",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 30,
+      "markup_percentage": 0.0,
+      "price": 30
+    },
+    {
+      "entity_id": "OPT-B-SPEED-25",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 70,
+      "markup_percentage": 0.0,
+      "price": 70
+    },
+    {
+      "entity_id": "OPT-B-DOOR-SIDE",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 0,
+      "markup_percentage": 0.0,
+      "price": 0
+    },
+    {
+      "entity_id": "OPT-B-DOOR-CENTER",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 30,
+      "markup_percentage": 0.0,
+      "price": 30
+    },
+    {
+      "entity_id": "OPT-B-DOOR-REAR",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 70,
+      "markup_percentage": 0.0,
+      "price": 70
+    },
+    {
+      "entity_id": "OPT-B-WALL-PC",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 0,
+      "markup_percentage": 0.0,
+      "price": 0
+    },
+    {
+      "entity_id": "OPT-B-WALL-SS",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 50,
+      "markup_percentage": 0.0,
+      "price": 50
+    },
+    {
+      "entity_id": "OPT-B-WALL-MIRROR",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 100,
+      "markup_percentage": 0.0,
+      "price": 100
+    },
+    {
+      "entity_id": "OPT-B-WALL-GLASS",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 300,
+      "markup_percentage": 0.0,
+      "price": 300
+    },
+    {
+      "entity_id": "OPT-B-DIM-800",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 0,
+      "markup_percentage": 0.0,
+      "price": 0
+    },
+    {
+      "entity_id": "OPT-B-DIM-900",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 20,
+      "markup_percentage": 0.0,
+      "price": 20
+    },
+    {
+      "entity_id": "OPT-B-DIM-1000",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 50,
+      "markup_percentage": 0.0,
+      "price": 50
+    },
+    {
+      "entity_id": "OPT-B-FLOOR-PVC",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 0,
+      "markup_percentage": 0.0,
+      "price": 0
+    },
+    {
+      "entity_id": "OPT-B-FLOOR-STONE",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 80,
+      "markup_percentage": 0.0,
+      "price": 80
+    },
+    {
+      "entity_id": "OPT-B-FLOOR-MARBLE",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 150,
+      "markup_percentage": 0.0,
+      "price": 150
+    },
+    {
+      "entity_id": "OPT-B-CEIL-STD",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 0,
+      "markup_percentage": 0.0,
+      "price": 0
+    },
+    {
+      "entity_id": "OPT-B-CEIL-HALO",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 40,
+      "markup_percentage": 0.0,
+      "price": 40
+    },
+    {
+      "entity_id": "OPT-B-CEIL-STAR",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 120,
+      "markup_percentage": 0.0,
+      "price": 120
+    },
+    {
+      "entity_id": "OPT-B-RAIL-NONE",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 0,
+      "markup_percentage": 0.0,
+      "price": 0
+    },
+    {
+      "entity_id": "OPT-B-RAIL-REAR",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 10,
+      "markup_percentage": 0.0,
+      "price": 10
+    },
+    {
+      "entity_id": "OPT-B-RAIL-FULL",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 30,
+      "markup_percentage": 0.0,
+      "price": 30
+    },
+    {
+      "entity_id": "OPT-B-COP-PUSH",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 0,
+      "markup_percentage": 0.0,
+      "price": 0
+    },
+    {
+      "entity_id": "OPT-B-COP-TOUCH",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 200,
+      "markup_percentage": 0.0,
+      "price": 200
+    },
+    {
+      "entity_id": "OPT-B-DEST-NONE",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 0,
+      "markup_percentage": 0.0,
+      "price": 0
+    },
+    {
+      "entity_id": "OPT-B-DEST-STD",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 100,
+      "markup_percentage": 0.0,
+      "price": 100
+    },
+    {
+      "entity_id": "OPT-B-DEST-AI",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 300,
+      "markup_percentage": 0.0,
+      "price": 300
+    },
+    {
+      "entity_id": "OPT-B-DRIVE-GEARED",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 0,
+      "markup_percentage": 0.0,
+      "price": 0
+    },
+    {
+      "entity_id": "OPT-B-DRIVE-GEARLESS",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 250,
+      "markup_percentage": 0.0,
+      "price": 250
+    },
+    {
+      "entity_id": "OPT-B-SUSP-ROPE",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 0,
+      "markup_percentage": 0.0,
+      "price": 0
+    },
+    {
+      "entity_id": "OPT-B-SUSP-BELT",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 180,
+      "markup_percentage": 0.0,
+      "price": 180
+    },
+    {
+      "entity_id": "OPT-B-CWT-SIDE",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 0,
+      "markup_percentage": 0.0,
+      "price": 0
+    },
+    {
+      "entity_id": "OPT-B-CWT-REAR",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 50,
+      "markup_percentage": 0.0,
+      "price": 50
+    },
+    {
+      "entity_id": "OPT-B-SHAFT-CONCRETE",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 0,
+      "markup_percentage": 0.0,
+      "price": 0
+    },
+    {
+      "entity_id": "OPT-B-SHAFT-STEEL",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 500,
+      "markup_percentage": 0.0,
+      "price": 500
+    },
+    {
+      "entity_id": "OPT-B-SHAFT-GLASS",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 1500,
+      "markup_percentage": 0.0,
+      "price": 1500
+    },
+    {
+      "entity_id": "OPT-B-NRG-OFF",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 0,
+      "markup_percentage": 0.0,
+      "price": 0
+    },
+    {
+      "entity_id": "OPT-B-NRG-ECO",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 100,
+      "markup_percentage": 0.0,
+      "price": 100
+    },
+    {
+      "entity_id": "OPT-B-NRG-REGEN",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 400,
+      "markup_percentage": 0.0,
+      "price": 400
+    },
+    {
+      "entity_id": "OPT-B-GRP-SIMP",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 0,
+      "markup_percentage": 0.0,
+      "price": 0
+    },
+    {
+      "entity_id": "OPT-B-GRP-DUP",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 50,
+      "markup_percentage": 0.0,
+      "price": 50
+    },
+    {
+      "entity_id": "OPT-B-GRP-TRIP",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 150,
+      "markup_percentage": 0.0,
+      "price": 150
+    },
+    {
+      "entity_id": "OPT-B-PIT-STD",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 0,
+      "markup_percentage": 0.0,
+      "price": 0
+    },
+    {
+      "entity_id": "OPT-B-PIT-RED",
+      "entity_type": "FEATURE_OPTION",
+      "base_cost": 200,
+      "markup_percentage": 0.0,
+      "price": 200
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-PNL-PC",
+      "price": 1200.0,
+      "base_cost": 1090.9090909090908,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-MOT-37",
+      "price": 9500.0,
+      "base_cost": 8636.363636363636,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-DRV-37",
+      "price": 4500.0,
+      "base_cost": 4090.9090909090905,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-CERT-EN",
+      "price": 500.0,
+      "base_cost": 454.5454545454545,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-CERT-ATEX",
+      "price": 3000.0,
+      "base_cost": 2727.272727272727,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-CERT-DNV",
+      "price": 2500.0,
+      "base_cost": 2272.7272727272725,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-COR-C3",
+      "price": 400.0,
+      "base_cost": 363.6363636363636,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-COR-C4",
+      "price": 800.0,
+      "base_cost": 727.2727272727273,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-COR-C5",
+      "price": 1500.0,
+      "base_cost": 1363.6363636363635,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-BRACKET-02",
+      "price": 120.0,
+      "base_cost": 109.09090909090908,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-FRAME-INC",
+      "price": 4000.0,
+      "base_cost": 3636.363636363636,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-VIB-STD",
+      "price": 100.0,
+      "base_cost": 90.9090909090909,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-VIB-ANTI",
+      "price": 350.0,
+      "base_cost": 318.18181818181813,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-VIB-SEIS",
+      "price": 1200.0,
+      "base_cost": 1090.9090909090908,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-DOOR-STD",
+      "price": 600.0,
+      "base_cost": 545.4545454545454,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-DOOR-FIR1",
+      "price": 1400.0,
+      "base_cost": 1272.7272727272725,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-DOOR-FIR2",
+      "price": 2200.0,
+      "base_cost": 1999.9999999999998,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-FRAME-03",
+      "price": 3500.0,
+      "base_cost": 3181.8181818181815,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-PNL-ROB",
+      "price": 2800.0,
+      "base_cost": 2545.454545454545,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-PNL-BLST",
+      "price": 5000.0,
+      "base_cost": 4545.454545454545,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-MON-NONE",
+      "price": 100.0,
+      "base_cost": 90.9090909090909,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-MON-GSM",
+      "price": 600.0,
+      "base_cost": 545.4545454545454,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-MON-SCADA",
+      "price": 1500.0,
+      "base_cost": 1363.6363636363635,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-CTRL-TRIP",
+      "price": 9000.0,
+      "base_cost": 8181.818181818181,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-DEST-AI",
+      "price": 3500.0,
+      "base_cost": 3181.8181818181815,
+      "markup_percentage": 10.0
+    },
+    {
+      "entity_type": "COMPONENT",
+      "entity_id": "COMP-NRG-REGEN",
+      "price": 4000.0,
+      "base_cost": 3636.363636363636,
+      "markup_percentage": 10.0
     }
   ]
 }

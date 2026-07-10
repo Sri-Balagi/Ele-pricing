@@ -59,98 +59,6 @@
     }
   },
   {
-    "id": "FEAT-B-CAPACITY",
-    "name": "Load Capacity",
-    "description": "Maximum rated load the elevator can carry.",
-    "category_id": "CAT-B",
-    "group_id": "GRP-B-PERFORMANCE",
-    "required": true,
-    "configurable": true,
-    "active": true,
-    "metadata": {}
-  },
-  {
-    "id": "FEAT-B-SPEED",
-    "name": "Rated Speed",
-    "description": "Nominal travel speed of the car.",
-    "category_id": "CAT-B",
-    "group_id": "GRP-B-PERFORMANCE",
-    "required": true,
-    "configurable": true,
-    "active": true,
-    "metadata": {}
-  },
-  {
-    "id": "FEAT-B-DOOR-TYPE",
-    "name": "Door Opening Type",
-    "description": "Mechanism and direction of automatic door opening.",
-    "category_id": "CAT-B",
-    "group_id": "GRP-B-DOOR",
-    "required": true,
-    "configurable": true,
-    "active": true,
-    "metadata": {}
-  },
-  {
-    "id": "FEAT-B-CABIN-FINISH",
-    "name": "Cabin Wall Finish",
-    "description": "Surface material applied to interior cabin walls.",
-    "category_id": "CAT-B",
-    "group_id": "GRP-B-CABIN",
-    "required": true,
-    "configurable": true,
-    "active": true,
-    "metadata": {}
-  },
-  {
-    "id": "FEAT-B-STOPS",
-    "name": "Number of Stops",
-    "description": "Total number of floor landings served.",
-    "category_id": "CAT-B",
-    "group_id": "GRP-B-PERFORMANCE",
-    "required": true,
-    "configurable": true,
-    "active": true,
-    "metadata": {
-      "input_type": "numeric",
-      "min": 4,
-      "max": 20
-    }
-  },
-  {
-    "id": "FEAT-B-DEST-CTRL",
-    "name": "Destination Control",
-    "description": "Call and dispatch logic: conventional vs destination dispatch system.",
-    "category_id": "CAT-B",
-    "group_id": "GRP-B-CONTROL",
-    "required": true,
-    "configurable": true,
-    "active": true,
-    "metadata": {}
-  },
-  {
-    "id": "FEAT-B-ENERGY-MODE",
-    "name": "Energy Recovery Mode",
-    "description": "Drive type and energy recapture capability during descent braking.",
-    "category_id": "CAT-B",
-    "group_id": "GRP-B-CONTROL",
-    "required": true,
-    "configurable": true,
-    "active": true,
-    "metadata": {}
-  },
-  {
-    "id": "FEAT-B-GROUP-CTRL",
-    "name": "Group Control Logic",
-    "description": "Single elevator vs grouped multi-car dispatching logic.",
-    "category_id": "CAT-B",
-    "group_id": "GRP-B-CONTROL",
-    "required": true,
-    "configurable": true,
-    "active": true,
-    "metadata": {}
-  },
-  {
     "id": "FEAT-C-CERT-TYPE",
     "name": "Regulatory Certification",
     "description": "Applicable safety standard or zone classification for installation environment.",
@@ -278,5 +186,203 @@
       "min": 8,
       "max": 60
     }
+  },
+  {
+    "id": "FEAT-B-CAPACITY",
+    "name": "Load Capacity",
+    "description": "Maximum payload.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-CORE",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-SPEED",
+    "name": "Rated Speed",
+    "description": "Travel speed.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-CORE",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-DOOR-TYPE",
+    "name": "Door Opening Type",
+    "description": "Door mechanism.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-DOOR",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-CABIN-FINISH",
+    "name": "Cabin Wall Finish",
+    "description": "Interior walls.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-CABIN",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-STOPS",
+    "name": "Number of Stops",
+    "description": "Floor count.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-CORE",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-DOOR-DIM",
+    "name": "Door Dimensions",
+    "description": "Door size.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-DOOR",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-FLOORING",
+    "name": "Cabin Flooring",
+    "description": "Floor material.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-CABIN",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-CEILING",
+    "name": "Ceiling Design",
+    "description": "Lighting design.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-CABIN",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-HANDRAIL",
+    "name": "Handrails",
+    "description": "Support rails.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-CABIN",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-COP",
+    "name": "Operating Panel (COP)",
+    "description": "User interface.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-CTRL",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-DEST-CTRL",
+    "name": "Destination Control System",
+    "description": "Dispatch algorithm.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-CTRL",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-DRIVE",
+    "name": "Drive System",
+    "description": "Motor technology.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-MECH",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-SUSPENSION",
+    "name": "Suspension Type",
+    "description": "Lifting medium.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-MECH",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-CWT-LOC",
+    "name": "Counterweight Location",
+    "description": "Weight placement.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-MECH",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-SHAFT",
+    "name": "Shaft Type",
+    "description": "Enclosure structure.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-MECH",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-ENERGY-MODE",
+    "name": "Energy Savings Mode",
+    "description": "Power efficiency.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-CTRL",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-GROUP-CTRL",
+    "name": "Group Control",
+    "description": "Elevator grouping.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-CTRL",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-PIT-DEPTH",
+    "name": "Pit Depth",
+    "description": "Bottom clearance.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-MECH",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
   }
 ]

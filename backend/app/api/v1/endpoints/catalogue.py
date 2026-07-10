@@ -95,3 +95,23 @@ async def list_feature_options(pipeline: ConfigurationPipeline = Depends(get_pip
         if o.active
     ]
     return _envelope(options)
+
+
+@router.get(
+    "/dependencies",
+    response_model=APISuccessEnvelope,
+    summary="List feature dependencies",
+    description="Returns rules for feature incompatibilities (EXCLUDES).",
+)
+async def list_dependencies(pipeline: ConfigurationPipeline = Depends(get_pipeline)):
+    deps = [
+        {
+            "id": d.id,
+            "source_id": d.source_id,
+            "target_id": d.target_id,
+            "dependency_type": d.dependency_type,
+            "description": d.description
+        }
+        for d in pipeline.catalogue.dependencies
+    ]
+    return _envelope(deps)
