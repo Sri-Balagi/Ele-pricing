@@ -17,10 +17,8 @@ Configures elevators, validates engineering constraints, resolves component depe
 
 ```powershell
 cd backend
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-uvicorn app.main:app --reload
+uv sync
+uv run uvicorn app.main:app --reload
 ```
 
 → API: http://127.0.0.1:8000  
@@ -40,7 +38,7 @@ npm run dev
 
 ```powershell
 cd backend
-pytest tests/ -v
+uv run pytest tests/ -v
 ```
 
 ---
@@ -138,8 +136,14 @@ docker compose up -d
 | Method | Path | Description |
 |--------|------|-------------|
 | `GET` | `/api/v1/health` | Application health check |
-| `GET` | `/docs` | Swagger UI |
-| `GET` | `/redoc` | ReDoc UI |
+| `POST` | `/api/v1/configurations` | Create a new configuration |
+| `GET` | `/api/v1/configurations/{id}` | Retrieve a configuration |
+| `PUT` | `/api/v1/configurations/{id}` | Update feature selections |
+| `POST` | `/api/v1/configurations/{id}/validate` | Validate and generate BOM |
+| `GET` | `/api/v1/configurations/{id}/export/{format}` | Export configuration (PDF, Excel, JSON) |
+| `GET` | `/api/v1/catalogue/categories` | Retrieve available elevator categories |
+| `GET` | `/docs` | Interactive Swagger API UI |
+| `GET` | `/redoc` | Interactive ReDoc API UI |
 
 ---
 

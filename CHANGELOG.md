@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **BOM Generator**: Produces physical part manifests.
 - **Export Framework**: JSON, Excel, and PDF quote exports.
 - **CI/CD**: GitHub actions for drift protection, linting, testing, and Docker builds.
+- **Production Catalogs (M8)**: Fully populated and realistic configuration data for Type-B elevators (components, constraints, and dependencies).
+- **CI/CD Hardening (M9)**: Switched to `uv` for dependency management. Strict `ruff` and `eslint` enforcement in GitHub Actions.
+- **API Synchronization (M9)**: Created tooling to automatically dump and snapshot the OpenAPI schema, syncing it precisely with frontend typing.
 - **Monitoring**: Abstracted monitoring service ready for Sentry/OpenTelemetry integration.
 
 ### Changed
