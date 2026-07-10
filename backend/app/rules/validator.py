@@ -1,4 +1,3 @@
-
 from app.core.constants import RuleAction, RuleTriggerType
 from app.models.domain import ProductCatalogue, Rule
 

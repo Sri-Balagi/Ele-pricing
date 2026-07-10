@@ -11,7 +11,6 @@ Responsibilities:
   - Return an immutable topology (is_active defaults to True)
 """
 
-
 from app.dependency_engine.registry import DependencyRegistry
 from app.models.domain import (
     DependencyEdge,

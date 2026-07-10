@@ -11,7 +11,6 @@ Responsibilities:
   - Reject self-referencing dependencies (source == target)
 """
 
-
 from app.models.domain import Dependency, ProductCatalogue
 
 

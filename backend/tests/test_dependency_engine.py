@@ -16,7 +16,6 @@ Coverage:
   - Regression: all prior tests still pass
 """
 
-
 import pytest
 
 from app.core.constants import (

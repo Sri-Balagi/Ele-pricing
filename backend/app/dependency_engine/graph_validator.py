@@ -15,7 +15,6 @@ Rules:
     - Orphan nodes: nodes with no inbound AND no outbound active edges
 """
 
-
 from app.models.domain import DependencyGraph
 
 

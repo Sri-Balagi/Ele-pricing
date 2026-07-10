@@ -12,7 +12,6 @@ Responsibilities:
   - Support forced reload for administrative tooling
 """
 
-
 from app.dependency_engine.repository import DependencyRepository
 from app.dependency_engine.validator import DependencyValidator
 from app.models.domain import Dependency, ProductCatalogue

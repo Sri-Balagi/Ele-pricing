@@ -1,4 +1,3 @@
-
 from app.core.constants import DataFile
 from app.models.domain import PricingCatalogue
 from app.repositories.base import BaseRepository
