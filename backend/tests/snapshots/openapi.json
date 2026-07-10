@@ -48,6 +48,88 @@
         }
       }
     },
+    "/api/v1/dashboard/metrics": {
+      "get": {
+        "tags": [
+          "Dashboard",
+          "Dashboard"
+        ],
+        "summary": "Dashboard KPI metrics",
+        "description": "Returns customer-facing configuration metrics for the dashboard.",
+        "operationId": "get_dashboard_metrics_api_v1_dashboard_metrics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APISuccessEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/configurations/search": {
+      "get": {
+        "tags": [
+          "Configuration",
+          "Configuration"
+        ],
+        "summary": "Search configurations",
+        "description": "Case-insensitive search by project name, display ID, or configuration ID.",
+        "operationId": "search_configurations_api_v1_configurations_search_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Search term",
+              "default": "",
+              "title": "Q"
+            },
+            "description": "Search term"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APISuccessEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/configurations": {
       "post": {
         "tags": [
@@ -73,16 +155,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/APISuccessEnvelope"
-                },
-                "example": {
-                  "success": true,
-                  "data": {
-                    "configuration_id": "CFG-ABC12345",
-                    "status": "DRAFT",
-                    "selected_category": "TYPE_B",
-                    "selected_feature_options": []
-                  },
-                  "timestamp": "2026-07-08T10:00:00Z"
                 }
               }
             }
@@ -181,14 +253,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/APISuccessEnvelope"
-                },
-                "example": {
-                  "success": true,
-                  "data": {
-                    "configuration_id": "CFG-ABC12345",
-                    "status": "DRAFT"
-                  },
-                  "timestamp": "2026-07-08T10:00:00Z"
                 }
               }
             }
@@ -199,20 +263,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "example": {
-                  "success": false,
-                  "error": {
-                    "code": "NOT_FOUND",
-                    "message": "Configuration not found"
-                  }
                 }
               }
             }
@@ -243,13 +293,6 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/UpdateConfigurationRequest"
-              },
-              "example": {
-                "selected_category": "TYPE_A",
-                "selected_feature_options": [
-                  "OPT-001",
-                  "OPT-002"
-                ]
               }
             }
           }
@@ -333,20 +376,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Pipeline execution successful",
+            "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/APISuccessEnvelope"
-                },
-                "example": {
-                  "success": true,
-                  "data": {
-                    "correlation_id": "PIPE-1234",
-                    "metrics": {
-                      "success": true
-                    }
-                  }
                 }
               }
             }
@@ -415,6 +449,49 @@
         ],
         "summary": "Get validation results",
         "operationId": "get_configuration_validation_api_v1_configurations__configuration_id__validation_get",
+        "parameters": [
+          {
+            "name": "configuration_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Configuration Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APISuccessEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/configurations/{configuration_id}/bom": {
+      "get": {
+        "tags": [
+          "Configuration",
+          "Configuration"
+        ],
+        "summary": "Get bill of materials",
+        "operationId": "get_configuration_bom_api_v1_configurations__configuration_id__bom_get",
         "parameters": [
           {
             "name": "configuration_id",
@@ -590,6 +667,98 @@
           }
         }
       }
+    },
+    "/api/v1/catalogue/categories": {
+      "get": {
+        "tags": [
+          "Catalogue",
+          "Catalogue"
+        ],
+        "summary": "List elevator categories",
+        "description": "Returns all active elevator categories available for selection.",
+        "operationId": "list_categories_api_v1_catalogue_categories_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APISuccessEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/catalogue/features": {
+      "get": {
+        "tags": [
+          "Catalogue",
+          "Catalogue"
+        ],
+        "summary": "List features",
+        "description": "Returns all configurable features grouped by their feature group.",
+        "operationId": "list_features_api_v1_catalogue_features_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APISuccessEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/catalogue/feature-options": {
+      "get": {
+        "tags": [
+          "Catalogue",
+          "Catalogue"
+        ],
+        "summary": "List feature options",
+        "description": "Returns all selectable feature options. Each option belongs to a feature.",
+        "operationId": "list_feature_options_api_v1_catalogue_feature_options_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APISuccessEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/catalogue/dependencies": {
+      "get": {
+        "tags": [
+          "Catalogue",
+          "Catalogue"
+        ],
+        "summary": "List feature dependencies",
+        "description": "Returns rules for feature incompatibilities (EXCLUDES).",
+        "operationId": "list_dependencies_api_v1_catalogue_dependencies_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APISuccessEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -630,17 +799,11 @@
       },
       "CreateConfigurationRequest": {
         "properties": {
-          "customer_reference": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Customer Reference",
-            "description": "Optional CRM/ERP reference ID"
+          "project_name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Project Name",
+            "description": "Customer-given project name (e.g. 'My Apartment')"
           },
           "selected_category": {
             "anyOf": [
@@ -653,9 +816,24 @@
             ],
             "title": "Selected Category",
             "description": "The chosen ElevatorCategory ID"
+          },
+          "customer_reference": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Reference",
+            "description": "Deprecated: Optional CRM/ERP reference ID"
           }
         },
         "type": "object",
+        "required": [
+          "project_name"
+        ],
         "title": "CreateConfigurationRequest",
         "description": "Payload for starting a new configuration session."
       },
@@ -847,6 +1025,18 @@
       },
       "UpdateConfigurationRequest": {
         "properties": {
+          "project_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Project Name",
+            "description": "Update project name"
+          },
           "selected_feature_options": {
             "anyOf": [
               {

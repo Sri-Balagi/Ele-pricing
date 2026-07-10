@@ -1,3 +1,4 @@
+import uuid
 import pytest
 import io
 import json
@@ -7,7 +8,7 @@ from fastapi.testclient import TestClient
 from app.main import app
 def test_full_api_workflow_and_exports(client):
     # 1. Create Configuration
-    response = client.post("/api/v1/configurations", json={"selected_category": "TYPE_B"})
+    response = client.post("/api/v1/configurations", json={"project_name": f"Test Project {uuid.uuid4()}", "selected_category": "TYPE_B"})
     assert response.status_code == 201
     config_data = response.json()
     config_id = config_data["data"]["configuration_id"]
@@ -94,7 +95,7 @@ def test_error_paths(client):
     
     # invalid export format
     # Create valid config
-    response = client.post("/api/v1/configurations", json={"selected_category": "TYPE_B"})
+    response = client.post("/api/v1/configurations", json={"project_name": f"Test Project {uuid.uuid4()}", "selected_category": "TYPE_B"})
     config_id = response.json()["data"]["configuration_id"]
     client.post(f"/api/v1/configurations/{config_id}/validate")
     

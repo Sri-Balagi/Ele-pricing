@@ -55,7 +55,7 @@ def test_exporter_readiness():
 def test_configuration_immutability():
     config = Configuration(
         configuration_id="CFG-123",
-        status=ConfigurationStatus.APPROVED
+        status=ConfigurationStatus.PRICED
     )
     context = ExportContext(
         configuration=config,
@@ -65,7 +65,7 @@ def test_configuration_immutability():
     )
     
     # Asserting that context construction did not mutate the config
-    assert context.configuration.status == ConfigurationStatus.APPROVED
+    assert context.configuration.status == ConfigurationStatus.PRICED
     assert context.configuration.configuration_id == "CFG-123"
 
 def test_pipeline_repeatability(client):

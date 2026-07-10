@@ -104,10 +104,10 @@ from app.models.domain import Configuration, ConfigurationStatus
 @pytest.fixture
 def sample_configuration():
     return Configuration(
-        configuration_id="TEST-CONFIG-123",
-        status=ConfigurationStatus.APPROVED,
+        configuration_id="CFG-12345",
+        status=ConfigurationStatus.PRICED,
+        project_name="Test Project",
         selected_category="CAT-1",
         selected_feature_options=["OPT-1"],
         resolved_components=["COMP-1"]
     )
-

@@ -38,7 +38,7 @@ def test_configuration_snapshot():
     
     # Ensure keys are present for backward compatibility
     expected_keys = {
-        "configuration_id", "customer_reference", "created_at", "expires_at",
+        "configuration_id", "project_name", "customer_reference", "created_at", "expires_at",
         "selected_category", "selected_feature_options", "resolved_components",
         "validation_results", "rule_results", "mutations", "bill_of_materials",
         "pricing_summary", "quote_metadata", "status"

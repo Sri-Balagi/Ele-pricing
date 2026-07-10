@@ -38,6 +38,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/dashboard/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Dashboard KPI metrics
+         * @description Returns customer-facing configuration metrics for the dashboard.
+         */
+        get: operations["get_dashboard_metrics_api_v1_dashboard_metrics_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/configurations/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search configurations
+         * @description Case-insensitive search by project name, display ID, or configuration ID.
+         */
+        get: operations["search_configurations_api_v1_configurations_search_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/configurations": {
         parameters: {
             query?: never;
@@ -126,6 +166,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/configurations/{configuration_id}/bom": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get bill of materials */
+        get: operations["get_configuration_bom_api_v1_configurations__configuration_id__bom_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/system/pipeline": {
         parameters: {
             query?: never;
@@ -206,6 +263,86 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/catalogue/categories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List elevator categories
+         * @description Returns all active elevator categories available for selection.
+         */
+        get: operations["list_categories_api_v1_catalogue_categories_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/catalogue/features": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List features
+         * @description Returns all configurable features grouped by their feature group.
+         */
+        get: operations["list_features_api_v1_catalogue_features_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/catalogue/feature-options": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List feature options
+         * @description Returns all selectable feature options. Each option belongs to a feature.
+         */
+        get: operations["list_feature_options_api_v1_catalogue_feature_options_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/catalogue/dependencies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List feature dependencies
+         * @description Returns rules for feature incompatibilities (EXCLUDES).
+         */
+        get: operations["list_dependencies_api_v1_catalogue_dependencies_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -233,20 +370,20 @@ export interface components {
          */
         CreateConfigurationRequest: {
             /**
-             * Customer Reference
-             * @description Optional CRM/ERP reference ID
-             */
-            customer_reference?: string | null;
-            /**
              * Project Name
-             * @description Project identifier
+             * @description Customer-given project name (e.g. 'My Apartment')
              */
-            project_name?: string | null;
+            project_name: string;
             /**
              * Selected Category
              * @description The chosen ElevatorCategory ID
              */
             selected_category?: string | null;
+            /**
+             * Customer Reference
+             * @description Deprecated: Optional CRM/ERP reference ID
+             */
+            customer_reference?: string | null;
         };
         /**
          * DetailedHealthResponse
@@ -340,6 +477,11 @@ export interface components {
          */
         UpdateConfigurationRequest: {
             /**
+             * Project Name
+             * @description Update project name
+             */
+            project_name?: string | null;
+            /**
              * Selected Feature Options
              * @description IDs of selected FeatureOptions
              */
@@ -412,6 +554,59 @@ export interface operations {
             };
         };
     };
+    get_dashboard_metrics_api_v1_dashboard_metrics_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APISuccessEnvelope"];
+                };
+            };
+        };
+    };
+    search_configurations_api_v1_configurations_search_get: {
+        parameters: {
+            query?: {
+                /** @description Search term */
+                q?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APISuccessEnvelope"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_configurations_api_v1_configurations_get: {
         parameters: {
             query?: {
@@ -463,18 +658,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "success": true,
-                     *       "data": {
-                     *         "configuration_id": "CFG-ABC12345",
-                     *         "status": "DRAFT",
-                     *         "selected_category": "TYPE_B",
-                     *         "selected_feature_options": []
-                     *       },
-                     *       "timestamp": "2026-07-08T10:00:00Z"
-                     *     }
-                     */
                     "application/json": components["schemas"]["APISuccessEnvelope"];
                 };
             };
@@ -506,35 +689,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "success": true,
-                     *       "data": {
-                     *         "configuration_id": "CFG-ABC12345",
-                     *         "status": "DRAFT"
-                     *       },
-                     *       "timestamp": "2026-07-08T10:00:00Z"
-                     *     }
-                     */
                     "application/json": components["schemas"]["APISuccessEnvelope"];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "success": false,
-                     *       "error": {
-                     *         "code": "NOT_FOUND",
-                     *         "message": "Configuration not found"
-                     *       }
-                     *     }
-                     */
-                    "application/json": unknown;
                 };
             };
             /** @description Validation Error */
@@ -559,15 +714,6 @@ export interface operations {
         };
         requestBody: {
             content: {
-                /**
-                 * @example {
-                 *       "selected_category": "TYPE_A",
-                 *       "selected_feature_options": [
-                 *         "OPT-001",
-                 *         "OPT-002"
-                 *       ]
-                 *     }
-                 */
                 "application/json": components["schemas"]["UpdateConfigurationRequest"];
             };
         };
@@ -632,23 +778,12 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Pipeline execution successful */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    /**
-                     * @example {
-                     *       "success": true,
-                     *       "data": {
-                     *         "correlation_id": "PIPE-1234",
-                     *         "metrics": {
-                     *           "success": true
-                     *         }
-                     *       }
-                     *     }
-                     */
                     "application/json": components["schemas"]["APISuccessEnvelope"];
                 };
             };
@@ -695,6 +830,37 @@ export interface operations {
         };
     };
     get_configuration_validation_api_v1_configurations__configuration_id__validation_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                configuration_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APISuccessEnvelope"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_configuration_bom_api_v1_configurations__configuration_id__bom_get: {
         parameters: {
             query?: never;
             header?: never;
@@ -827,6 +993,86 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_categories_api_v1_catalogue_categories_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APISuccessEnvelope"];
+                };
+            };
+        };
+    };
+    list_features_api_v1_catalogue_features_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APISuccessEnvelope"];
+                };
+            };
+        };
+    };
+    list_feature_options_api_v1_catalogue_feature_options_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APISuccessEnvelope"];
+                };
+            };
+        };
+    };
+    list_dependencies_api_v1_catalogue_dependencies_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APISuccessEnvelope"];
                 };
             };
         };

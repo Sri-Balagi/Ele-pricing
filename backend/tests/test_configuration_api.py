@@ -1,4 +1,4 @@
-import asyncio
+import uuid
 import pytest
 from fastapi.testclient import TestClient
 
@@ -24,10 +24,10 @@ def test_system_pipeline_endpoint(client: TestClient):
     assert "RuleEngine" in data["registered_engines"]
 
 def test_create_and_get_configuration(client: TestClient):
-    payload = CreateConfigurationRequest(selected_category="CAT_1").model_dump()
+    payload = CreateConfigurationRequest(project_name=f"Test Project {uuid.uuid4()}", selected_category="CAT_1").model_dump()
     resp = client.post("/api/v1/configurations", json=payload)
     
-    assert resp.status_code == 201
+    assert resp.status_code == 201, resp.text
     data = resp.json()
     assert data["success"] is True
     assert "configuration_id" in data["data"]
@@ -38,10 +38,10 @@ def test_create_and_get_configuration(client: TestClient):
     get_resp = client.get(f"/api/v1/configurations/{config_id}")
     assert get_resp.status_code == 200
     assert get_resp.json()["data"]["configuration_id"] == config_id
-    assert get_resp.json()["data"]["status"] == ConfigurationStatus.DRAFT.value
+    assert get_resp.json()["data"]["status"] == ConfigurationStatus.CONFIGURED.value
 
 def test_update_configuration(client: TestClient):
-    payload = CreateConfigurationRequest(selected_category="CAT_1").model_dump()
+    payload = CreateConfigurationRequest(project_name=f"Test Project {uuid.uuid4()}", selected_category="CAT_1").model_dump()
     create_resp = client.post("/api/v1/configurations", json=payload).json()
     config_id = create_resp["data"]["configuration_id"]
     
@@ -62,7 +62,7 @@ def test_store_eviction_policy(client: TestClient):
     client.app.state.store = store
     
     for i in range(4):
-        payload = CreateConfigurationRequest(selected_category=f"CAT_{i}").model_dump()
+        payload = CreateConfigurationRequest(project_name=f"Test Project {uuid.uuid4()}", selected_category=f"CAT_{i}").model_dump()
         client.post("/api/v1/configurations", json=payload)
     
     # Store max is 3, we pushed 4 DRAFTs. The first one should be evicted.
@@ -77,7 +77,7 @@ import concurrent.futures
 def test_concurrent_api_operations(client: TestClient):
     # Test 10 concurrent creations
     def create_config():
-        payload = CreateConfigurationRequest(selected_category="CAT_1").model_dump()
+        payload = CreateConfigurationRequest(project_name=f"Test Project {uuid.uuid4()}", selected_category="CAT_1").model_dump()
         return client.post("/api/v1/configurations", json=payload)
     
     with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
