@@ -10,7 +10,15 @@ export type UpdateConfigurationRequest = components["schemas"]["UpdateConfigurat
 
 export const configurationApi = {
   create: async (data: CreateConfigurationRequest) => {
-    return apiClient.post<{ configuration_id: string, status: string, selected_category: string, selected_feature_options: string[] }>("/configurations", data);
+    return apiClient.post<any>("/configurations", data);
+  },
+  
+  list: async (limit = 100, offset = 0) => {
+    return apiClient.get<any>(`/configurations?limit=${limit}&offset=${offset}`);
+  },
+
+  search: async (query: string, limit = 20) => {
+    return apiClient.get<any>(`/configurations/search?q=${encodeURIComponent(query)}&limit=${limit}`);
   },
   
   get: async (id: string) => {
@@ -27,6 +35,10 @@ export const configurationApi = {
 
   getPricing: async (id: string) => {
     return apiClient.get<any>(`/configurations/${id}/pricing`);
+  },
+
+  getBOM: async (id: string) => {
+    return apiClient.get<any>(`/configurations/${id}/bom`);
   },
 
   getValidation: async (id: string) => {

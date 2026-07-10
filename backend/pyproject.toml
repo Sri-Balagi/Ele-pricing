@@ -12,7 +12,9 @@ dependencies = [
     "httpx",
     "pytest",
     "pytest-asyncio",
-    "pydantic-settings"
+    "pydantic-settings",
+    "sqlalchemy>=2.0",
+    "aiosqlite>=0.19.0",
 ]
 
 # ── Ruff — Linter ─────────────────────────────────────────────────────────────

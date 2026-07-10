@@ -61,7 +61,7 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
         resp_size = response.headers.get("content-length", "0")
 
         logger.info(
-            "%s %s → %d (%.1f ms) [ReqId: %s] [CorrId: %s] [IP: %s] [UA: %s] [ReqSize: %s] [RespSize: %s]",
+            "%s %s -> %d (%.1f ms) [ReqId: %s] [CorrId: %s] [IP: %s] [UA: %s] [ReqSize: %s] [RespSize: %s]",
             request.method,
             request.url.path,
             response.status_code,

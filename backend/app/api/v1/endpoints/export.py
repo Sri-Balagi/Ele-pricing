@@ -24,7 +24,7 @@ async def export_configuration(
     if not config:
         raise HTTPException(status_code=404, detail="Configuration not found")
         
-    if config.status not in [ConfigurationStatus.PRICED, ConfigurationStatus.APPROVED]:
+    if config.status not in [ConfigurationStatus.PRICED, ConfigurationStatus.QUOTED, ConfigurationStatus.EXPORTED]:
         raise HTTPException(status_code=400, detail="Only finalized configurations can be exported.")
         
     format_enum = None
@@ -54,6 +54,13 @@ async def export_configuration(
     if not report.success:
         raise HTTPException(status_code=500, detail="Export failed to generate.")
         
+    if config.status != ConfigurationStatus.EXPORTED:
+        config.status = ConfigurationStatus.EXPORTED
+        if hasattr(store, "update_async"):
+            await store.update_async(config)
+        else:
+            store.update(config)
+        
     return Response(
         content=report.content,
         media_type=report.mime_type,
@@ -76,6 +83,13 @@ async def get_quote_info(
         
     if not config.quote_metadata:
         raise HTTPException(status_code=400, detail="Quote not generated for this configuration.")
+        
+    if config.status not in [ConfigurationStatus.QUOTED, ConfigurationStatus.EXPORTED]:
+        config.status = ConfigurationStatus.QUOTED
+        if hasattr(store, "update_async"):
+            await store.update_async(config)
+        else:
+            store.update(config)
         
     return {
         "configuration_id": config.configuration_id,

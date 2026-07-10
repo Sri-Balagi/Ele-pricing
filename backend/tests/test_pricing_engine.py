@@ -158,3 +158,91 @@ def test_tax_calculation_precision(dummy_product_catalogue):
     assert config.pricing_summary.subtotal_before_tax == Decimal("1000.55")
     assert config.pricing_summary.tax_amount == Decimal("100.06")
     assert config.pricing_summary.total_after_tax == Decimal("1100.61")
+
+def test_floor_coverage_pricing_cat_a(dummy_product_catalogue):
+    # Overwrite dummy pricing record for CAT-A to exist
+    dummy_product_catalogue.pricing.pricing_records[0].entity_id = "CAT-A"
+    dummy_product_catalogue.pricing.pricing_records[0].price = Decimal("22000.00")
+    
+    registry = PricingRegistry(MockRepo(dummy_product_catalogue.pricing), PricingValidator())
+    registry.load_and_validate()
+    
+    config = Configuration(
+        configuration_id="CFG-PRICE-04",
+        selected_category="CAT-A",
+        selected_feature_options=["STOPS-5"],
+        status=ConfigurationStatus.VALIDATED
+    )
+    
+    context = PricingContext(
+        configuration=config,
+        catalogue=dummy_product_catalogue,
+        pricing_registry=registry,
+        correlation_id="test-4",
+        execution_timestamp="2026-07-08T12:00:00Z"
+    )
+    
+    engine = PricingEngine()
+    engine.resolve(context)
+    
+    # 5 stops for CAT-A (min 2, so 3 additional) = 3 * 2000 = 6000
+    assert config.pricing_summary.floor_coverage_cost == Decimal("6000.00")
+    assert config.pricing_summary.subtotal_before_tax == Decimal("28000.00")
+
+def test_floor_coverage_pricing_cat_b(dummy_product_catalogue):
+    dummy_product_catalogue.pricing.pricing_records[0].entity_id = "CAT-B"
+    dummy_product_catalogue.pricing.pricing_records[0].price = Decimal("48000.00")
+    
+    registry = PricingRegistry(MockRepo(dummy_product_catalogue.pricing), PricingValidator())
+    registry.load_and_validate()
+    
+    config = Configuration(
+        configuration_id="CFG-PRICE-05",
+        selected_category="CAT-B",
+        selected_feature_options=["STOPS-7"],
+        status=ConfigurationStatus.VALIDATED
+    )
+    
+    context = PricingContext(
+        configuration=config,
+        catalogue=dummy_product_catalogue,
+        pricing_registry=registry,
+        correlation_id="test-5",
+        execution_timestamp="2026-07-08T12:00:00Z"
+    )
+    
+    engine = PricingEngine()
+    engine.resolve(context)
+    
+    # 7 stops for CAT-B (min 4, so 3 additional) = 3 * 3800 = 11400
+    assert config.pricing_summary.floor_coverage_cost == Decimal("11400.00")
+    assert config.pricing_summary.subtotal_before_tax == Decimal("59400.00")
+
+def test_floor_coverage_pricing_cat_c(dummy_product_catalogue):
+    dummy_product_catalogue.pricing.pricing_records[0].entity_id = "CAT-C"
+    dummy_product_catalogue.pricing.pricing_records[0].price = Decimal("125000.00")
+    
+    registry = PricingRegistry(MockRepo(dummy_product_catalogue.pricing), PricingValidator())
+    registry.load_and_validate()
+    
+    config = Configuration(
+        configuration_id="CFG-PRICE-06",
+        selected_category="CAT-C",
+        selected_feature_options=["STOPS-11"],
+        status=ConfigurationStatus.VALIDATED
+    )
+    
+    context = PricingContext(
+        configuration=config,
+        catalogue=dummy_product_catalogue,
+        pricing_registry=registry,
+        correlation_id="test-6",
+        execution_timestamp="2026-07-08T12:00:00Z"
+    )
+    
+    engine = PricingEngine()
+    engine.resolve(context)
+    
+    # 11 stops for CAT-C (min 8, so 3 additional) = 3 * 8500 = 25500
+    assert config.pricing_summary.floor_coverage_cost == Decimal("25500.00")
+    assert config.pricing_summary.subtotal_before_tax == Decimal("150500.00")

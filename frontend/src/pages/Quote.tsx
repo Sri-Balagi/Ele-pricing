@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { quoteApi, exportApi } from "@/api";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { ConfigSearch } from "@/components/ConfigSearch";
 import { Button } from "@/components/ui/button";
 import { Download, FileText, FileSpreadsheet, FileJson } from "lucide-react";
 import { toast } from "sonner";
@@ -42,19 +42,19 @@ export default function Quote() {
     <div className="space-y-6">
       <h1 className="text-3xl font-bold tracking-tight">Quote & Export</h1>
 
-      <Card>
+      <Card className="overflow-visible">
         <CardHeader>
           <CardTitle>Load Quote</CardTitle>
           <CardDescription>Enter a Configuration ID to view quote details and export documents.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex gap-4 max-w-md">
-            <Input 
-              placeholder="e.g. CFG-123" 
-              value={configId}
-              onChange={(e) => setConfigId(e.target.value)}
+            <ConfigSearch 
+              onSelect={(id) => setConfigId(id)} 
+              selectedId={configId} 
+              placeholder="Search config to view quote..." 
             />
-            <Button onClick={() => setActiveId(configId)}>View Quote</Button>
+            <Button onClick={() => setActiveId(configId)} disabled={!configId}>View Quote</Button>
           </div>
         </CardContent>
       </Card>
@@ -84,7 +84,7 @@ export default function Quote() {
                 </div>
                 <div>
                   <div className="text-sm text-muted-foreground">Total Price</div>
-                  <div className="font-semibold text-primary">${data.total_price?.toFixed(2) || "0.00"}</div>
+                  <div className="font-semibold text-primary">${data.pricing_summary?.total?.toFixed(2) || "0.00"}</div>
                 </div>
               </div>
             </CardContent>

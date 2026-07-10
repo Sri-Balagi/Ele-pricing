@@ -238,6 +238,11 @@ export interface components {
              */
             customer_reference?: string | null;
             /**
+             * Project Name
+             * @description Project identifier
+             */
+            project_name?: string | null;
+            /**
              * Selected Category
              * @description The chosen ElevatorCategory ID
              */

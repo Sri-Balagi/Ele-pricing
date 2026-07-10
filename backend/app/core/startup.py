@@ -33,6 +33,7 @@ from app.export.pdf_exporter import PDFExporter
 from app.export.excel_exporter import ExcelExporter
 from app.export.zip_exporter import ZIPExporter
 from app.core.constants import ExportFormat
+from app.db.database import create_tables
 
 logger = logging.getLogger(__name__)
 
@@ -132,7 +133,11 @@ def build_lifespan(data_dir: str):
             from app.pricing_engine.engine import PricingEngine
             from app.pricing_engine.registry import PricingRegistry
             from app.pricing_engine.validator import PricingValidator
-            from app.services.store import InMemoryConfigurationStore
+            from app.services.sqlite_store import SQLiteConfigurationStore
+            
+            # Initialise SQLite tables (idempotent)
+            await create_tables()
+            logger.info("SQLite database tables ready.")
             
             loader = DataLoader(data_dir=data_dir)
             
@@ -173,7 +178,7 @@ def build_lifespan(data_dir: str):
                 bom_generator=BOMGenerator(catalogue=catalogue),
                 quote_generator=QuoteGenerator()
             )
-            store = InMemoryConfigurationStore(max_configurations=1000)
+            store = SQLiteConfigurationStore()
             
             # Export Framework Initialization
             export_registry = ExporterRegistry()

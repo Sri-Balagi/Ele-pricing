@@ -19,8 +19,11 @@ from app.api.v1.endpoints import health
 
 router = APIRouter()
 
-# ── v1 Endpoints ──────────────────────────────────────────────────────────────
+# ── v1 Endpoints ──────────────────────────────────────────────────────────────────
 router.include_router(health.router)
+
+from app.api.v1.endpoints import dashboard
+router.include_router(dashboard.router, prefix="/dashboard", tags=["Dashboard"])
 
 # ── Future Milestone Routers (uncomment when implemented) ─────────────────────
 # from app.api.v1.endpoints import components

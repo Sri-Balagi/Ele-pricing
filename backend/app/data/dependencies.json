@@ -46,7 +46,7 @@
   },
   {
     "id": "DEP-SPD25-EXC-BUF01",
-    "source_id": "OPT-SPD-250",
+    "source_id": "OPT-B-SPD-250",
     "target_id": "COMP-BUF-01",
     "dependency_type": "EXCLUDES",
     "description": "High speed excludes standard PU buffer.",
@@ -73,7 +73,7 @@
   },
   {
     "id": "DEP-CAP1600-MOT22",
-    "source_id": "OPT-CAP-1600",
+    "source_id": "OPT-B-CAP-1275",
     "target_id": "COMP-MOT-22",
     "dependency_type": "RECOMMENDS",
     "description": "1600kg capacity recommends 22kW motor.",
@@ -82,7 +82,7 @@
   },
   {
     "id": "DEP-CAP1600-FRAME02",
-    "source_id": "OPT-CAP-1600",
+    "source_id": "OPT-B-CAP-1275",
     "target_id": "COMP-FRAME-02",
     "dependency_type": "DETERMINES",
     "description": "1600kg capacity determines Heavy Duty Frame.",

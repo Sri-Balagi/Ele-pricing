@@ -60,6 +60,12 @@ class PricingEngine(BaseEngine[PricingContext, PricingReport]):
             report.pricing_steps.append(step)
             current_step += 1
 
+            # 1.5. Floor Coverage Cost
+            floor_cost, floor_step = self._calculator.calculate_floor_coverage_cost(context, current_step)
+            if floor_step:
+                report.pricing_steps.append(floor_step)
+                current_step += 1
+
             # 2. Feature Costs
             feature_cost, f_steps = self._calculator.calculate_feature_costs(context, current_step)
             report.pricing_steps.extend(f_steps)
@@ -73,7 +79,7 @@ class PricingEngine(BaseEngine[PricingContext, PricingReport]):
             report.metrics.components_priced = len(c_steps)
 
             # 4. Subtotal
-            subtotal = category_cost + feature_cost + component_cost
+            subtotal = category_cost + feature_cost + component_cost + floor_cost
             report.metrics.subtotal = subtotal
 
             # 5. Tax Calculation
@@ -102,6 +108,7 @@ class PricingEngine(BaseEngine[PricingContext, PricingReport]):
                 category_cost=category_cost,
                 component_cost=component_cost,
                 feature_cost=feature_cost,
+                floor_coverage_cost=floor_cost,
                 base_price=category_cost,
                 component_costs=component_cost,
                 feature_costs=feature_cost,

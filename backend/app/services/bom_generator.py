@@ -22,6 +22,9 @@ class BOMGenerator:
         for mutation in configuration.mutations:
             if mutation.mutation_type == "ADDED":
                 mutation_lookup[mutation.entity_id] = mutation.source_engine
+                
+        # Build lookup for component names
+        comp_names: Dict[str, str] = {c.id: c.name for c in self.catalogue.components}
         
         # Build BOM items from resolved components
         for comp_id in configuration.resolved_components:
@@ -35,6 +38,7 @@ class BOMGenerator:
             if matched_mapping:
                 items.append(BOMItem(
                     component_id=comp_id,
+                    component_name=comp_names.get(comp_id, "Unknown Component"),
                     quantity=matched_mapping.quantity,
                     source_feature_option_id=matched_mapping.feature_option_id,
                     reason="Feature Mapping",
@@ -49,6 +53,7 @@ class BOMGenerator:
             if source_engine == "RULE_ENGINE":
                 items.append(BOMItem(
                     component_id=comp_id,
+                    component_name=comp_names.get(comp_id, "Unknown Component"),
                     quantity=1,
                     source_feature_option_id=None,
                     reason="Rule Engine",
@@ -59,6 +64,7 @@ class BOMGenerator:
             elif source_engine == "DEPENDENCY_ENGINE":
                 items.append(BOMItem(
                     component_id=comp_id,
+                    component_name=comp_names.get(comp_id, "Unknown Component"),
                     quantity=1,
                     source_feature_option_id=None,
                     reason="Dependency Resolution",
@@ -70,6 +76,7 @@ class BOMGenerator:
                 # 3. Manual Override (Fallback)
                 items.append(BOMItem(
                     component_id=comp_id,
+                    component_name=comp_names.get(comp_id, "Unknown Component"),
                     quantity=1,
                     source_feature_option_id=None,
                     reason="Manual Override",

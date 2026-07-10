@@ -30,6 +30,9 @@ def _envelope(data) -> APISuccessEnvelope:
     description="Returns all active elevator categories available for selection.",
 )
 async def list_categories(pipeline: ConfigurationPipeline = Depends(get_pipeline)):
+    pricing = pipeline.catalogue.pricing
+    pricing_map = {r.entity_id: r.price for r in pricing.pricing_records} if pricing else {}
+    
     cats = [
         {
             "id": c.id,
@@ -37,6 +40,7 @@ async def list_categories(pipeline: ConfigurationPipeline = Depends(get_pipeline
             "description": c.description,
             "active": c.active,
             "metadata": c.metadata,
+            "price": float(pricing_map.get(c.id, 0.0))
         }
         for c in pipeline.catalogue.categories
         if c.active
@@ -60,6 +64,7 @@ async def list_features(pipeline: ConfigurationPipeline = Depends(get_pipeline))
             "category_id": f.category_id,
             "required": f.required,
             "active": f.active,
+            "metadata": f.metadata,
         }
         for f in pipeline.catalogue.features
         if f.active and f.configurable
@@ -74,6 +79,9 @@ async def list_features(pipeline: ConfigurationPipeline = Depends(get_pipeline))
     description="Returns all selectable feature options. Each option belongs to a feature.",
 )
 async def list_feature_options(pipeline: ConfigurationPipeline = Depends(get_pipeline)):
+    pricing = pipeline.catalogue.pricing
+    pricing_map = {r.entity_id: r.price for r in pricing.pricing_records} if pricing else {}
+    
     options = [
         {
             "id": o.id,
@@ -81,6 +89,7 @@ async def list_feature_options(pipeline: ConfigurationPipeline = Depends(get_pip
             "display_name": o.display_name,
             "description": o.description,
             "active": o.active,
+            "price": float(pricing_map.get(o.id, 0.0))
         }
         for o in pipeline.catalogue.feature_options
         if o.active

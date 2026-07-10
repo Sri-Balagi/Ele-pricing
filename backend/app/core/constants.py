@@ -81,10 +81,11 @@ class RuleSeverity(StrEnum):
 
 
 class ConfigurationStatus(StrEnum):
-    DRAFT = "DRAFT"
+    CONFIGURED = "CONFIGURED"  # Customer-visible initial state (replaces DRAFT for UI)
+    DRAFT = "DRAFT"            # Internal pipeline alias (kept for backward compat)
     VALIDATED = "VALIDATED"
     PRICED = "PRICED"
-    APPROVED = "APPROVED"
+    QUOTED = "QUOTED"
     EXPORTED = "EXPORTED"
 
 

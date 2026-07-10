@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { configurationApi } from "@/api";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { TableSkeleton } from "@/components/Skeletons";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { ConfigSearch } from "@/components/ConfigSearch";
 
 export default function Pricing() {
   const [configId, setConfigId] = useState("");
@@ -24,19 +24,19 @@ export default function Pricing() {
     <div className="space-y-6">
       <h1 className="text-3xl font-bold tracking-tight">Pricing Breakdown</h1>
 
-      <Card>
+      <Card className="overflow-visible">
         <CardHeader>
           <CardTitle>Load Pricing</CardTitle>
           <CardDescription>Enter a Configuration ID to view detailed pricing.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex gap-4 max-w-md">
-            <Input 
-              placeholder="e.g. CFG-123" 
-              value={configId}
-              onChange={(e) => setConfigId(e.target.value)}
+            <ConfigSearch 
+              onSelect={(id) => setConfigId(id)} 
+              selectedId={configId} 
+              placeholder="Search config to view pricing..." 
             />
-            <Button onClick={() => setActiveId(configId)}>View Pricing</Button>
+            <Button onClick={() => setActiveId(configId)} disabled={!configId}>View Pricing</Button>
           </div>
         </CardContent>
       </Card>
@@ -63,18 +63,23 @@ export default function Pricing() {
           </CardHeader>
           <CardContent>
             <div className="text-4xl font-bold mb-6 text-primary">
-              ${(showPostTax ? data.total_price_incl_tax : data.total_price_excl_tax).toFixed(2)}
+              ${Number(showPostTax ? data.total_after_tax : data.subtotal_before_tax).toFixed(2)}
             </div>
             
             <h4 className="font-semibold mb-3">Line Items</h4>
             <div className="space-y-3">
-              {data.line_items?.map((item: any, i: number) => (
+              {[
+                { description: "Base Category Cost", amount: data.category_cost },
+                { description: "Additional Floor Coverage", amount: data.floor_coverage_cost, subtext: "Combined cost of hoist ropes, cables, guide rails, doors, wiring, and installation for extra floors." },
+                { description: "Features Cost", amount: data.feature_cost }
+              ].map((item, i) => (
                 <div key={i} className="flex justify-between items-center py-2 border-b last:border-0">
                   <div>
-                    <span className="font-medium">{item.description || item.rule_id}</span>
+                    <span className="font-medium">{item.description}</span>
+                    {item.subtext && <p className="text-xs text-muted-foreground">{item.subtext}</p>}
                   </div>
                   <div className="text-right">
-                    <span>${(showPostTax ? (item.amount * 1.2 /* Mock tax if not supplied */) : item.amount).toFixed(2)}</span>
+                    <span>${Number(showPostTax ? (Number(item.amount) * 1.2 /* Mock tax */) : item.amount).toFixed(2)}</span>
                   </div>
                 </div>
               ))}

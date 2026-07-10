@@ -239,6 +239,7 @@ class BOMItem(BaseModel):
     """A line item in the generated Bill of Materials."""
 
     component_id: str = Field(..., description="The physical component ID")
+    component_name: str | None = Field(default=None, description="The human-readable name of the component")
     quantity: int = Field(default=1, description="Quantity required")
     source_feature_option_id: str | None = Field(default=None, description="The feature choice that triggered this")
     reason: str = Field(default="", description="Explanation of why this is included")
@@ -274,6 +275,7 @@ class PricingSummary(BaseModel):
     category_cost: Decimal = Field(default=Decimal("0.00"), description="Base category price")
     component_cost: Decimal = Field(default=Decimal("0.00"), description="Sum of physical component costs")
     feature_cost: Decimal = Field(default=Decimal("0.00"), description="Sum of feature option upcharges")
+    floor_coverage_cost: Decimal = Field(default=Decimal("0.00"), description="Additional cost for floor coverage")
     
     # Backward compatible aliases / existing names
     base_price: Decimal = Field(default=Decimal("0.00"), description="Alias for category_cost")
@@ -315,6 +317,7 @@ class Configuration(BaseModel):
     """The core aggregate root representing a customer's specific elevator configuration."""
 
     configuration_id: str = Field(..., description="Unique ID for this configuration session")
+    project_name: str | None = Field(default=None, description="Customer-given project name (e.g. 'My Apartment')")
     customer_reference: str | None = Field(default=None, description="Optional CRM/ERP reference ID")
     created_at: str | None = Field(default=None, description="ISO8601 creation timestamp")
     expires_at: str | None = Field(default=None, description="ISO8601 quote expiry timestamp")

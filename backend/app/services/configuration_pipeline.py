@@ -16,7 +16,10 @@ from app.models.domain import (
     ProductCatalogue,
     RuleContext,
     DependencyResolutionContext,
-    DependencyResolutionReport
+    DependencyResolutionReport,
+    ValidationResult,
+    ValidationMessage,
+    RuleSeverity
 )
 from app.rules.evaluator import RuleEvaluator
 from app.dependency_engine.resolver import DependencyResolver
@@ -112,6 +115,16 @@ class ConfigurationPipeline:
 
         # Pipeline Error Policy State
         pipeline_success = True
+
+        # ==========================================
+        # Engine 0: Apply Feature Mappings
+        # ==========================================
+        logger.info(f"[{correlation_id}] BeforeEngine: FeatureMappings")
+        for mapping in self.catalogue.mappings:
+            if mapping.active and mapping.feature_option_id in configuration.selected_feature_options:
+                if mapping.component_id not in configuration.resolved_components:
+                    configuration.resolved_components.append(mapping.component_id)
+        logger.info(f"[{correlation_id}] AfterEngine: FeatureMappings (Success)")
 
         # ==========================================
         # Engine 1: Rule Engine
@@ -233,6 +246,18 @@ class ConfigurationPipeline:
         report.final_configuration_status = final_status
         report.metrics.total_execution_time_ms = (time.perf_counter() - start_time) * 1000
         report.metrics.success = len(report.errors) == 0
+        
+        errors = [
+            ValidationMessage(severity=RuleSeverity.ERROR, code="PIPE_ERR", message=msg) 
+            for msg in report.errors
+        ]
+        
+        configuration.validation_results = ValidationResult(
+            is_valid=report.metrics.success,
+            errors=errors,
+            warnings=[],
+            info=[]
+        )
         
         logger_msg = "PipelineSucceeded" if report.metrics.success else "PipelineFailed"
         logger.info(f"[{report.correlation_id}] {logger_msg}: Completed in {report.metrics.total_execution_time_ms:.2f}ms with status {final_status}")

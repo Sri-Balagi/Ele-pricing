@@ -47,6 +47,7 @@ export function AppLayout() {
 
   const navItems = [
     { name: "Dashboard", path: "/", icon: LayoutDashboard },
+    { name: "Database", path: "/database", icon: FileText },
     { name: "Wizard", path: "/wizard", icon: Settings2 },
     { name: "Validation", path: "/validation", icon: CheckCircle2 },
     { name: "BOM", path: "/bom", icon: Box },

@@ -53,6 +53,10 @@ class Settings(BaseSettings):
     # ── Data ──────────────────────────────────────────────────────────────────
     DATA_DIR: str = "app/data"
 
+    # ── Database (SQLite via SQLAlchemy async) ────────────────────────────────
+    # Override in .env:  SQLITE_DATABASE_URL=sqlite+aiosqlite:///./my.db
+    SQLITE_DATABASE_URL: str = "sqlite+aiosqlite:///./elevator_config.db"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

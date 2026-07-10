@@ -1,37 +1,15 @@
 [
-  {
-    "id": "GRP-PERFORMANCE",
-    "name": "Performance",
-    "description": "Features related to capacity, speed, and ride quality.",
-    "display_order": 10,
-    "active": true
-  },
-  {
-    "id": "GRP-DIMENSIONS",
-    "name": "Dimensions",
-    "description": "Features determining physical size and shaft requirements.",
-    "display_order": 20,
-    "active": true
-  },
-  {
-    "id": "GRP-DOOR",
-    "name": "Door System",
-    "description": "Door types, opening types, and finishes.",
-    "display_order": 30,
-    "active": true
-  },
-  {
-    "id": "GRP-CABIN",
-    "name": "Cabin Interior",
-    "description": "Cabin finishes, lighting, and accessories.",
-    "display_order": 40,
-    "active": true
-  },
-  {
-    "id": "GRP-CONTROL",
-    "name": "Control & Signalization",
-    "description": "Operating panels, control logic, and indicators.",
-    "display_order": 50,
-    "active": true
-  }
+  { "id": "GRP-A-PERFORMANCE", "name": "Performance", "description": "Load and speed parameters.", "display_order": 1, "active": true },
+  { "id": "GRP-A-DOOR",        "name": "Door System",  "description": "Door opening mechanism.",    "display_order": 2, "active": true },
+  { "id": "GRP-A-CABIN",       "name": "Cabin",        "description": "Interior finish options.",   "display_order": 3, "active": true },
+
+  { "id": "GRP-B-PERFORMANCE", "name": "Performance",       "description": "Load and speed parameters.",            "display_order": 1, "active": true },
+  { "id": "GRP-B-DOOR",        "name": "Door System",       "description": "Door opening mechanism.",               "display_order": 2, "active": true },
+  { "id": "GRP-B-CABIN",       "name": "Cabin",             "description": "Interior finish options.",              "display_order": 3, "active": true },
+  { "id": "GRP-B-CONTROL",     "name": "Control Systems",   "description": "Dispatch and energy control logic.",    "display_order": 4, "active": true },
+
+  { "id": "GRP-C-CERTIFICATION", "name": "Certification & Safety", "description": "Regulatory certification and safety class.", "display_order": 1, "active": true },
+  { "id": "GRP-C-MECHANICAL",    "name": "Mechanical Systems",     "description": "Drive, load, and shaft engineering.",        "display_order": 2, "active": true },
+  { "id": "GRP-C-PROTECTION",    "name": "Environmental Protection","description": "Corrosion, vibration, and blast ratings.",   "display_order": 3, "active": true },
+  { "id": "GRP-C-CONTROL",       "name": "Control & Monitoring",   "description": "Evacuation and remote monitoring systems.",  "display_order": 4, "active": true }
 ]

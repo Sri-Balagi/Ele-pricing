@@ -45,6 +45,9 @@ class PricingCalculator:
         current_step = start_step
 
         for option_id in context.configuration.selected_feature_options:
+            if option_id.startswith("STOPS-"):
+                continue
+
             record = context.pricing_registry.get_pricing_record(option_id)
             if not record:
                 # Missing mandatory pricing record! Fail fast.
@@ -88,3 +91,45 @@ class PricingCalculator:
                 current_step += 1
 
         return total, steps
+
+    def calculate_floor_coverage_cost(self, context: PricingContext, start_step: int) -> tuple[Decimal, PricingStep | None]:
+        """Calculates dynamic additional cost based on number of stops."""
+        category_id = context.configuration.selected_category
+        total = Decimal("0.00")
+        step = None
+
+        stops = 0
+        for opt in context.configuration.selected_feature_options:
+            if opt.startswith("STOPS-"):
+                try:
+                    stops = int(opt.replace("STOPS-", ""))
+                except ValueError:
+                    pass
+                break
+        
+        if stops > 0:
+            additional_floors = 0
+            unit_cost = 0
+            
+            if category_id == "CAT-A":
+                additional_floors = max(0, stops - 2)
+                unit_cost = 2000
+            elif category_id == "CAT-B":
+                additional_floors = max(0, stops - 4)
+                unit_cost = 3800
+            elif category_id == "CAT-C":
+                additional_floors = max(0, stops - 8)
+                unit_cost = 8500
+                
+            if additional_floors > 0:
+                cost = Decimal(str(additional_floors * unit_cost))
+                total = cost.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+                step = PricingStep(
+                    step_number=start_step,
+                    entity_id=f"FLOOR-COVERAGE-{stops}",
+                    description=f"Added floor coverage cost for {additional_floors} additional floors ({stops} total stops)",
+                    amount=total,
+                    timestamp=context.execution_timestamp
+                )
+
+        return total, step

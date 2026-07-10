@@ -1,79 +1,282 @@
 [
   {
-    "id": "FEAT-CAPACITY",
+    "id": "FEAT-A-CAPACITY",
     "name": "Load Capacity",
-    "description": "Rated load capacity of the elevator.",
-    "category_id": "CAT-B",
-    "group_id": "GRP-PERFORMANCE",
+    "description": "Maximum rated load the elevator can carry.",
+    "category_id": "CAT-A",
+    "group_id": "GRP-A-PERFORMANCE",
     "required": true,
     "configurable": true,
     "active": true,
     "metadata": {}
   },
   {
-    "id": "FEAT-SPEED",
+    "id": "FEAT-A-SPEED",
     "name": "Rated Speed",
-    "description": "Nominal travel speed.",
-    "category_id": "CAT-B",
-    "group_id": "GRP-PERFORMANCE",
+    "description": "Nominal travel speed of the car.",
+    "category_id": "CAT-A",
+    "group_id": "GRP-A-PERFORMANCE",
     "required": true,
     "configurable": true,
     "active": true,
     "metadata": {}
   },
   {
-    "id": "FEAT-STOPS",
-    "name": "Number of Stops",
-    "description": "Total number of landings served.",
-    "category_id": "CAT-B",
-    "group_id": "GRP-DIMENSIONS",
-    "required": true,
-    "configurable": true,
-    "active": true,
-    "metadata": {}
-  },
-  {
-    "id": "FEAT-DOOR-TYPE",
+    "id": "FEAT-A-DOOR-TYPE",
     "name": "Door Opening Type",
-    "description": "Mechanism of door opening.",
-    "category_id": "CAT-B",
-    "group_id": "GRP-DOOR",
+    "description": "Mechanism and direction of automatic door opening.",
+    "category_id": "CAT-A",
+    "group_id": "GRP-A-DOOR",
     "required": true,
     "configurable": true,
     "active": true,
     "metadata": {}
   },
   {
-    "id": "FEAT-CABIN-FINISH",
+    "id": "FEAT-A-CABIN-FINISH",
     "name": "Cabin Wall Finish",
-    "description": "Material used for cabin walls.",
-    "category_id": "CAT-B",
-    "group_id": "GRP-CABIN",
+    "description": "Surface material applied to interior cabin walls.",
+    "category_id": "CAT-A",
+    "group_id": "GRP-A-CABIN",
     "required": true,
     "configurable": true,
     "active": true,
     "metadata": {}
   },
   {
-    "id": "FEAT-DRIVE-TYPE",
-    "name": "Drive System Type",
-    "description": "Traction or hydraulic drive.",
+    "id": "FEAT-A-STOPS",
+    "name": "Number of Stops",
+    "description": "Total number of floor landings served.",
+    "category_id": "CAT-A",
+    "group_id": "GRP-A-PERFORMANCE",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {
+      "input_type": "numeric",
+      "min": 2,
+      "max": 10
+    }
+  },
+  {
+    "id": "FEAT-B-CAPACITY",
+    "name": "Load Capacity",
+    "description": "Maximum rated load the elevator can carry.",
     "category_id": "CAT-B",
-    "group_id": "GRP-PERFORMANCE",
+    "group_id": "GRP-B-PERFORMANCE",
     "required": true,
     "configurable": true,
     "active": true,
     "metadata": {}
   },
   {
-    "id": "FEAT-CONTROL-MODE",
-    "name": "Control Logic",
-    "description": "Elevator dispatching and control logic.",
+    "id": "FEAT-B-SPEED",
+    "name": "Rated Speed",
+    "description": "Nominal travel speed of the car.",
     "category_id": "CAT-B",
-    "group_id": "GRP-CONTROL",
+    "group_id": "GRP-B-PERFORMANCE",
     "required": true,
     "configurable": true,
     "active": true,
     "metadata": {}
+  },
+  {
+    "id": "FEAT-B-DOOR-TYPE",
+    "name": "Door Opening Type",
+    "description": "Mechanism and direction of automatic door opening.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-DOOR",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-CABIN-FINISH",
+    "name": "Cabin Wall Finish",
+    "description": "Surface material applied to interior cabin walls.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-CABIN",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-STOPS",
+    "name": "Number of Stops",
+    "description": "Total number of floor landings served.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-PERFORMANCE",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {
+      "input_type": "numeric",
+      "min": 4,
+      "max": 20
+    }
+  },
+  {
+    "id": "FEAT-B-DEST-CTRL",
+    "name": "Destination Control",
+    "description": "Call and dispatch logic: conventional vs destination dispatch system.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-CONTROL",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-ENERGY-MODE",
+    "name": "Energy Recovery Mode",
+    "description": "Drive type and energy recapture capability during descent braking.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-CONTROL",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-B-GROUP-CTRL",
+    "name": "Group Control Logic",
+    "description": "Single elevator vs grouped multi-car dispatching logic.",
+    "category_id": "CAT-B",
+    "group_id": "GRP-B-CONTROL",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-C-CERT-TYPE",
+    "name": "Regulatory Certification",
+    "description": "Applicable safety standard or zone classification for installation environment.",
+    "category_id": "CAT-C",
+    "group_id": "GRP-C-CERTIFICATION",
+    "required": false,
+    "configurable": true,
+    "active": true,
+    "metadata": {
+      "multi_select": true
+    }
+  },
+  {
+    "id": "FEAT-C-DRIVE-RATING",
+    "name": "Drive Motor Rating",
+    "description": "Rated motor power output for the main traction drive.",
+    "category_id": "CAT-C",
+    "group_id": "GRP-C-MECHANICAL",
+    "required": false,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-C-CORR-PROT",
+    "name": "Corrosion Protection Grade",
+    "description": "Atmospheric corrosion resistance class per ISO 12944 / EN 13480.",
+    "category_id": "CAT-C",
+    "group_id": "GRP-C-PROTECTION",
+    "required": false,
+    "configurable": true,
+    "active": true,
+    "metadata": {
+      "multi_select": true
+    }
+  },
+  {
+    "id": "FEAT-C-SHAFT-TYPE",
+    "name": "Shaft Construction Type",
+    "description": "Type of shaft structure enclosing the elevator travel path.",
+    "category_id": "CAT-C",
+    "group_id": "GRP-C-MECHANICAL",
+    "required": false,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-C-INCLINATION",
+    "name": "Installation Inclination",
+    "description": "Angular deviation from vertical for inclined or mine installations.",
+    "category_id": "CAT-C",
+    "group_id": "GRP-C-MECHANICAL",
+    "required": false,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-C-VIB-ISO",
+    "name": "Vibration Isolation Class",
+    "description": "Type of isolation mounts between structure and drive machinery.",
+    "category_id": "CAT-C",
+    "group_id": "GRP-C-PROTECTION",
+    "required": false,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-C-FIRE-EVAC",
+    "name": "Fire Evacuation Mode",
+    "description": "Fire service operation phase programming per EN 81-73.",
+    "category_id": "CAT-C",
+    "group_id": "GRP-C-CONTROL",
+    "required": false,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-C-LOAD-CLASS",
+    "name": "Structural Load Class",
+    "description": "Maximum design payload for heavy cargo or industrial applications.",
+    "category_id": "CAT-C",
+    "group_id": "GRP-C-MECHANICAL",
+    "required": false,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-C-DOOR-PROTECT",
+    "name": "Door Impact Protection",
+    "description": "Mechanical robustness rating of the landing and car door panels.",
+    "category_id": "CAT-C",
+    "group_id": "GRP-C-PROTECTION",
+    "required": false,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-C-REMOTE-MON",
+    "name": "Remote Monitoring Interface",
+    "description": "Connectivity method for off-site lift status and fault monitoring.",
+    "category_id": "CAT-C",
+    "group_id": "GRP-C-CONTROL",
+    "required": false,
+    "configurable": true,
+    "active": true,
+    "metadata": {}
+  },
+  {
+    "id": "FEAT-C-STOPS",
+    "name": "Number of Stops",
+    "description": "Total number of floor landings served.",
+    "category_id": "CAT-C",
+    "group_id": "GRP-C-MECHANICAL",
+    "required": true,
+    "configurable": true,
+    "active": true,
+    "metadata": {
+      "input_type": "numeric",
+      "min": 8,
+      "max": 60
+    }
   }
 ]
