@@ -1,5 +1,6 @@
 import hashlib
 import time
+from decimal import Decimal
 from io import BytesIO
 
 from reportlab.lib import colors
@@ -81,51 +82,78 @@ class PDFExporter(BaseExporter):
         elements.append(
             Paragraph("<b>Configuration Summary (Features)</b>", styles["Heading2"])
         )
-        features_str = ", ".join(config.selected_feature_options)
+        if context.catalogue:
+            features_display = []
+            for opt_id in config.selected_feature_options:
+                opt = next((o for o in context.catalogue.feature_options if o.id == opt_id), None)
+                if opt:
+                    feat = next((f for f in context.catalogue.features if f.id == opt.feature_id), None)
+                    if feat:
+                        features_display.append(f"{feat.name}: {opt.display_name}")
+                    else:
+                        features_display.append(opt.display_name)
+                else:
+                    features_display.append(opt_id)
+            features_str = ", ".join(features_display)
+        else:
+            features_str = ", ".join(config.selected_feature_options)
+        
         elements.append(Paragraph(features_str or "None", styles["Normal"]))
         elements.append(Spacer(1, 12))
 
         # 4. Bill Of Materials
         elements.append(Paragraph("<b>Bill of Materials</b>", styles["Heading2"]))
-        bom_data = [["Component ID", "Quantity", "Origin", "Reason"]]
-        if config.bill_of_materials:
-            for item in config.bill_of_materials.items:
-                bom_data.append(
-                    [
-                        item.component_id,
-                        str(item.quantity),
-                        item.origin_type.value,
-                        item.reason,
-                    ]
-                )
-        else:
-            bom_data.append(["No components", "", "", ""])
+        currency = price.currency_symbol if price else "$"
 
-        bom_table = Table(bom_data, hAlign="LEFT")
-        bom_table.setStyle(
-            TableStyle(
-                [
+        if config.bill_of_materials and config.bill_of_materials.items:
+            base_items = [i for i in config.bill_of_materials.items if getattr(i.origin_type, "value", str(i.origin_type)) == "BASE"]
+            feature_items = [i for i in config.bill_of_materials.items if getattr(i.origin_type, "value", str(i.origin_type)) != "BASE"]
+            
+            def create_bom_table(items_list, title):
+                elements.append(Paragraph(f"<b>{title}</b>", styles["Heading3"]))
+                table_data = [["Component ID", "Component Name", "Qty", "Unit Cost"]]
+                total = Decimal("0.00")
+                for item in items_list:
+                    comp_name = item.component_id
+                    if context.catalogue:
+                        comp = next((c for c in context.catalogue.components if c.id == item.component_id), None)
+                        if comp:
+                            comp_name = comp.name
+                    cost_val = item.unit_cost if item.unit_cost is not None else Decimal("0.00")
+                    total += cost_val
+                    table_data.append([item.component_id, comp_name, str(item.quantity), f"{currency}{cost_val:.2f}"])
+                
+                table_data.append(["", "", "Total:", f"{currency}{total:.2f}"])
+                
+                t = Table(table_data, hAlign="LEFT")
+                t.setStyle(TableStyle([
                     ("BACKGROUND", (0, 0), (-1, 0), colors.lightgrey),
                     ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
                     ("GRID", (0, 0), (-1, -1), 1, colors.black),
-                ]
-            )
-        )
-        elements.append(bom_table)
-        elements.append(Spacer(1, 12))
+                    ("FONTNAME", (-2, -1), (-1, -1), "Helvetica-Bold"),
+                ]))
+                elements.append(t)
+                elements.append(Spacer(1, 12))
+
+            if base_items:
+                create_bom_table(base_items, "Base Build Components")
+            if feature_items:
+                create_bom_table(feature_items, "Feature Customization Components")
+        else:
+            elements.append(Paragraph("No components generated.", styles["Normal"]))
+            elements.append(Spacer(1, 12))
 
         # 5. Pricing Breakdown
         elements.append(Paragraph("<b>Pricing Breakdown</b>", styles["Heading2"]))
         price_data = [["Description", "Amount"]]
         if price:
-            currency = price.currency_symbol
-            price_data.append(["Component Costs", f"{currency}{price.component_cost}"])
-            price_data.append(["Feature Costs", f"{currency}{price.feature_cost}"])
-            price_data.append(
-                ["Subtotal Before Tax", f"{currency}{price.subtotal_before_tax}"]
-            )
-            price_data.append(["Tax Amount", f"{currency}{price.tax_amount}"])
-            price_data.append(["Grand Total", f"{currency}{price.total_after_tax}"])
+            price_data.append(["Base Cost", f"{currency}{price.category_cost:.2f}"])
+            price_data.append(["Feature Cost", f"{currency}{price.feature_cost:.2f}"])
+            if price.floor_coverage_cost > 0:
+                price_data.append(["Additional Floor Coverage", f"{currency}{price.floor_coverage_cost:.2f}"])
+            price_data.append(["Subtotal before tax", f"{currency}{price.subtotal_before_tax:.2f}"])
+            price_data.append(["Tax amount", f"{currency}{price.tax_amount:.2f}"])
+            price_data.append(["Grand total", f"{currency}{price.total_after_tax:.2f}"])
 
         price_table = Table(price_data, hAlign="LEFT")
         price_table.setStyle(
@@ -144,6 +172,10 @@ class PDFExporter(BaseExporter):
             )
         )
         elements.append(price_table)
+        elements.append(Spacer(1, 12))
+        
+        # Add Logistics Exclusion Line
+        elements.append(Paragraph("<i>This cost is exclusive of Logistics Cost</i>", styles["Normal"]))
         elements.append(Spacer(1, 24))
 
         # 6. Footer

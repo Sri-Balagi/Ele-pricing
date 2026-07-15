@@ -27,6 +27,8 @@ class ConfigurationResponse(BaseModel):
 
     configuration_id: str
     status: ConfigurationStatus
+    project_name: str | None
+    customer_name: str | None
     customer_reference: str | None
     selected_category: str | None
     selected_feature_options: list[str]

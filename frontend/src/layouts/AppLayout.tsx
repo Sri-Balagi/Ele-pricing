@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { healthApi } from "@/api";
-import { Activity, LayoutDashboard, Settings2, FileText, CheckCircle2, Box, XCircle, AlertTriangle } from "lucide-react";
+import { Activity, LayoutDashboard, Settings2, FileText, CheckCircle2, Box, XCircle, AlertTriangle, LogOut } from "lucide-react";
 
 function StatusBar() {
   const { data, isLoading, isError } = useQuery({
@@ -49,9 +49,8 @@ export function AppLayout() {
     { name: "Dashboard", path: "/", icon: LayoutDashboard },
     { name: "Database", path: "/database", icon: FileText },
     { name: "Wizard", path: "/wizard", icon: Settings2 },
-    { name: "Validation", path: "/validation", icon: CheckCircle2 },
-    { name: "BOM", path: "/bom", icon: Box },
     { name: "Pricing", path: "/pricing", icon: Activity },
+    { name: "BOM", path: "/bom", icon: Box },
     { name: "Quote & Export", path: "/quote", icon: FileText },
   ];
 
@@ -87,6 +86,19 @@ export function AppLayout() {
               );
             })}
           </nav>
+          
+          <div className="p-4 border-t">
+            <button 
+              onClick={() => {
+                localStorage.removeItem("isAuthenticated");
+                window.location.href = "/login";
+              }}
+              className="flex items-center gap-3 px-3 py-2 w-full rounded-md transition-colors text-muted-foreground hover:bg-destructive/10 hover:text-destructive font-medium text-left"
+            >
+              <LogOut className="w-4 h-4" />
+              Logout
+            </button>
+          </div>
         </aside>
 
         {/* Main Content */}

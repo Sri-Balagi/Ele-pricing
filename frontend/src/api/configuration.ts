@@ -4,6 +4,25 @@ import type { components } from "../types/api";
 export type CreateConfigurationRequest = components["schemas"]["CreateConfigurationRequest"];
 export type UpdateConfigurationRequest = components["schemas"]["UpdateConfigurationRequest"];
 
+export interface CreateConfigPayload {
+  project_name: string;
+  customer_name?: string;
+  selected_category?: string;
+}
+
+export interface UpdateConfigPayload {
+  project_name?: string;
+  customer_name?: string;
+  selected_category?: string;
+}
+
+export interface Configuration {
+  configuration_id: string;
+  project_name: string | null;
+  customer_name: string | null;
+  status: string;
+}
+
 // Note: The API wraps successful responses in APISuccessEnvelope which client interceptor unwraps.
 // However, our interceptor unwraps `response.data`.
 // So the return type of these functions is the generic structure that matches the backend response.

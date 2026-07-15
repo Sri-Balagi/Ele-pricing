@@ -264,6 +264,7 @@ from enum import Enum
 
 
 class BOMOrigin(str, Enum):
+    BASE = "BASE"
     FEATURE = "FEATURE"
     DEPENDENCY = "DEPENDENCY"
     RULE = "RULE"
@@ -405,6 +406,9 @@ class Configuration(BaseModel):
     )
     project_name: str | None = Field(
         default=None, description="Customer-given project name (e.g. 'My Apartment')"
+    )
+    customer_name: str | None = Field(
+        default=None, description="Project-in Charge / Customer Name"
     )
     customer_reference: str | None = Field(
         default=None, description="Optional CRM/ERP reference ID"
@@ -759,3 +763,4 @@ class ExportContext(BaseModel):
     correlation_id: str = Field(..., description="Trace ID for this export run")
     execution_timestamp: str = Field(..., description="ISO8601 timestamp of the run")
     export_format: ExportFormat = Field(..., description="Target export format")
+    catalogue: ProductCatalogue | None = Field(default=None, description="The product catalogue for resolving names")

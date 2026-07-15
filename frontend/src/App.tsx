@@ -6,20 +6,33 @@ import { queryClient } from "@/lib/queryClient";
 import { AppLayout } from "@/layouts/AppLayout";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { WizardSkeleton } from "@/components/Skeletons";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 // Lazy loaded pages
 const Dashboard = React.lazy(() => import("@/pages/Dashboard"));
 const ConfigDatabase = React.lazy(() => import("@/pages/ConfigDatabase"));
 const Wizard = React.lazy(() => import("@/pages/Wizard"));
-const Validation = React.lazy(() => import("@/pages/Validation"));
 const BOM = React.lazy(() => import("@/pages/BOM"));
 const Pricing = React.lazy(() => import("@/pages/Pricing"));
 const Quote = React.lazy(() => import("@/pages/Quote"));
+const Login = React.lazy(() => import("@/pages/Login"));
 
 const router = createBrowserRouter([
   {
+    path: "/login",
+    element: (
+      <Suspense fallback={<WizardSkeleton />}>
+        <Login />
+      </Suspense>
+    ),
+  },
+  {
     path: "/",
-    element: <AppLayout />,
+    element: (
+      <ProtectedRoute>
+        <AppLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -42,14 +55,6 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<WizardSkeleton />}>
             <Wizard />
-          </Suspense>
-        ),
-      },
-      {
-        path: "validation",
-        element: (
-          <Suspense fallback={<WizardSkeleton />}>
-            <Validation />
           </Suspense>
         ),
       },

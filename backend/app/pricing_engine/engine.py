@@ -88,7 +88,7 @@ class PricingEngine(BaseEngine[PricingContext, PricingReport]):
             report.metrics.components_priced = len(c_steps)
 
             # 4. Subtotal
-            subtotal = category_cost + feature_cost + component_cost + floor_cost
+            subtotal = category_cost + feature_cost + floor_cost
             report.metrics.subtotal = subtotal
 
             # 5. Tax Calculation
@@ -109,7 +109,7 @@ class PricingEngine(BaseEngine[PricingContext, PricingReport]):
 
             # 7. BOM Unit Costs
             self._logger.before_bom(corr_id)
-            items_priced = self._bom_resolver.populate_unit_costs(context)
+            items_priced = self._bom_resolver.populate_unit_costs(context, category_cost, floor_cost, feature_cost)
             self._logger.after_bom(corr_id, items_priced)
 
             # 8. Pricing Summary

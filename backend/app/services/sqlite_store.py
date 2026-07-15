@@ -45,6 +45,7 @@ def _to_record(
         id=existing_id,
         configuration_id=config.configuration_id,
         project_name=config.project_name or "",
+        customer_name=config.customer_name or "",
         status=config.status.value
         if hasattr(config.status, "value")
         else str(config.status),
@@ -159,6 +160,7 @@ class SQLiteConfigurationStore(BaseConfigurationStore):
 
             now = datetime.now(UTC).isoformat()
             record.project_name = config.project_name or ""
+            record.customer_name = config.customer_name or ""
             record.status = (
                 config.status.value
                 if hasattr(config.status, "value")
@@ -220,6 +222,7 @@ class SQLiteConfigurationStore(BaseConfigurationStore):
                     "display_id": row.display_id,
                     "configuration_id": row.configuration_id,
                     "project_name": row.project_name,
+                    "customer_name": row.customer_name,
                     "status": row.status,
                     "selected_category": row.selected_category,
                     "pricing_total": row.pricing_total,
@@ -244,6 +247,7 @@ class SQLiteConfigurationStore(BaseConfigurationStore):
                 select(subq)
                 .where(
                     func.lower(subq.c.project_name).contains(q)
+                    | func.lower(subq.c.customer_name).contains(q)
                     | func.cast(subq.c.display_id, String).contains(q)
                     | func.lower(subq.c.configuration_id).contains(q)
                 )
@@ -256,6 +260,7 @@ class SQLiteConfigurationStore(BaseConfigurationStore):
                 "display_id": row.display_id,
                 "configuration_id": row.configuration_id,
                 "project_name": row.project_name,
+                "customer_name": row.customer_name,
                 "status": row.status,
                 "selected_category": row.selected_category,
                 "pricing_total": row.pricing_total,

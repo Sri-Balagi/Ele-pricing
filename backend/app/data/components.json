@@ -845,5 +845,148 @@
     "metadata": {},
     "specifications": {},
     "manufacturer": "Generic"
+  },
+  {
+    "id": "COMP-BASE-A-MOTOR",
+    "name": "CAT-A Traction Motor",
+    "description": "Standard traction motor for basic lifts.",
+    "category": "Mechanical",
+    "unit": "pcs",
+    "active": true,
+    "metadata": {},
+    "specifications": {},
+    "manufacturer": "Generic"
+  },
+  {
+    "id": "COMP-BASE-A-CABIN",
+    "name": "CAT-A Cabin Shell",
+    "description": "Standard cabin shell structure.",
+    "category": "Structural",
+    "unit": "pcs",
+    "active": true,
+    "metadata": {},
+    "specifications": {},
+    "manufacturer": "Generic"
+  },
+  {
+    "id": "COMP-BASE-A-CTRL",
+    "name": "CAT-A Control System",
+    "description": "Basic relay logic control system.",
+    "category": "Electrical",
+    "unit": "pcs",
+    "active": true,
+    "metadata": {},
+    "specifications": {},
+    "manufacturer": "Generic"
+  },
+  {
+    "id": "COMP-BASE-A-DOOR",
+    "name": "CAT-A Door Mechanism",
+    "description": "Standard door opening mechanism.",
+    "category": "Mechanical",
+    "unit": "pcs",
+    "active": true,
+    "metadata": {},
+    "specifications": {},
+    "manufacturer": "Generic"
+  },
+  {
+    "id": "COMP-BASE-B-MOTOR",
+    "name": "CAT-B Traction Motor",
+    "description": "Heavy-duty traction motor for high capacity.",
+    "category": "Mechanical",
+    "unit": "pcs",
+    "active": true,
+    "metadata": {},
+    "specifications": {},
+    "manufacturer": "Generic"
+  },
+  {
+    "id": "COMP-BASE-B-CABIN",
+    "name": "CAT-B Cabin Shell",
+    "description": "Reinforced cabin shell for heavier loads.",
+    "category": "Structural",
+    "unit": "pcs",
+    "active": true,
+    "metadata": {},
+    "specifications": {},
+    "manufacturer": "Generic"
+  },
+  {
+    "id": "COMP-BASE-B-CTRL",
+    "name": "CAT-B Control System",
+    "description": "Microprocessor-based advanced controller.",
+    "category": "Electrical",
+    "unit": "pcs",
+    "active": true,
+    "metadata": {},
+    "specifications": {},
+    "manufacturer": "Generic"
+  },
+  {
+    "id": "COMP-BASE-B-DOOR",
+    "name": "CAT-B Door Mechanism",
+    "description": "Heavy-duty door opening mechanism.",
+    "category": "Mechanical",
+    "unit": "pcs",
+    "active": true,
+    "metadata": {},
+    "specifications": {},
+    "manufacturer": "Generic"
+  },
+  {
+    "id": "COMP-BASE-C-MOTOR",
+    "name": "CAT-C High-Torque Motor",
+    "description": "Ultra-smooth premium gearless machine.",
+    "category": "Mechanical",
+    "unit": "pcs",
+    "active": true,
+    "metadata": {},
+    "specifications": {},
+    "manufacturer": "Generic"
+  },
+  {
+    "id": "COMP-BASE-C-CABIN",
+    "name": "CAT-C Reinforced Cabin Shell",
+    "description": "Luxury custom cabin shell with noise damping.",
+    "category": "Structural",
+    "unit": "pcs",
+    "active": true,
+    "metadata": {},
+    "specifications": {},
+    "manufacturer": "Generic"
+  },
+  {
+    "id": "COMP-BASE-C-CTRL",
+    "name": "CAT-C Advanced Control System",
+    "description": "Smart dispatch control system.",
+    "category": "Electrical",
+    "unit": "pcs",
+    "active": true,
+    "metadata": {},
+    "specifications": {},
+    "manufacturer": "Generic"
+  },
+  {
+    "id": "COMP-BASE-C-DOOR",
+    "name": "CAT-C Heavy-Duty Door Mechanism",
+    "description": "High-precision silent door mechanism.",
+    "category": "Mechanical",
+    "unit": "pcs",
+    "active": true,
+    "metadata": {},
+    "specifications": {},
+    "manufacturer": "Generic"
+  },
+  {
+    "id": "COMP-BASE-C-AERO",
+    "name": "CAT-C Safety Certification Kit",
+    "description": "High-speed aerodynamic wind shroud.",
+    "category": "Structural",
+    "unit": "pcs",
+    "active": true,
+    "metadata": {},
+    "specifications": {},
+    "manufacturer": "Generic"
   }
 ]

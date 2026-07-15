@@ -4,6 +4,7 @@ import { configurationApi } from "@/api";
 import { DataTable } from "@/components/DataTable";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { AlertTriangle } from "lucide-react";
 import { TableSkeleton } from "@/components/Skeletons";
 import { ConfigSearch } from "@/components/ConfigSearch";
 
@@ -23,10 +24,16 @@ export default function BOM() {
     { key: "component_name", header: "Component Name" },
     { key: "reason", header: "Reason" },
     { key: "quantity", header: "Qty", align: "right" as const },
-    { key: "unit_cost", header: "Unit Cost", align: "right" as const, render: (val: any) => val !== null && val !== undefined ? `$${Number(val).toFixed(2)}` : 'N/A' }
+    { key: "unit_cost", header: "Unit Cost", align: "right" as const, cell: (item: any) => item.unit_cost !== null && item.unit_cost !== undefined ? `$${Number(item.unit_cost).toFixed(2)}` : 'N/A' }
   ];
 
   const bomItems = data?.items || [];
+  
+  const baseItems = bomItems.filter((item: any) => item.origin_type === "BASE");
+  const featureItems = bomItems.filter((item: any) => item.origin_type !== "BASE");
+
+  const baseTotal = baseItems.reduce((sum: number, item: any) => sum + (Number(item.unit_cost) || 0), 0);
+  const featureTotal = featureItems.reduce((sum: number, item: any) => sum + (Number(item.unit_cost) || 0), 0);
 
   return (
     <div className="space-y-6">
@@ -50,22 +57,54 @@ export default function BOM() {
       </Card>
 
       {isLoading && <TableSkeleton rows={5} />}
-      {error && <div className="p-4 bg-destructive/10 text-destructive rounded-md">Error loading BOM</div>}
+      {error && (
+        <div className="p-4 bg-destructive/10 text-destructive border border-destructive/20 rounded-md flex flex-col gap-2">
+          <div className="flex items-center gap-2 font-semibold text-lg">
+            <AlertTriangle className="w-5 h-5" />
+            BOM Not Available
+          </div>
+          <p>Please ensure that 'Pricing' is implemented and validated first before generating the Bill of Materials for this configuration.</p>
+        </div>
+      )}
 
       {data && (
-        <Card>
-          <CardHeader>
-            <CardTitle>BOM Items</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <DataTable 
-              data={bomItems} 
-              columns={columns} 
-              emptyTitle="No BOM found" 
-              emptyDescription="No bill of materials is available for this configuration." 
-            />
-          </CardContent>
-        </Card>
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Base Build Components</CardTitle>
+              <CardDescription>Fundamental components covering the base elevator category and floor coverage.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <DataTable 
+                data={baseItems} 
+                columns={columns} 
+                emptyTitle="No Base Components" 
+                emptyDescription="No base components generated." 
+              />
+              <div className="flex justify-end pt-4 pr-4">
+                <p className="font-bold text-lg">Base Build Total: ${baseTotal.toFixed(2)}</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Feature Customization Components</CardTitle>
+              <CardDescription>Additional components based on selected features and rules.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <DataTable 
+                data={featureItems} 
+                columns={columns} 
+                emptyTitle="No Feature Components" 
+                emptyDescription="No feature-specific components found." 
+              />
+              <div className="flex justify-end pt-4 pr-4">
+                <p className="font-bold text-lg">Feature Components Total: ${featureTotal.toFixed(2)}</p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   );

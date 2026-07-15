@@ -375,6 +375,11 @@ export interface components {
              */
             project_name: string;
             /**
+             * Customer Name
+             * @description Project-in Charge / Customer Name
+             */
+            customer_name?: string | null;
+            /**
              * Selected Category
              * @description The chosen ElevatorCategory ID
              */
@@ -481,6 +486,11 @@ export interface components {
              * @description Update project name
              */
             project_name?: string | null;
+            /**
+             * Customer Name
+             * @description Update customer name
+             */
+            customer_name?: string | null;
             /**
              * Selected Feature Options
              * @description IDs of selected FeatureOptions

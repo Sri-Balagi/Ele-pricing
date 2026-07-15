@@ -94,6 +94,8 @@ async def create_configuration(
     new_config = Configuration(
         configuration_id=f"CFG-{uuid.uuid4().hex[:8].upper()}",
         project_name=request_data.project_name,
+        customer_name=request_data.customer_name,
+        customer_reference=request_data.customer_reference,
         status=ConfigurationStatus.CONFIGURED,
         selected_category=request_data.selected_category or "",
         selected_feature_options=[],
@@ -131,6 +133,7 @@ async def list_configurations(
                 "display_id": r["display_id"],
                 "configuration_id": r["configuration_id"],
                 "project_name": r["project_name"],
+                "customer_name": r.get("customer_name"),
                 "status": r["status"],
                 "selected_category": r["selected_category"],
                 "pricing_total": r["pricing_total"],
@@ -188,6 +191,8 @@ async def update_configuration(
 
     if request_data.project_name is not None:
         config.project_name = request_data.project_name
+    if request_data.customer_name is not None:
+        config.customer_name = request_data.customer_name
     if request_data.selected_category is not None:
         config.selected_category = request_data.selected_category
     if request_data.selected_feature_options is not None:

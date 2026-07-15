@@ -805,6 +805,18 @@
             "title": "Project Name",
             "description": "Customer-given project name (e.g. 'My Apartment')"
           },
+          "customer_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Name",
+            "description": "Project-in Charge / Customer Name"
+          },
           "selected_category": {
             "anyOf": [
               {
@@ -1036,6 +1048,18 @@
             ],
             "title": "Project Name",
             "description": "Update project name"
+          },
+          "customer_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Name",
+            "description": "Update customer name"
           },
           "selected_feature_options": {
             "anyOf": [

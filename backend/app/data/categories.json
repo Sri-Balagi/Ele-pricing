@@ -4,20 +4,20 @@
     "name": "Type A Standard",
     "description": "Standardized low-rise residential elevator with predefined options.",
     "active": true,
-    "metadata": { "max_stops": 6 }
+    "metadata": { "max_stops": 6, "base_cost": 22000.0 }
   },
   {
     "id": "CAT-B",
     "name": "Type B Configurable",
     "description": "Mid-rise commercial elevator with highly configurable features.",
     "active": true,
-    "metadata": { "max_stops": 20 }
+    "metadata": { "max_stops": 20, "base_cost": 48000.0 }
   },
   {
     "id": "CAT-C",
     "name": "Type C Specialized",
     "description": "Heavy-duty or high-rise elevator with strict engineering constraints.",
     "active": true,
-    "metadata": { "max_stops": 50 }
+    "metadata": { "max_stops": 50, "base_cost": 125000.0 }
   }
 ]

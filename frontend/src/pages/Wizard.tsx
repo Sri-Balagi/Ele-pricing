@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams, useNavigate, useBlocker } from "react-router-dom";
 import { configurationApi } from "@/api";
@@ -37,6 +37,7 @@ export default function Wizard() {
 
   const [activeConfigId, setActiveConfigId] = useState<string | null>(null);
   const [projectName, setProjectName] = useState("");
+  const [customerName, setCustomerName] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [featureSelections, setFeatureSelections] = useState<Record<string, string | string[]>>({});
   const [stopsError, setStopsError] = useState<string | null>(null);
@@ -53,6 +54,7 @@ export default function Wizard() {
         const draft = JSON.parse(draftStr);
         setActiveConfigId(draft.activeConfigId || null);
         setProjectName(draft.projectName || "");
+        setCustomerName(draft.customerName || "");
         setSelectedCategory(draft.selectedCategory || "");
         setFeatureSelections(draft.featureSelections || {});
         setStopsError(draft.stopsError || null);
@@ -70,12 +72,13 @@ export default function Wizard() {
       localStorage.setItem(draftKey, JSON.stringify({
         activeConfigId,
         projectName,
+        customerName,
         selectedCategory,
         featureSelections,
         stopsError
       }));
     }
-  }, [draftLoaded, isDirty, activeConfigId, projectName, selectedCategory, featureSelections, stopsError, draftKey]);
+  }, [draftLoaded, isDirty, activeConfigId, projectName, customerName, selectedCategory, featureSelections, stopsError, draftKey]);
 
   // Load existing config if in edit mode
   const { data: existingConfigEnv, isLoading: loadingConfig } = useQuery({
@@ -89,6 +92,7 @@ export default function Wizard() {
       const config = existingConfigEnv;
       setActiveConfigId(config.configuration_id);
       setProjectName(config.project_name || "");
+      setCustomerName(config.customer_name || "");
       setSelectedCategory(config.selected_category || "");
       
       const newSelections: Record<string, string | string[]> = {};
@@ -208,6 +212,67 @@ export default function Wizard() {
   const activeCategoryObj = (categories as any[]).find((c) => c.id === selectedCategory);
   const maxStops: number | null = activeCategoryObj?.metadata?.max_stops ?? null;
 
+  // ── Dynamic Compatibility Toasts ──────────────────────────────────────────────
+  const prevIncompatibilities = useRef<Record<string, string | null>>({});
+  const activeToasts = useRef<Record<string, string | number>>({});
+  const initialLoadDone = useRef(false);
+  const prevCategory = useRef(selectedCategory);
+
+  useEffect(() => {
+    if (prevCategory.current !== selectedCategory) {
+      initialLoadDone.current = false;
+      prevCategory.current = selectedCategory;
+      prevIncompatibilities.current = {};
+    }
+
+    if (selectedCategory !== "CAT-B" || !featureOptions) return;
+
+    const currentIncompatibilities: Record<string, string | null> = {};
+    (featureOptions as any[]).forEach(opt => {
+      currentIncompatibilities[opt.id] = getIncompatibilities(opt.id);
+    });
+
+    if (!initialLoadDone.current) {
+      prevIncompatibilities.current = currentIncompatibilities;
+      initialLoadDone.current = true;
+      return;
+    }
+
+    const newRedToasts: { id: string, msg: string }[] = [];
+    const newGreenToasts: { id: string, msg: string }[] = [];
+
+    (featureOptions as any[]).forEach(opt => {
+      const inc = currentIncompatibilities[opt.id];
+      const prevInc = prevIncompatibilities.current[opt.id];
+      
+      if (!prevInc && inc) {
+        newRedToasts.push({ id: opt.id, msg: `"${opt.display_name}" is now incompatible: ${inc}` });
+      } else if (prevInc && !inc) {
+        newGreenToasts.push({ id: opt.id, msg: `"${opt.display_name}" is now compatible and available for selection.` });
+      }
+    });
+
+    newRedToasts.forEach(({ id, msg }) => {
+      if (activeToasts.current[id]) {
+        toast.dismiss(activeToasts.current[id]);
+      }
+      const newId = `${id}-${Date.now()}`;
+      activeToasts.current[id] = newId;
+      setTimeout(() => toast.error(msg, { id: newId, duration: 6000 }), 300);
+    });
+
+    newGreenToasts.forEach(({ id, msg }) => {
+      if (activeToasts.current[id]) {
+        toast.dismiss(activeToasts.current[id]);
+      }
+      const newId = `${id}-${Date.now()}`;
+      activeToasts.current[id] = newId;
+      setTimeout(() => toast.success(msg, { id: newId, duration: 6000 }), 300);
+    });
+
+    prevIncompatibilities.current = currentIncompatibilities;
+  }, [featureSelections, featureOptions, selectedCategory]);
+
   // ── Dirty / unsaved guard ────────────────────────────────────────────────────
   useEffect(() => {
     const handler = (e: BeforeUnloadEvent) => {
@@ -254,8 +319,20 @@ export default function Wizard() {
   // ── Handlers ─────────────────────────────────────────────────────────────────
   const handleStartProject = () => {
     if (!projectName.trim()) { toast.error("Please enter a Project Name."); return; }
+    
+    const custName = customerName.trim();
+    if (!custName) {
+      toast.error("Please enter a Customer Name.");
+      return;
+    }
+    if (!/^[A-Za-z\s]+$/.test(custName)) {
+      toast.error("Customer Name must contain only alphabets and spaces.");
+      return;
+    }
+
     createMutation.mutate({
       project_name: projectName.trim(),
+      customer_name: custName,
       selected_category: null,
     });
   };
@@ -366,6 +443,7 @@ export default function Wizard() {
       id: activeConfigId, 
       data: { 
         project_name: projectName.trim(),
+        customer_name: customerName.trim(),
         selected_category: selectedCategory,
         selected_feature_options: selectedOptions 
       } 
@@ -378,6 +456,8 @@ export default function Wizard() {
 
   const resetSession = () => {
     setActiveConfigId(null);
+    setProjectName("");
+    setCustomerName("");
     setSelectedCategory("");
     setProjectName("");
     setFeatureSelections({});
@@ -407,6 +487,44 @@ export default function Wizard() {
       }
     });
   });
+
+  // Grouping logic for rendering
+  let renderGroups: { title?: string, features: any[] }[] = [];
+
+  if (selectedCategory === "CAT-A") {
+    const mechNames = ["Load Capacity", "Rated Speed", "Door Opening Type", "Number of Stops"];
+    const designNames = ["Cabin Wall Finish"];
+    renderGroups = [
+      { 
+        title: "Mechanical Features", 
+        features: mechNames.map(name => activeFeatures.find(f => f.name === name)).filter(Boolean)
+      },
+      { 
+        title: "Design Features", 
+        features: designNames.map(name => activeFeatures.find(f => f.name === name)).filter(Boolean)
+      }
+    ];
+  } else if (selectedCategory === "CAT-B") {
+    const mechNames = [
+      "Load Capacity", "Rated Speed", "Door Opening Type", "Door Dimensions", 
+      "Drive System", "Suspension Type", "Counterweight Location", "Shaft Type", 
+      "Energy Savings Mode", "Group Control", "Pit Depth", "Destination Control System", 
+      "Operating Panel (COP)", "Handrails", "Number of Stops"
+    ];
+    const designNames = ["Cabin Wall Finish", "Cabin Flooring", "Ceiling Design"];
+    renderGroups = [
+      { 
+        title: "Mechanical Features", 
+        features: mechNames.map(name => activeFeatures.find(f => f.name === name)).filter(Boolean)
+      },
+      { 
+        title: "Design Features", 
+        features: designNames.map(name => activeFeatures.find(f => f.name === name)).filter(Boolean)
+      }
+    ];
+  } else {
+    renderGroups = [{ features: activeFeatures }];
+  }
 
 
   return (
@@ -442,15 +560,37 @@ export default function Wizard() {
           <CardDescription>Enter a project name to begin tracking this configuration.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="project_name" className="font-semibold">Project Name <span className="text-destructive">*</span></Label>
-            <Input
-              id="project_name"
-              placeholder="e.g. Skyline Towers Phase 1"
-              value={projectName}
-              onChange={(e) => { setProjectName(e.target.value); setIsDirty(true); }}
-              disabled={!!activeConfigId && !isEditMode} // Lock unless editing
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="project_name" className="font-semibold">Project Name <span className="text-destructive">*</span></Label>
+              <Input
+                id="project_name"
+                placeholder="e.g. Skyline Towers Phase 1"
+                value={projectName}
+                onChange={(e) => { setProjectName(e.target.value); setIsDirty(true); }}
+                disabled={!!activeConfigId} // Locked after creation and in edit mode
+              />
+            </div>
+
+            {activeConfigId && (
+              <div className="space-y-2">
+                <Label className="font-semibold text-muted-foreground">Project ID</Label>
+                <div className="h-9 flex items-center px-3 font-mono text-sm bg-muted/30 border rounded-md text-muted-foreground cursor-not-allowed">
+                  {activeConfigId}
+                </div>
+              </div>
+            )}
+
+            <div className={`space-y-2 ${activeConfigId ? "md:col-span-2" : ""}`}>
+              <Label htmlFor="customer_name" className="font-semibold">Project-in Charge / Customer Name</Label>
+              <Input
+                id="customer_name"
+                placeholder="e.g. John Doe"
+                value={customerName}
+                onChange={(e) => { setCustomerName(e.target.value); setIsDirty(true); }}
+                disabled={!!activeConfigId} // Locked after creation and in edit mode
+              />
+            </div>
           </div>
         </CardContent>
         {!activeConfigId && (
@@ -483,19 +623,28 @@ export default function Wizard() {
                   <Loader2 className="w-4 h-4 animate-spin" /> Loading options…
                 </div>
               ) : (
-                <Select value={selectedCategory} onValueChange={(val) => val && handleCategoryChange(val)}>
-                  <SelectTrigger id="category-select" className="w-full">
-                    <SelectValue placeholder="— Select elevator type —" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {(categories as any[]).map((cat) => (
-                      <SelectItem key={cat.id} value={cat.id}>
-                        <span className="font-medium">{cat.name}</span>
-                        <span className="ml-2 text-xs text-muted-foreground">{cat.id}</span>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className="flex items-center gap-4">
+                  <div className="flex-1">
+                    <Select value={selectedCategory} onValueChange={(val) => val && handleCategoryChange(val)}>
+                      <SelectTrigger id="category-select" className="w-full">
+                        <SelectValue placeholder="— Select elevator type —" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {(categories as any[]).map((cat) => (
+                          <SelectItem key={cat.id} value={cat.id}>
+                            <span className="font-medium">{cat.name}</span>
+                            <span className="ml-2 text-xs text-muted-foreground">{cat.id}</span>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="w-auto shrink-0 text-right">
+                    <Badge variant={selectedCategory ? "default" : "outline"} className={selectedCategory ? "bg-primary" : "text-muted-foreground"}>
+                      Base Cost: ${selectedCategory ? ((categories as any[]).find(c => c.id === selectedCategory)?.metadata?.base_cost || 0).toFixed(2) : "0.00"}
+                    </Badge>
+                  </div>
+                </div>
               )}
               {selectedCategory && (
                 <p className="text-sm text-muted-foreground mt-2 p-3 bg-muted/50 rounded-md">
@@ -532,7 +681,15 @@ export default function Wizard() {
                 <Loader2 className="w-4 h-4 animate-spin" /> Loading features…
               </div>
             ) : (
-              activeFeatures.map((feature, idx) => {
+              renderGroups.map((group, groupIdx) => (
+                <div key={groupIdx} className="space-y-5">
+                  {group.title && (
+                    <div className="mt-8 mb-4 first:mt-0">
+                      <h3 className="text-lg font-bold text-primary">{group.title}</h3>
+                      <Separator className="mt-2" />
+                    </div>
+                  )}
+                  {group.features.map((feature, idx) => {
                 const isNumeric = NUMERIC_INPUT_FEATURES.has(feature.id);
                 const opts = optionsByFeature[feature.id] || [];
                 const selected = featureSelections[feature.id];
@@ -629,7 +786,9 @@ export default function Wizard() {
                             ) : (
                               <Select value={(selected as string) || ""} onValueChange={(val) => val && handleDropdownChange(feature.id, val)}>
                                 <SelectTrigger id={`feature-${feature.id}`} className="w-full">
-                                  <SelectValue placeholder={`— Choose ${feature.name} —`} />
+                                  <SelectValue placeholder={`— Choose ${feature.name} —`}>
+                                    {selected ? opts.find((o: any) => o.id === selected)?.display_name : undefined}
+                                  </SelectValue>
                                 </SelectTrigger>
                                 <SelectContent>
                                   {opts.length > 0 ? (
@@ -677,7 +836,9 @@ export default function Wizard() {
                     </div>
                   </div>
                 );
-              })
+              })}
+                </div>
+              ))
             )}
           </CardContent>
           <CardFooter className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t pt-6 bg-muted/10">

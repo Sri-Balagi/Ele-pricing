@@ -14,6 +14,12 @@ class BOMGenerator:
     NEVER populates unit_cost (owned by Pricing Engine).
     """
 
+    BASE_COMPONENTS_MAP = {
+        "CAT-A": ["COMP-BASE-A-MOTOR", "COMP-BASE-A-CABIN", "COMP-BASE-A-CTRL", "COMP-BASE-A-DOOR"],
+        "CAT-B": ["COMP-BASE-B-MOTOR", "COMP-BASE-B-CABIN", "COMP-BASE-B-CTRL", "COMP-BASE-B-DOOR"],
+        "CAT-C": ["COMP-BASE-C-MOTOR", "COMP-BASE-C-CABIN", "COMP-BASE-C-CTRL", "COMP-BASE-C-DOOR", "COMP-BASE-C-AERO"]
+    }
+
     def __init__(self, catalogue: ProductCatalogue):
         self.catalogue = catalogue
 
@@ -31,6 +37,23 @@ class BOMGenerator:
 
         # Build lookup for component names
         comp_names: dict[str, str] = {c.id: c.name for c in self.catalogue.components}
+
+        # Inject Base Components
+        category = configuration.selected_category
+        base_comps = self.BASE_COMPONENTS_MAP.get(category, [])
+        for comp_id in base_comps:
+            items.append(
+                BOMItem(
+                    component_id=comp_id,
+                    component_name=comp_names.get(comp_id, "Base Build Component"),
+                    quantity=1,
+                    source_feature_option_id=None,
+                    reason="Base Build Component",
+                    origin_type=BOMOrigin.BASE,
+                    unit_cost=None,
+                    pricing_record_id=None,
+                )
+            )
 
         # Build BOM items from resolved components
         for comp_id in configuration.resolved_components:

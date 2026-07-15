@@ -46,22 +46,31 @@ class ExcelExporter(BaseExporter):
         ws2 = wb.create_sheet(title="Bill Of Materials")
         bom_headers = [
             "Component ID",
-            "Quantity",
-            "Reason",
-            "Origin Type",
-            "Source Feature",
+            "Component Name",
+            "Qty",
+            "Unit Cost"
         ]
         self._write_headers(ws2, bom_headers)
 
         if config.bill_of_materials:
-            for item in config.bill_of_materials.items:
+            # Sort Base first, then features
+            base_items = [i for i in config.bill_of_materials.items if getattr(i.origin_type, "value", str(i.origin_type)) == "BASE"]
+            feature_items = [i for i in config.bill_of_materials.items if getattr(i.origin_type, "value", str(i.origin_type)) != "BASE"]
+            
+            for item in base_items + feature_items:
+                comp_name = item.component_id
+                if context.catalogue:
+                    comp = next((c for c in context.catalogue.components if c.id == item.component_id), None)
+                    if comp:
+                        comp_name = comp.name
+                
+                cost_val = item.unit_cost if item.unit_cost is not None else 0.0
                 ws2.append(
                     [
                         item.component_id,
+                        comp_name,
                         item.quantity,
-                        item.reason,
-                        item.origin_type.value,
-                        item.source_feature_option_id or "",
+                        f"${cost_val:.2f}"
                     ]
                 )
         self._apply_formatting(ws2)
@@ -71,45 +80,30 @@ class ExcelExporter(BaseExporter):
         price_headers = ["Component/Feature", "Unit Cost", "Quantity", "Total"]
         self._write_headers(ws3, price_headers)
 
-        if config.bill_of_materials and price:
-            for item in config.bill_of_materials.items:
-                cost = item.unit_cost or 0
-                total = cost * item.quantity
-                ws3.append(
-                    [
-                        item.component_id,
-                        f"{price.currency_symbol}{cost}",
-                        item.quantity,
-                        f"{price.currency_symbol}{total}",
-                    ]
-                )
-            ws3.append(["---", "---", "---", "---"])
-            ws3.append(
-                [
-                    "Subtotal Before Tax",
-                    "",
-                    "",
-                    f"{price.currency_symbol}{price.subtotal_before_tax}",
-                ]
-            )
-            ws3.append(
-                ["Tax Amount", "", "", f"{price.currency_symbol}{price.tax_amount}"]
-            )
-            ws3.append(
-                [
-                    "Total After Tax",
-                    "",
-                    "",
-                    f"{price.currency_symbol}{price.total_after_tax}",
-                ]
-            )
+        if price:
+            ws3.append(["Base Cost", "", "", f"{price.currency_symbol}{price.category_cost:.2f}"])
+            ws3.append(["Feature Cost", "", "", f"{price.currency_symbol}{price.feature_cost:.2f}"])
+            if price.floor_coverage_cost > 0:
+                ws3.append(["Additional Floor Coverage", "", "", f"{price.currency_symbol}{price.floor_coverage_cost:.2f}"])
+            ws3.append(["Subtotal before tax", "", "", f"{price.currency_symbol}{price.subtotal_before_tax:.2f}"])
+            ws3.append(["Tax amount", "", "", f"{price.currency_symbol}{price.tax_amount:.2f}"])
+            ws3.append(["Grand total", "", "", f"{price.currency_symbol}{price.total_after_tax:.2f}"])
         self._apply_formatting(ws3)
 
         # Sheet 4: Configuration Summary
         ws4 = wb.create_sheet(title="Configuration Summary")
-        self._write_headers(ws4, ["Selected Option ID"])
-        for opt in config.selected_feature_options:
-            ws4.append([opt])
+        self._write_headers(ws4, ["Feature", "Option Name", "Option ID"])
+        for opt_id in config.selected_feature_options:
+            feat_name = "Unknown"
+            opt_name = "Unknown"
+            if context.catalogue:
+                opt = next((o for o in context.catalogue.feature_options if o.id == opt_id), None)
+                if opt:
+                    opt_name = opt.display_name
+                    feat = next((f for f in context.catalogue.features if f.id == opt.feature_id), None)
+                    if feat:
+                        feat_name = feat.name
+            ws4.append([feat_name, opt_name, opt_id])
         self._apply_formatting(ws4)
 
         # Save to bytes

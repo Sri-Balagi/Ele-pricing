@@ -75,7 +75,7 @@ export default function ConfigDatabase() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input 
               type="text" 
-              placeholder="Search by project name or ID..."
+              placeholder="Search by project name, customer name, or ID..."
               className="w-full pl-9 pr-4 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -100,6 +100,7 @@ export default function ConfigDatabase() {
                 <tr>
                   <th className="px-6 py-3 font-medium">ID</th>
                   <th className="px-6 py-3 font-medium">Project Name</th>
+                  <th className="px-6 py-3 font-medium">Customer Name</th>
                   <th className="px-6 py-3 font-medium">Category</th>
                   <th className="px-6 py-3 font-medium">Status</th>
                   <th className="px-6 py-3 font-medium">Quote Value</th>
@@ -114,6 +115,9 @@ export default function ConfigDatabase() {
                     </td>
                     <td className="px-6 py-4 font-medium text-gray-900">
                       {item.project_name || "Unnamed Project"}
+                    </td>
+                    <td className="px-6 py-4 text-gray-600">
+                      {item.customer_name || <span className="text-muted-foreground/50">-</span>}
                     </td>
                     <td className="px-6 py-4 text-muted-foreground">
                       {item.selected_category === "CAT-A" ? "Type A (Residential)" : 

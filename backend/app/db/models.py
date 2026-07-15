@@ -16,6 +16,7 @@ class ConfigurationRecord(Base):
 
     # Customer-visible fields (indexed for search)
     project_name = Column(String, nullable=False, default="", index=True)
+    customer_name = Column(String, nullable=True, default="", index=True)
     status = Column(String, nullable=False, default="CONFIGURED", index=True)
     selected_category = Column(String, nullable=False, default="")
 
