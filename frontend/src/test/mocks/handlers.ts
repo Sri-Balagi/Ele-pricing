@@ -36,7 +36,7 @@ export const handlers = [
   }),
   
   // Configuration Create
-  http.post("/api/v1/configurations", async ({ request }) => {
+  http.post("/api/v1/configurations", async ({ _request }) => {
     return HttpResponse.json({
       success: true,
       data: {

@@ -489,7 +489,7 @@ export default function Wizard() {
   });
 
   // Grouping logic for rendering
-  let renderGroups: { title?: string, features: any[] }[] = [];
+  let renderGroups: { title?: string, features: any[] }[];
 
   if (selectedCategory === "CAT-A") {
     const mechNames = ["Load Capacity", "Rated Speed", "Door Opening Type", "Number of Stops"];
