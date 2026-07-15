@@ -16,6 +16,7 @@ const BOM = React.lazy(() => import("@/pages/BOM"));
 const Pricing = React.lazy(() => import("@/pages/Pricing"));
 const Quote = React.lazy(() => import("@/pages/Quote"));
 const Login = React.lazy(() => import("@/pages/Login"));
+const Validation = React.lazy(() => import("@/pages/Validation"));
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<WizardSkeleton />}>
             <Wizard />
+          </Suspense>
+        ),
+      },
+      {
+        path: "validation",
+        element: (
+          <Suspense fallback={<WizardSkeleton />}>
+            <Validation />
           </Suspense>
         ),
       },
