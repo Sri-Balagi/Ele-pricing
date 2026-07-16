@@ -109,7 +109,9 @@ class PricingEngine(BaseEngine[PricingContext, PricingReport]):
 
             # 7. BOM Unit Costs
             self._logger.before_bom(corr_id)
-            items_priced = self._bom_resolver.populate_unit_costs(context, category_cost, floor_cost, feature_cost)
+            items_priced = self._bom_resolver.populate_unit_costs(
+                context, category_cost, floor_cost, feature_cost
+            )
             self._logger.after_bom(corr_id, items_priced)
 
             # 8. Pricing Summary

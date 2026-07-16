@@ -87,9 +87,23 @@ class PDFExporter(BaseExporter):
         else:
             if context.catalogue:
                 for opt_id in config.selected_feature_options:
-                    opt = next((o for o in context.catalogue.feature_options if o.id == opt_id), None)
+                    opt = next(
+                        (
+                            o
+                            for o in context.catalogue.feature_options
+                            if o.id == opt_id
+                        ),
+                        None,
+                    )
                     if opt:
-                        feat = next((f for f in context.catalogue.features if f.id == opt.feature_id), None)
+                        feat = next(
+                            (
+                                f
+                                for f in context.catalogue.features
+                                if f.id == opt.feature_id
+                            ),
+                            None,
+                        )
                         if feat:
                             text = f"• {feat.name}: {opt.display_name}"
                         else:
@@ -108,9 +122,17 @@ class PDFExporter(BaseExporter):
         currency = price.currency_symbol if price else "$"
 
         if config.bill_of_materials and config.bill_of_materials.items:
-            base_items = [i for i in config.bill_of_materials.items if getattr(i.origin_type, "value", str(i.origin_type)) == "BASE"]
-            feature_items = [i for i in config.bill_of_materials.items if getattr(i.origin_type, "value", str(i.origin_type)) != "BASE"]
-            
+            base_items = [
+                i
+                for i in config.bill_of_materials.items
+                if getattr(i.origin_type, "value", str(i.origin_type)) == "BASE"
+            ]
+            feature_items = [
+                i
+                for i in config.bill_of_materials.items
+                if getattr(i.origin_type, "value", str(i.origin_type)) != "BASE"
+            ]
+
             def create_bom_table(items_list, title):
                 elements.append(Paragraph(f"<b>{title}</b>", styles["Heading3"]))
                 table_data = [["Component ID", "Component Name", "Qty", "Unit Cost"]]
@@ -118,22 +140,44 @@ class PDFExporter(BaseExporter):
                 for item in items_list:
                     comp_name = item.component_id
                     if context.catalogue:
-                        comp = next((c for c in context.catalogue.components if c.id == item.component_id), None)
+                        comp = next(
+                            (
+                                c
+                                for c in context.catalogue.components
+                                if c.id == item.component_id
+                            ),
+                            None,
+                        )
                         if comp:
                             comp_name = comp.name
-                    cost_val = item.unit_cost if item.unit_cost is not None else Decimal("0.00")
+                    cost_val = (
+                        item.unit_cost
+                        if item.unit_cost is not None
+                        else Decimal("0.00")
+                    )
                     total += cost_val
-                    table_data.append([item.component_id, comp_name, str(item.quantity), f"{currency}{cost_val:.2f}"])
-                
+                    table_data.append(
+                        [
+                            item.component_id,
+                            comp_name,
+                            str(item.quantity),
+                            f"{currency}{cost_val:.2f}",
+                        ]
+                    )
+
                 table_data.append(["", "", "Total:", f"{currency}{total:.2f}"])
-                
+
                 t = Table(table_data, hAlign="LEFT")
-                t.setStyle(TableStyle([
-                    ("BACKGROUND", (0, 0), (-1, 0), colors.lightgrey),
-                    ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
-                    ("GRID", (0, 0), (-1, -1), 1, colors.black),
-                    ("FONTNAME", (-2, -1), (-1, -1), "Helvetica-Bold"),
-                ]))
+                t.setStyle(
+                    TableStyle(
+                        [
+                            ("BACKGROUND", (0, 0), (-1, 0), colors.lightgrey),
+                            ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                            ("GRID", (0, 0), (-1, -1), 1, colors.black),
+                            ("FONTNAME", (-2, -1), (-1, -1), "Helvetica-Bold"),
+                        ]
+                    )
+                )
                 elements.append(t)
                 elements.append(Spacer(1, 12))
 
@@ -152,8 +196,15 @@ class PDFExporter(BaseExporter):
             price_data.append(["Base Cost", f"{currency}{price.category_cost:.2f}"])
             price_data.append(["Feature Cost", f"{currency}{price.feature_cost:.2f}"])
             if price.floor_coverage_cost > 0:
-                price_data.append(["Additional Floor Coverage", f"{currency}{price.floor_coverage_cost:.2f}"])
-            price_data.append(["Subtotal before tax", f"{currency}{price.subtotal_before_tax:.2f}"])
+                price_data.append(
+                    [
+                        "Additional Floor Coverage",
+                        f"{currency}{price.floor_coverage_cost:.2f}",
+                    ]
+                )
+            price_data.append(
+                ["Subtotal before tax", f"{currency}{price.subtotal_before_tax:.2f}"]
+            )
             price_data.append(["Tax amount", f"{currency}{price.tax_amount:.2f}"])
             price_data.append(["Grand total", f"{currency}{price.total_after_tax:.2f}"])
 
@@ -175,9 +226,13 @@ class PDFExporter(BaseExporter):
         )
         elements.append(price_table)
         elements.append(Spacer(1, 12))
-        
+
         # Add Logistics Exclusion Line
-        elements.append(Paragraph("<i>This cost is exclusive of Logistics Cost</i>", styles["Normal"]))
+        elements.append(
+            Paragraph(
+                "<i>This cost is exclusive of Logistics Cost</i>", styles["Normal"]
+            )
+        )
         elements.append(Spacer(1, 24))
 
         # 6. Footer

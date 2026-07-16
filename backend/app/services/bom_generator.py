@@ -15,10 +15,31 @@ class BOMGenerator:
     """
 
     BASE_COMPONENTS_MAP = {
-        "CAT-A": ["COMP-BASE-A-MOTOR", "COMP-BASE-A-CABIN", "COMP-BASE-A-CTRL", "COMP-BASE-A-DOOR"],
-        "CAT-B": ["COMP-BASE-B-MOTOR", "COMP-BASE-B-CABIN", "COMP-BASE-B-CTRL", "COMP-BASE-B-DOOR"],
-        "CAT-C": ["COMP-BASE-C-MOTOR", "COMP-BASE-C-CABIN", "COMP-BASE-C-CTRL", "COMP-BASE-C-DOOR", "COMP-BASE-C-AERO"],
-        "CAT-D": ["COMP-BASE-B-MOTOR", "COMP-BASE-B-CABIN", "COMP-BASE-B-CTRL", "COMP-BASE-B-DOOR"]
+        "CAT-A": [
+            "COMP-BASE-A-MOTOR",
+            "COMP-BASE-A-CABIN",
+            "COMP-BASE-A-CTRL",
+            "COMP-BASE-A-DOOR",
+        ],
+        "CAT-B": [
+            "COMP-BASE-B-MOTOR",
+            "COMP-BASE-B-CABIN",
+            "COMP-BASE-B-CTRL",
+            "COMP-BASE-B-DOOR",
+        ],
+        "CAT-C": [
+            "COMP-BASE-C-MOTOR",
+            "COMP-BASE-C-CABIN",
+            "COMP-BASE-C-CTRL",
+            "COMP-BASE-C-DOOR",
+            "COMP-BASE-C-AERO",
+        ],
+        "CAT-D": [
+            "COMP-BASE-B-MOTOR",
+            "COMP-BASE-B-CABIN",
+            "COMP-BASE-B-CTRL",
+            "COMP-BASE-B-DOOR",
+        ],
     }
 
     def __init__(self, catalogue: ProductCatalogue):

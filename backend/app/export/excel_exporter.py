@@ -44,34 +44,39 @@ class ExcelExporter(BaseExporter):
 
         # Sheet 2: Bill Of Materials
         ws2 = wb.create_sheet(title="Bill Of Materials")
-        bom_headers = [
-            "Component ID",
-            "Component Name",
-            "Qty",
-            "Unit Cost"
-        ]
+        bom_headers = ["Component ID", "Component Name", "Qty", "Unit Cost"]
         self._write_headers(ws2, bom_headers)
 
         if config.bill_of_materials:
             # Sort Base first, then features
-            base_items = [i for i in config.bill_of_materials.items if getattr(i.origin_type, "value", str(i.origin_type)) == "BASE"]
-            feature_items = [i for i in config.bill_of_materials.items if getattr(i.origin_type, "value", str(i.origin_type)) != "BASE"]
-            
+            base_items = [
+                i
+                for i in config.bill_of_materials.items
+                if getattr(i.origin_type, "value", str(i.origin_type)) == "BASE"
+            ]
+            feature_items = [
+                i
+                for i in config.bill_of_materials.items
+                if getattr(i.origin_type, "value", str(i.origin_type)) != "BASE"
+            ]
+
             for item in base_items + feature_items:
                 comp_name = item.component_id
                 if context.catalogue:
-                    comp = next((c for c in context.catalogue.components if c.id == item.component_id), None)
+                    comp = next(
+                        (
+                            c
+                            for c in context.catalogue.components
+                            if c.id == item.component_id
+                        ),
+                        None,
+                    )
                     if comp:
                         comp_name = comp.name
-                
+
                 cost_val = item.unit_cost if item.unit_cost is not None else 0.0
                 ws2.append(
-                    [
-                        item.component_id,
-                        comp_name,
-                        item.quantity,
-                        f"${cost_val:.2f}"
-                    ]
+                    [item.component_id, comp_name, item.quantity, f"${cost_val:.2f}"]
                 )
         self._apply_formatting(ws2)
 
@@ -81,13 +86,50 @@ class ExcelExporter(BaseExporter):
         self._write_headers(ws3, price_headers)
 
         if price:
-            ws3.append(["Base Cost", "", "", f"{price.currency_symbol}{price.category_cost:.2f}"])
-            ws3.append(["Feature Cost", "", "", f"{price.currency_symbol}{price.feature_cost:.2f}"])
+            ws3.append(
+                [
+                    "Base Cost",
+                    "",
+                    "",
+                    f"{price.currency_symbol}{price.category_cost:.2f}",
+                ]
+            )
+            ws3.append(
+                [
+                    "Feature Cost",
+                    "",
+                    "",
+                    f"{price.currency_symbol}{price.feature_cost:.2f}",
+                ]
+            )
             if price.floor_coverage_cost > 0:
-                ws3.append(["Additional Floor Coverage", "", "", f"{price.currency_symbol}{price.floor_coverage_cost:.2f}"])
-            ws3.append(["Subtotal before tax", "", "", f"{price.currency_symbol}{price.subtotal_before_tax:.2f}"])
-            ws3.append(["Tax amount", "", "", f"{price.currency_symbol}{price.tax_amount:.2f}"])
-            ws3.append(["Grand total", "", "", f"{price.currency_symbol}{price.total_after_tax:.2f}"])
+                ws3.append(
+                    [
+                        "Additional Floor Coverage",
+                        "",
+                        "",
+                        f"{price.currency_symbol}{price.floor_coverage_cost:.2f}",
+                    ]
+                )
+            ws3.append(
+                [
+                    "Subtotal before tax",
+                    "",
+                    "",
+                    f"{price.currency_symbol}{price.subtotal_before_tax:.2f}",
+                ]
+            )
+            ws3.append(
+                ["Tax amount", "", "", f"{price.currency_symbol}{price.tax_amount:.2f}"]
+            )
+            ws3.append(
+                [
+                    "Grand total",
+                    "",
+                    "",
+                    f"{price.currency_symbol}{price.total_after_tax:.2f}",
+                ]
+            )
         self._apply_formatting(ws3)
 
         # Sheet 4: Configuration Summary
@@ -97,10 +139,20 @@ class ExcelExporter(BaseExporter):
             feat_name = "Unknown"
             opt_name = "Unknown"
             if context.catalogue:
-                opt = next((o for o in context.catalogue.feature_options if o.id == opt_id), None)
+                opt = next(
+                    (o for o in context.catalogue.feature_options if o.id == opt_id),
+                    None,
+                )
                 if opt:
                     opt_name = opt.display_name
-                    feat = next((f for f in context.catalogue.features if f.id == opt.feature_id), None)
+                    feat = next(
+                        (
+                            f
+                            for f in context.catalogue.features
+                            if f.id == opt.feature_id
+                        ),
+                        None,
+                    )
                     if feat:
                         feat_name = feat.name
             ws4.append([feat_name, opt_name, opt_id])

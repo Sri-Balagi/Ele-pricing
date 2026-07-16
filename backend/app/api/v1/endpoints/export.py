@@ -57,7 +57,9 @@ async def export_configuration(
         correlation_id=correlation_id,
         execution_timestamp=datetime.now(UTC).isoformat(),
         export_format=format_enum,
-        catalogue=request.app.state.pipeline.catalogue if hasattr(request.app.state, "pipeline") else None,
+        catalogue=request.app.state.pipeline.catalogue
+        if hasattr(request.app.state, "pipeline")
+        else None,
     )
 
     report = exporter.export(context)
