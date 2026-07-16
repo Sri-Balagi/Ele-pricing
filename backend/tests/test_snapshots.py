@@ -40,6 +40,7 @@ def test_configuration_snapshot():
     expected_keys = {
         "configuration_id",
         "project_name",
+        "customer_name",
         "customer_reference",
         "created_at",
         "expires_at",

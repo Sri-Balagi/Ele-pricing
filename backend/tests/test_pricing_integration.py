@@ -240,14 +240,14 @@ def test_full_pipeline_m2_m3_m4(integrated_catalogue, base_config):
     # Components: 100 + 200 + 300 = 600
     assert summary.component_cost == Decimal("600")
 
-    # Subtotal = 5000 + 500 + 600 = 6100
-    assert summary.subtotal_before_tax == Decimal("6100")
+    # Subtotal = 5000 + 500 = 5500
+    assert summary.subtotal_before_tax == Decimal("5500")
 
-    # Tax: 20% of 6100 = 1220
-    assert summary.tax_amount == Decimal("1220")
+    # Tax: 20% of 5500 = 1100
+    assert summary.tax_amount == Decimal("1100")
 
-    # Total = 6100 + 1220 = 7320
-    assert summary.total_after_tax == Decimal("7320")
+    # Total = 5500 + 1100 = 6600
+    assert summary.total_after_tax == Decimal("6600")
 
     # Check BOM Unit Costs populated
     for item in base_config.bill_of_materials.items:

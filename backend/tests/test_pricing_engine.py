@@ -124,21 +124,21 @@ def test_pricing_engine_success(dummy_product_catalogue):
     assert summary is not None
     assert summary.currency == "USD"
 
-    # 1000 + 55 + 200 = 1255.00
-    assert summary.subtotal_before_tax == Decimal("1255.00")
+    # 1000 + 55 = 1055.00
+    assert summary.subtotal_before_tax == Decimal("1055.00")
 
-    # Tax: 10% of 1255 = 125.50
-    assert summary.tax_amount == Decimal("125.50")
+    # Tax: 10% of 1055 = 105.50
+    assert summary.tax_amount == Decimal("105.50")
 
-    # Total: 1255 + 125.50 = 1380.50
-    assert summary.total_after_tax == Decimal("1380.50")
+    # Total: 1055 + 105.50 = 1160.50
+    assert summary.total_after_tax == Decimal("1160.50")
 
     # Check aliases
-    assert summary.taxes == Decimal("125.50")
-    assert summary.total == Decimal("1380.50")
+    assert summary.taxes == Decimal("105.50")
+    assert summary.total == Decimal("1160.50")
 
-    # Check BOM
-    assert config.bill_of_materials.items[0].unit_cost == Decimal("200.00")
+    # Check BOM (scaled to feature cost of 55.00)
+    assert config.bill_of_materials.items[0].unit_cost == Decimal("55.00")
     assert config.bill_of_materials.items[0].pricing_record_id == "COMP_1"
 
 

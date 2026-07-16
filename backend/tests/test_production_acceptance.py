@@ -11,6 +11,7 @@ def test_full_api_workflow_and_exports(client):
         "/api/v1/configurations",
         json={
             "project_name": f"Test Project {uuid.uuid4()}",
+            "customer_name": "Test Customer",
             "selected_category": "TYPE_B",
         },
     )
@@ -105,6 +106,7 @@ def test_error_paths(client):
         "/api/v1/configurations",
         json={
             "project_name": f"Test Project {uuid.uuid4()}",
+            "customer_name": "Test Customer",
             "selected_category": "TYPE_B",
         },
     )
