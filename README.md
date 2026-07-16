@@ -92,6 +92,7 @@ Ele-pricing/
 | **Type A** | Standard elevators — fixed feature set |
 | **Type B** | Configurable — mixed fixed and customizable features |
 | **Type C** | Specialized — strict engineering constraints |
+| **Type D** | Highly Customizable — Ultimate luxury and smart features |
 
 ---
 

@@ -26,7 +26,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-const NUMERIC_INPUT_FEATURES = new Set(["FEAT-A-STOPS", "FEAT-B-STOPS", "FEAT-C-STOPS", "FEAT-STOPS"]);
+const NUMERIC_INPUT_FEATURES = new Set(["FEAT-A-STOPS", "FEAT-B-STOPS", "FEAT-C-STOPS", "FEAT-D-STOPS", "FEAT-STOPS"]);
 
 export default function Wizard() {
   const [searchParams] = useSearchParams();
@@ -38,6 +38,7 @@ export default function Wizard() {
   const [activeConfigId, setActiveConfigId] = useState<string | null>(null);
   const [projectName, setProjectName] = useState("");
   const [customerName, setCustomerName] = useState("");
+  const [consentGiven, setConsentGiven] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [featureSelections, setFeatureSelections] = useState<Record<string, string | string[]>>({});
   const [stopsError, setStopsError] = useState<string | null>(null);
@@ -173,28 +174,57 @@ export default function Wizard() {
   const catalogueLoading = loadingCats || loadingFeatures || loadingOptions || loadingConfig || loadingDeps;
   
   const getIncompatibilities = (optionId: string) => {
-    if (selectedCategory !== "CAT-B") return null;
+    if (selectedCategory !== "CAT-B" && selectedCategory !== "CAT-D") return null;
     const selectedIds = Object.values(featureSelections).flat().filter(Boolean) as string[];
+    
+    // Check EXCLUDES
     const conflicts = (dependencies as any[]).filter(d => d.dependency_type === "EXCLUDES").filter(d => {
       if (d.target_id === optionId && selectedIds.includes(d.source_id)) return true;
       if (d.source_id === optionId && selectedIds.includes(d.target_id)) return true;
       return false;
     });
+
     if (conflicts.length > 0) {
       const messages = conflicts.map(c => {
         const conflictingId = c.source_id === optionId ? c.target_id : c.source_id;
         const conflictOpt = (featureOptions as any[]).find(o => o.id === conflictingId);
         if (conflictOpt) {
           const conflictFeat = (features as any[]).find(f => f.id === conflictOpt.feature_id);
-          if (conflictFeat) {
-            return `${conflictFeat.name} (${conflictOpt.display_name})`;
-          }
-          return conflictOpt.display_name;
+          return conflictFeat ? `${conflictFeat.name} (${conflictOpt.display_name})` : conflictOpt.display_name;
         }
         return "Unknown selection";
       });
       return `Incompatible with: ${messages.join(" and ")}`;
     }
+
+    // Check REQUIRES
+    const optToTest = (featureOptions as any[]).find(o => o.id === optionId);
+    if (!optToTest) return null;
+
+    const requiresConflicts = (dependencies as any[]).filter(d => d.dependency_type === "REQUIRES").filter(d => {
+      if (selectedIds.includes(d.source_id)) {
+        const requiredOpt = (featureOptions as any[]).find(o => o.id === d.target_id);
+        if (requiredOpt && requiredOpt.feature_id === optToTest.feature_id && optionId !== d.target_id) {
+          return true; // Conflict: A required option for this feature must be selected instead
+        }
+      }
+      return false;
+    });
+
+    if (requiresConflicts.length > 0) {
+      const messages = requiresConflicts.map(c => {
+        const sourceOpt = (featureOptions as any[]).find(o => o.id === c.source_id);
+        const targetOpt = (featureOptions as any[]).find(o => o.id === c.target_id);
+        if (sourceOpt && targetOpt) {
+          const sourceFeat = (features as any[]).find(f => f.id === sourceOpt.feature_id);
+          const featName = sourceFeat ? sourceFeat.name : "A selected option";
+          return `Blocked: ${featName} (${sourceOpt.display_name}) requires "${targetOpt.display_name}"`;
+        }
+        return "Blocked by a required dependency";
+      });
+      return messages.join(". ");
+    }
+
     return null;
   };
 
@@ -225,7 +255,7 @@ export default function Wizard() {
       prevIncompatibilities.current = {};
     }
 
-    if (selectedCategory !== "CAT-B" || !featureOptions) return;
+    if ((selectedCategory !== "CAT-B" && selectedCategory !== "CAT-D") || !featureOptions) return;
 
     const currentIncompatibilities: Record<string, string | null> = {};
     (featureOptions as any[]).forEach(opt => {
@@ -245,10 +275,20 @@ export default function Wizard() {
       const inc = currentIncompatibilities[opt.id];
       const prevInc = prevIncompatibilities.current[opt.id];
       
-      if (!prevInc && inc) {
-        newRedToasts.push({ id: opt.id, msg: `"${opt.display_name}" is now incompatible: ${inc}` });
-      } else if (prevInc && !inc) {
-        newGreenToasts.push({ id: opt.id, msg: `"${opt.display_name}" is now compatible and available for selection.` });
+      const feature = (features as any[]).find(f => f.id === opt.feature_id);
+      const featureName = feature ? feature.name : "Unknown Feature";
+      const fullName = `${featureName} (${opt.display_name})`;
+      
+      if (inc !== prevInc) {
+        if (inc) {
+          if (!prevInc) {
+            newRedToasts.push({ id: opt.id, msg: `"${fullName}" is now incompatible: ${inc}` });
+          } else {
+            newRedToasts.push({ id: opt.id, msg: `"${fullName}" incompatibility updated: ${inc}` });
+          }
+        } else if (prevInc) {
+          newGreenToasts.push({ id: opt.id, msg: `"${fullName}" is now compatible and available for selection.` });
+        }
       }
     });
 
@@ -351,7 +391,7 @@ export default function Wizard() {
       });
     } else if (val === "CAT-B") {
       setFeatureSelections({ 
-        [`FEAT-B-STOPS`]: "STOPS-4", // min stops for CAT-B is 4
+        [`FEAT-B-STOPS`]: "STOPS-2", // min stops for CAT-B is 2
         "FEAT-B-CAPACITY": "OPT-B-CAP-630",
         "FEAT-B-SPEED": "OPT-B-SPEED-10",
         "FEAT-B-DOOR-TYPE": "OPT-B-DOOR-SIDE",
@@ -370,9 +410,62 @@ export default function Wizard() {
         "FEAT-B-GROUP-CTRL": "OPT-B-GRP-SIMP",
         "FEAT-B-PIT-DEPTH": "OPT-B-PIT-STD"
       });
+    } else if (val === "CAT-D") {
+      setFeatureSelections({ 
+        [`FEAT-D-STOPS`]: "STOPS-2",
+        "FEAT-D-CAPACITY": "OPT-D-CAP-630",
+        "FEAT-D-SPEED": "OPT-D-SPEED-10",
+        "FEAT-D-DOOR-TYPE": "OPT-D-DOOR-SIDE",
+        "FEAT-D-CABIN-FINISH": "OPT-D-WALL-SS",
+        "FEAT-D-DOOR-DIM": "OPT-D-DIM-900",
+        "FEAT-D-FLOORING": "OPT-D-FLOOR-PVC",
+        "FEAT-D-CEILING": "OPT-D-CEIL-STD",
+        "FEAT-D-HANDRAIL": "OPT-D-RAIL-REAR",
+        "FEAT-D-COP": "OPT-D-COP-PUSH",
+        "FEAT-D-DEST-CTRL": "OPT-D-DEST-NONE",
+        "FEAT-D-DRIVE": "OPT-D-DRIVE-GEARED",
+        "FEAT-D-SUSPENSION": "OPT-D-SUSP-ROPE",
+        "FEAT-D-CWT-LOC": "OPT-D-CWT-SIDE",
+        "FEAT-D-SHAFT": "OPT-D-SHAFT-CONCRETE",
+        "FEAT-D-ENERGY-MODE": "OPT-D-NRG-ECO",
+        "FEAT-D-GROUP-CTRL": "OPT-D-GRP-SIMP",
+        "FEAT-D-PIT-DEPTH": "OPT-D-PIT-STD",
+        "FEAT-D-MIRROR": "OPT-D-MIRROR-NONE",
+        "FEAT-D-KICKPLATE": "OPT-D-KICK-NONE",
+        "FEAT-D-BUMPER": "OPT-D-BUMPER-NONE",
+        "FEAT-D-DOOR-FINISH": "OPT-D-DOOR-SS",
+        "FEAT-D-ARCHITRAVE": "OPT-D-ARCH-NARROW",
+        "FEAT-D-THRESHOLD": "OPT-D-THRESH-ALU",
+        "FEAT-D-CAR-MAT": "OPT-D-MAT-NONE",
+        "FEAT-D-EXT-DISPLAY": "OPT-D-EXT-DOT",
+        "FEAT-D-VENTILATION": "OPT-D-VENT-STD",
+        "FEAT-D-AIR-PURIFIER": "OPT-D-PURIFY-NONE",
+        "FEAT-D-MUSIC": "OPT-D-MUSIC-NONE",
+        "FEAT-D-CHIME": "OPT-D-CHIME-STD",
+        "FEAT-D-VOICE": "OPT-D-VOICE-NONE",
+        "FEAT-D-SANITIZER": "OPT-D-SANI-NONE",
+        "FEAT-D-LIGHTING": "OPT-D-LIGHT-COOL",
+        "FEAT-D-VIBRATION": "OPT-D-VIBE-STD",
+        "FEAT-D-RFID": "OPT-D-RFID-NONE",
+        "FEAT-D-FINGERPRINT": "OPT-D-FINGER-NONE",
+        "FEAT-D-CAMERA": "OPT-D-CAM-NONE",
+        "FEAT-D-VIP-MODE": "OPT-D-VIP-NONE",
+        "FEAT-D-ALARM": "OPT-D-ALARM-LOCAL",
+        "FEAT-D-PHONE": "OPT-D-PHONE-ANALOG",
+        "FEAT-D-ACCESS-CTRL": "OPT-D-ACC-NONE",
+        "FEAT-D-EVACUATION": "OPT-D-EVAC-STD",
+        "FEAT-D-TOUCHLESS": "OPT-D-TOUCH-NONE",
+        "FEAT-D-APP-CALL": "OPT-D-APP-NONE",
+        "FEAT-D-IOT": "OPT-D-IOT-BASIC",
+        "FEAT-D-DISPLAY-AD": "OPT-D-DISP-NONE",
+        "FEAT-D-WIFI": "OPT-D-WIFI-NONE",
+        "FEAT-D-REGEN-DRIVE": "OPT-D-REGEN-NONE",
+        "FEAT-D-BUTTON-COLOR": "OPT-D-BTN-WHITE",
+        "FEAT-D-SEISMIC": "OPT-D-SEISMIC-NONE"
+      });
     } else if (val === "CAT-C") {
       setFeatureSelections({
-        [`FEAT-C-STOPS`]: "STOPS-8", // min stops for CAT-C is 8
+        [`FEAT-C-STOPS`]: "STOPS-2", // min stops for CAT-C is 2
         "FEAT-C-DRIVE-RATING": "OPT-C-DRV-75",
         "FEAT-C-INCLINATION": "OPT-C-INC-0",
         "FEAT-C-LOAD-CLASS": "OPT-C-LOD-STD",
@@ -397,7 +490,32 @@ export default function Wizard() {
       toast.error(inc);
       return;
     }
-    setFeatureSelections((prev) => ({ ...prev, [featureId]: optionId }));
+
+    const requiresRules = (dependencies as any[]).filter(d => d.dependency_type === "REQUIRES" && d.source_id === optionId);
+    
+    if (requiresRules.length > 0) {
+      const updates: Record<string, string> = {};
+      const messages: string[] = [];
+      
+      requiresRules.forEach(rule => {
+        const requiredOpt = (featureOptions as any[]).find(o => o.id === rule.target_id);
+        if (requiredOpt) {
+          const reqFeature = (features as any[]).find(f => f.id === requiredOpt.feature_id);
+          const reqFeatureName = reqFeature ? reqFeature.name : "Unknown Feature";
+          updates[requiredOpt.feature_id] = requiredOpt.id;
+          messages.push(`"${reqFeatureName} (${requiredOpt.display_name})" was auto-selected`);
+        }
+      });
+      
+      if (messages.length > 0) {
+        toast.info(`${messages.join(" and ")} due to requirement.`);
+      }
+      
+      setFeatureSelections((prev) => ({ ...prev, [featureId]: optionId, ...updates }));
+    } else {
+      setFeatureSelections((prev) => ({ ...prev, [featureId]: optionId }));
+    }
+    
     setIsDirty(true);
   };
 
@@ -424,6 +542,10 @@ export default function Wizard() {
       setFeatureSelections((prev) => { const next = { ...prev }; delete next[featureId]; return next; });
       return;
     }
+    
+    // Optimistically update feature selections to allow intermediate invalid states (like '1')
+    setFeatureSelections((prev) => ({ ...prev, [featureId]: `STOPS-${num}` }));
+
     if (isNaN(num) || num < 2) {
       setStopsError("Minimum 2 stops required.");
       return;
@@ -432,7 +554,6 @@ export default function Wizard() {
       setStopsError(`Maximum ${maxStops} stops for ${activeCategoryObj?.name}.`);
       return;
     }
-    setFeatureSelections((prev) => ({ ...prev, [featureId]: `STOPS-${num}` }));
   };
 
   const handleSaveAll = () => {
@@ -504,7 +625,7 @@ export default function Wizard() {
         features: designNames.map(name => activeFeatures.find(f => f.name === name)).filter(Boolean)
       }
     ];
-  } else if (selectedCategory === "CAT-B") {
+  } else if (selectedCategory === "CAT-B" || selectedCategory === "CAT-D") {
     const mechNames = [
       "Load Capacity", "Rated Speed", "Door Opening Type", "Door Dimensions", 
       "Drive System", "Suspension Type", "Counterweight Location", "Shaft Type", 
@@ -512,16 +633,56 @@ export default function Wizard() {
       "Operating Panel (COP)", "Handrails", "Number of Stops"
     ];
     const designNames = ["Cabin Wall Finish", "Cabin Flooring", "Ceiling Design"];
+    
+    // CAT-D specific names
+    const aestheticNames = [
+      "Mirror Configuration", "Kickplate Material", "Bumper Rails", "Door Surface Finish", 
+      "Architrave Style", "Sill Material", "Custom Car Mats", "Exterior Indicator"
+    ];
+    const comfortNames = [
+      "Ventilation System", "Air Purifier", "Background Music", "Arrival Chime", 
+      "Voice Annunciator", "Hand Sanitizer", "Cabin Lighting", "Anti-Vibration"
+    ];
+    const securityNames = [
+      "RFID Card Reader", "Biometric Scanner", "CCTV Camera", "VIP Priority Mode", 
+      "Emergency Alarm", "Intercom System", "Floor Lockout", "Evacuation Mode"
+    ];
+    const smartNames = [
+      "Touchless Buttons", "App Calling", "IoT Maintenance", "In-Cabin Ad Screen", 
+      "Wi-Fi Router", "Regenerative Drive", "Button Color", "Seismic Sensor"
+    ];
+
     renderGroups = [
-      { 
-        title: "Mechanical Features", 
+      {
+        title: "Mechanical Features",
         features: mechNames.map(name => activeFeatures.find(f => f.name === name)).filter(Boolean)
       },
-      { 
-        title: "Design Features", 
+      {
+        title: "Design Features",
         features: designNames.map(name => activeFeatures.find(f => f.name === name)).filter(Boolean)
       }
     ];
+
+    if (selectedCategory === "CAT-D") {
+      renderGroups.push(
+        {
+          title: "Aesthetics & Materials",
+          features: aestheticNames.map(name => activeFeatures.find(f => f.name === name)).filter(Boolean)
+        },
+        {
+          title: "Comfort & Environment",
+          features: comfortNames.map(name => activeFeatures.find(f => f.name === name)).filter(Boolean)
+        },
+        {
+          title: "Security & Access",
+          features: securityNames.map(name => activeFeatures.find(f => f.name === name)).filter(Boolean)
+        },
+        {
+          title: "Smart & Technology",
+          features: smartNames.map(name => activeFeatures.find(f => f.name === name)).filter(Boolean)
+        }
+      );
+    }
   } else {
     renderGroups = [{ features: activeFeatures }];
   }
@@ -582,7 +743,7 @@ export default function Wizard() {
             )}
 
             <div className={`space-y-2 ${activeConfigId ? "md:col-span-2" : ""}`}>
-              <Label htmlFor="customer_name" className="font-semibold">Project-in Charge / Customer Name</Label>
+              <Label htmlFor="customer_name" className="font-semibold">Project-in Charge / Customer Name <span className="text-destructive">*</span></Label>
               <Input
                 id="customer_name"
                 placeholder="e.g. John Doe"
@@ -591,11 +752,27 @@ export default function Wizard() {
                 disabled={!!activeConfigId} // Locked after creation and in edit mode
               />
             </div>
+            
+            {!activeConfigId && (
+              <div className="md:col-span-2 flex items-start space-x-3 mt-2">
+                <Checkbox
+                  id="consent"
+                  checked={consentGiven}
+                  onCheckedChange={(checked) => setConsentGiven(!!checked)}
+                />
+                <label
+                  htmlFor="consent"
+                  className="text-sm text-muted-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mt-1 cursor-pointer"
+                >
+                  Creation of this project requires valid customer data. Please check this box to confirm you agree to this data collection.
+                </label>
+              </div>
+            )}
           </div>
         </CardContent>
         {!activeConfigId && (
           <CardFooter>
-            <Button onClick={handleStartProject} disabled={!projectName.trim() || createMutation.isPending} className="ml-auto">
+            <Button onClick={handleStartProject} disabled={!projectName.trim() || !customerName.trim() || !consentGiven || createMutation.isPending} className="ml-auto">
               {createMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
               Start Project →
             </Button>
@@ -701,8 +878,9 @@ export default function Wizard() {
                   const numStops = parseInt(stopsRawValue, 10);
                   if (!isNaN(numStops) && numStops > 0) {
                     if (selectedCategory === "CAT-A") numericCost = Math.max(0, numStops - 2) * 2000;
-                    else if (selectedCategory === "CAT-B") numericCost = Math.max(0, numStops - 4) * 3800;
-                    else if (selectedCategory === "CAT-C") numericCost = Math.max(0, numStops - 8) * 8500;
+                    else if (selectedCategory === "CAT-B") numericCost = Math.max(0, numStops - 2) * 3800;
+                    else if (selectedCategory === "CAT-D") numericCost = Math.max(0, numStops - 2) * 3800;
+                    else if (selectedCategory === "CAT-C") numericCost = Math.max(0, numStops - 2) * 8500;
                   }
                 }
 
@@ -786,9 +964,15 @@ export default function Wizard() {
                             ) : (
                               <Select value={(selected as string) || ""} onValueChange={(val) => val && handleDropdownChange(feature.id, val)}>
                                 <SelectTrigger id={`feature-${feature.id}`} className="w-full">
-                                  <SelectValue placeholder={`— Choose ${feature.name} —`}>
-                                    {selected ? opts.find((o: any) => o.id === selected)?.display_name : undefined}
-                                  </SelectValue>
+                                  {selected ? (
+                                    <span className="truncate">
+                                      {opts.find((o: any) => o.id === selected)?.display_name || (selected as string)}
+                                    </span>
+                                  ) : (
+                                    <span className="text-muted-foreground truncate">
+                                      — Choose {feature.name} —
+                                    </span>
+                                  )}
                                 </SelectTrigger>
                                 <SelectContent>
                                   {opts.length > 0 ? (

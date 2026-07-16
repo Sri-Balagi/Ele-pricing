@@ -131,5 +131,318 @@
     "target_id": "OPT-B-DEST-NONE",
     "dependency_type": "EXCLUDES",
     "description": "Triplex Group Control EXCLUDES Destination Control None"
+  },
+  {
+    "id": "DEP-D-1",
+    "source_id": "OPT-D-SHAFT-GLASS",
+    "target_id": "OPT-D-CWT-REAR",
+    "dependency_type": "EXCLUDES",
+    "description": "Glass Panoramic Shaft EXCLUDES Rear Counterweight"
+  },
+  {
+    "id": "DEP-D-2",
+    "source_id": "OPT-D-SPEED-25",
+    "target_id": "OPT-D-DRIVE-GEARED",
+    "dependency_type": "EXCLUDES",
+    "description": "Rated Speed 2.5 m/s EXCLUDES Geared Traction Drive"
+  },
+  {
+    "id": "DEP-D-3",
+    "source_id": "OPT-D-SPEED-25",
+    "target_id": "OPT-D-PIT-RED",
+    "dependency_type": "EXCLUDES",
+    "description": "Rated Speed 2.5 m/s EXCLUDES Reduced Pit Depth"
+  },
+  {
+    "id": "DEP-D-4",
+    "source_id": "OPT-D-FLOOR-MARBLE",
+    "target_id": "OPT-D-CAP-630",
+    "dependency_type": "EXCLUDES",
+    "description": "Natural Marble Flooring EXCLUDES Load Capacity 630kg"
+  },
+  {
+    "id": "DEP-D-5",
+    "source_id": "OPT-D-SUSP-BELT",
+    "target_id": "OPT-D-SPEED-25",
+    "dependency_type": "EXCLUDES",
+    "description": "Polyurethane Belt Suspension EXCLUDES Rated Speed 2.5 m/s"
+  },
+  {
+    "id": "DEP-D-6",
+    "source_id": "OPT-D-DEST-AI",
+    "target_id": "OPT-D-COP-PUSH",
+    "dependency_type": "EXCLUDES",
+    "description": "Advanced AI Destination Control EXCLUDES Push Button COP"
+  },
+  {
+    "id": "DEP-D-8",
+    "source_id": "OPT-D-SHAFT-GLASS",
+    "target_id": "OPT-D-WALL-SS",
+    "dependency_type": "EXCLUDES",
+    "description": "Glass Panoramic Shaft EXCLUDES Hairline SS Cabin Wall"
+  },
+  {
+    "id": "DEP-D-9",
+    "source_id": "OPT-D-NRG-REGEN",
+    "target_id": "OPT-D-DRIVE-GEARED",
+    "dependency_type": "EXCLUDES",
+    "description": "Regen Drive Energy Mode EXCLUDES Geared Traction Drive"
+  },
+  {
+    "id": "DEP-D-10",
+    "source_id": "OPT-D-DIM-1000",
+    "target_id": "OPT-D-CAP-630",
+    "dependency_type": "EXCLUDES",
+    "description": "Door Dimension 1000mm EXCLUDES Load Capacity 630kg"
+  },
+  {
+    "id": "DEP-D-7",
+    "source_id": "OPT-D-GRP-TRIP",
+    "target_id": "OPT-D-DEST-NONE",
+    "dependency_type": "EXCLUDES",
+    "description": "Triplex Group Control EXCLUDES Destination Control None"
+  },
+  {
+    "id": "DEP-D-100",
+    "source_id": "OPT-D-REGEN-EN",
+    "target_id": "OPT-D-DRIVE-GEARLESS",
+    "dependency_type": "REQUIRES",
+    "description": "Regenerative Drive requires Gearless Motor",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-101",
+    "source_id": "OPT-D-IOT-ADV",
+    "target_id": "OPT-D-DEST-AI",
+    "dependency_type": "REQUIRES",
+    "description": "Advanced IoT requires AI Destination",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-102",
+    "source_id": "OPT-D-TOUCH-HOVER",
+    "target_id": "OPT-D-BTN-STATUS",
+    "dependency_type": "EXCLUDES",
+    "description": "Touchless buttons replace physical backlit buttons",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-103",
+    "source_id": "OPT-D-TOUCH-HOVER",
+    "target_id": "OPT-D-FINGER-OPTIC",
+    "dependency_type": "EXCLUDES",
+    "description": "Touchless hygiene conflicts with fingerprint",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-104",
+    "source_id": "OPT-D-DISP-21",
+    "target_id": "OPT-D-MIRROR-FULL",
+    "dependency_type": "EXCLUDES",
+    "description": "Large screen blocks full mirror",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-105",
+    "source_id": "OPT-D-APP-BT",
+    "target_id": "OPT-D-WIFI-5G",
+    "dependency_type": "REQUIRES",
+    "description": "App calling requires 5G",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-106",
+    "source_id": "OPT-D-CAM-PIN",
+    "target_id": "OPT-D-WALL-SS",
+    "dependency_type": "REQUIRES",
+    "description": "Pinhole camera requires SS panel",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-107",
+    "source_id": "OPT-D-PHONE-VIDEO",
+    "target_id": "OPT-D-WIFI-5G",
+    "dependency_type": "REQUIRES",
+    "description": "Video intercom requires 5G",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-108",
+    "source_id": "OPT-D-PURIFY-UVC",
+    "target_id": "OPT-D-VENT-CROSS",
+    "dependency_type": "REQUIRES",
+    "description": "UVC purifier requires cross ventilation",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-109",
+    "source_id": "OPT-D-VIP-CARD",
+    "target_id": "OPT-D-RFID-INT",
+    "dependency_type": "REQUIRES",
+    "description": "Card VIP requires integrated RFID",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-110",
+    "source_id": "OPT-D-SANI-AUTO",
+    "target_id": "OPT-D-WALL-SS",
+    "dependency_type": "REQUIRES",
+    "description": "Sanitizer requires SS wall",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-111",
+    "source_id": "OPT-D-BUMPER-WOOD",
+    "target_id": "OPT-D-WALL-SS",
+    "dependency_type": "EXCLUDES",
+    "description": "Wood bumper clashes with SS wall",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-112",
+    "source_id": "OPT-D-DOOR-GLASS",
+    "target_id": "OPT-D-SHAFT-GLASS",
+    "dependency_type": "REQUIRES",
+    "description": "Glass doors require glass shaft",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-113",
+    "source_id": "OPT-D-THRESH-BRONZE",
+    "target_id": "OPT-D-WALL-SS",
+    "dependency_type": "EXCLUDES",
+    "description": "Bronze threshold clashes with SS wall",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-114",
+    "source_id": "OPT-D-LIGHT-RGB",
+    "target_id": "OPT-D-CEIL-STAR",
+    "dependency_type": "REQUIRES",
+    "description": "RGB light requires custom ceiling",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-115",
+    "source_id": "OPT-D-MUSIC-PREM",
+    "target_id": "OPT-D-VIBE-PREM",
+    "dependency_type": "REQUIRES",
+    "description": "Premium audio requires premium acoustic pads",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-116",
+    "source_id": "OPT-D-EVAC-ADV",
+    "target_id": "OPT-D-PHONE-VIDEO",
+    "dependency_type": "REQUIRES",
+    "description": "Advanced evac requires video intercom",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-117",
+    "source_id": "OPT-D-SEISMIC-ACT",
+    "target_id": "OPT-D-PIT-RED",
+    "dependency_type": "EXCLUDES",
+    "description": "Seismic sensor requires standard pit",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-118",
+    "source_id": "OPT-D-ACC-FLOOR",
+    "target_id": "OPT-D-RFID-WALL",
+    "dependency_type": "REQUIRES",
+    "description": "Floor lockout requires wall RFID",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-119",
+    "source_id": "OPT-D-SPEED-25",
+    "target_id": "OPT-D-VIBE-PREM",
+    "dependency_type": "REQUIRES",
+    "description": "High speed requires premium anti-vibration",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-120",
+    "source_id": "OPT-D-CAP-1000",
+    "target_id": "OPT-D-VENT-CROSS",
+    "dependency_type": "REQUIRES",
+    "description": "High capacity requires cross ventilation",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-121",
+    "source_id": "OPT-D-KICK-BRASS",
+    "target_id": "OPT-D-THRESH-BRONZE",
+    "dependency_type": "REQUIRES",
+    "description": "Brass kickplate requires bronze threshold",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-122",
+    "source_id": "OPT-D-MAT-RUBBER",
+    "target_id": "OPT-D-FLOOR-MARBLE",
+    "dependency_type": "EXCLUDES",
+    "description": "Rubber mats excluded on premium marble",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-123",
+    "source_id": "OPT-D-VOICE-MULTI",
+    "target_id": "OPT-D-DISP-21",
+    "dependency_type": "REQUIRES",
+    "description": "Multi-lingual voice requires 21-inch screen",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-124",
+    "source_id": "OPT-D-DIM-1000",
+    "target_id": "OPT-D-SHAFT-GLASS",
+    "dependency_type": "EXCLUDES",
+    "description": "Extra wide door excluded on glass shaft",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-125",
+    "source_id": "OPT-D-ALARM-CONN",
+    "target_id": "OPT-D-IOT-BASIC",
+    "dependency_type": "REQUIRES",
+    "description": "Connected alarm requires basic IoT",
+    "priority": 100,
+    "condition_expression": null
+  },
+  {
+    "id": "DEP-D-126",
+    "source_id": "OPT-D-ARCH-WRAP",
+    "target_id": "OPT-D-DOOR-SS",
+    "dependency_type": "REQUIRES",
+    "description": "Full wrap architrave requires SS door",
+    "priority": 100,
+    "condition_expression": null
   }
 ]

@@ -1,0 +1,73 @@
+Glass Panoramic Shaft EXCLUDES Rear Counterweight
+
+Rated Speed 2.5 m/s EXCLUDES Geared Traction Drive
+
+Rated Speed 2.5 m/s EXCLUDES Reduced Pit Depth
+
+Natural Marble Flooring EXCLUDES Load Capacity 630kg
+
+Polyurethane Belt Suspension EXCLUDES Rated Speed 2.5 m/s
+
+Advanced AI Destination Control EXCLUDES Push Button COP
+
+Glass Panoramic Shaft EXCLUDES Hairline SS Cabin Wall
+
+Regen Drive Energy Mode EXCLUDES Geared Traction Drive
+
+Door Dimension 1000mm EXCLUDES Load Capacity 630kg
+
+Triplex Group Control EXCLUDES Destination Control None
+
+Regenerative Drive requires Gearless Motor
+
+Advanced IoT requires AI Destination
+
+Touchless buttons replace physical backlit buttons
+
+Touchless hygiene conflicts with fingerprint
+
+Large screen blocks full mirror
+
+App calling requires 5G
+
+Pinhole camera requires SS panel
+
+Video intercom requires 5G
+
+UVC purifier requires cross ventilation
+
+Card VIP requires integrated RFID
+
+Sanitizer requires SS wall
+
+Wood bumper clashes with SS wall
+
+Glass doors require glass shaft
+
+Bronze threshold clashes with SS wall
+
+RGB light requires custom ceiling
+
+Premium audio requires premium acoustic pads
+
+Advanced evac requires video intercom
+
+Seismic sensor requires standard pit
+
+Floor lockout requires wall RFID
+
+High speed requires premium anti-vibration
+
+High capacity requires cross ventilation
+
+Brass kickplate requires bronze threshold
+
+Rubber mats excluded on premium marble
+
+Multi-lingual voice requires 21-inch screen
+
+Extra wide door excluded on glass shaft
+
+Connected alarm requires basic IoT
+
+Full wrap architrave requires SS door

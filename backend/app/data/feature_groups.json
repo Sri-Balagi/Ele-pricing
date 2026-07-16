@@ -96,5 +96,47 @@
     "description": "Mechanical options.",
     "display_order": 5,
     "active": true
+  },
+  {
+    "id": "GRP-D-PERFORMANCE",
+    "name": "Performance",
+    "description": "Core performance",
+    "order": 1,
+    "active": true
+  },
+  {
+    "id": "GRP-D-AESTHETICS",
+    "name": "Aesthetics & Materials",
+    "description": "Visual customization",
+    "order": 2,
+    "active": true
+  },
+  {
+    "id": "GRP-D-CABIN",
+    "name": "Cabin Layout",
+    "description": "Cabin configuration",
+    "order": 3,
+    "active": true
+  },
+  {
+    "id": "GRP-D-COMFORT",
+    "name": "Comfort & Environment",
+    "description": "Passenger comfort",
+    "order": 4,
+    "active": true
+  },
+  {
+    "id": "GRP-D-SECURITY",
+    "name": "Security & Access",
+    "description": "Access control",
+    "order": 5,
+    "active": true
+  },
+  {
+    "id": "GRP-D-SMART",
+    "name": "Smart & Technology",
+    "description": "Digital features",
+    "order": 6,
+    "active": true
   }
 ]

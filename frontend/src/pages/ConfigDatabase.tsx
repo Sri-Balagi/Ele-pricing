@@ -122,7 +122,8 @@ export default function ConfigDatabase() {
                     <td className="px-6 py-4 text-muted-foreground">
                       {item.selected_category === "CAT-A" ? "Type A (Residential)" : 
                        item.selected_category === "CAT-B" ? "Type B (Commercial)" : 
-                       item.selected_category === "CAT-C" ? "Type C (Special)" : item.selected_category}
+                       item.selected_category === "CAT-C" ? "Type C (Special)" : 
+                       item.selected_category === "CAT-D" ? "Type D (Custom)" : item.selected_category}
                     </td>
                     <td className="px-6 py-4">
                       {getStatusBadge(item.status)}

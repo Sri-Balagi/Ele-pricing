@@ -82,23 +82,25 @@ class PDFExporter(BaseExporter):
         elements.append(
             Paragraph("<b>Configuration Summary (Features)</b>", styles["Heading2"])
         )
-        if context.catalogue:
-            features_display = []
-            for opt_id in config.selected_feature_options:
-                opt = next((o for o in context.catalogue.feature_options if o.id == opt_id), None)
-                if opt:
-                    feat = next((f for f in context.catalogue.features if f.id == opt.feature_id), None)
-                    if feat:
-                        features_display.append(f"{feat.name}: {opt.display_name}")
-                    else:
-                        features_display.append(opt.display_name)
-                else:
-                    features_display.append(opt_id)
-            features_str = ", ".join(features_display)
+        if not config.selected_feature_options:
+            elements.append(Paragraph("None", styles["Normal"]))
         else:
-            features_str = ", ".join(config.selected_feature_options)
-        
-        elements.append(Paragraph(features_str or "None", styles["Normal"]))
+            if context.catalogue:
+                for opt_id in config.selected_feature_options:
+                    opt = next((o for o in context.catalogue.feature_options if o.id == opt_id), None)
+                    if opt:
+                        feat = next((f for f in context.catalogue.features if f.id == opt.feature_id), None)
+                        if feat:
+                            text = f"• {feat.name}: {opt.display_name}"
+                        else:
+                            text = f"• {opt.display_name}"
+                    else:
+                        text = f"• {opt_id}"
+                    elements.append(Paragraph(text, styles["Normal"]))
+            else:
+                for opt_id in config.selected_feature_options:
+                    elements.append(Paragraph(f"• {opt_id}", styles["Normal"]))
+
         elements.append(Spacer(1, 12))
 
         # 4. Bill Of Materials

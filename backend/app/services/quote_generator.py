@@ -40,7 +40,7 @@ class QuoteGenerator:
         Revision Policy: Increments ONLY when pipeline re-runs (feature/engineering/pricing changes).
         """
         now_str = datetime.now(UTC).isoformat()
-        valid_until_str = (datetime.now(UTC) + timedelta(days=30)).isoformat()
+        valid_until_str = (datetime.now(UTC) + timedelta(days=15)).isoformat()
 
         if configuration.quote_metadata is None:
             # First time generating a quote

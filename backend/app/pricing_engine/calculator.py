@@ -143,6 +143,9 @@ class PricingCalculator:
             elif category_id == "CAT-C":
                 additional_floors = max(0, stops - 8)
                 unit_cost = 8500
+            elif category_id == "CAT-D":
+                additional_floors = max(0, stops - 4)
+                unit_cost = 3800
 
             if additional_floors > 0:
                 cost = Decimal(str(additional_floors * unit_cost))

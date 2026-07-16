@@ -93,7 +93,7 @@ export default function Pricing() {
                     if (!val) setShowPostTax(false);
                   }}
                 />
-                <Label htmlFor="logistics-toggle">Show Post-Logistics</Label>
+                <Label htmlFor="logistics-toggle">Including Logistics</Label>
               </div>
               <div className="flex items-center space-x-2">
                 <Switch
@@ -102,7 +102,7 @@ export default function Pricing() {
                   disabled={!showLogistics}
                   onCheckedChange={setShowPostTax}
                 />
-                <Label htmlFor="tax-toggle" className={!showLogistics ? "text-muted-foreground" : ""}>Show Post-Tax</Label>
+                <Label htmlFor="tax-toggle" className={!showLogistics ? "text-muted-foreground" : ""}>Including Tax</Label>
               </div>
             </div>
           </CardHeader>
@@ -132,7 +132,7 @@ export default function Pricing() {
                 <div className="flex justify-between items-center py-2 border-b last:border-0">
                   <div>
                     <span className="font-medium">Logistics Cost</span>
-                    <span className="font-small">  (This is an estimate, actual cost may vary depending on the region)</span>
+                    <span className="font-small">  (This is an estimate, actual cost may vary during the process)</span>
                   </div>
                   <div className="text-right">
                     <span>${(Number(data.subtotal_before_tax) * 0.1 * (showPostTax ? 1.18 : 1)).toFixed(2)}</span>

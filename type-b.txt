@@ -1,0 +1,19 @@
+Glass Panoramic Shaft EXCLUDES Rear Counterweight
+
+Rated Speed 2.5 m/s EXCLUDES Geared Traction Drive
+
+Rated Speed 2.5 m/s EXCLUDES Reduced Pit Depth
+
+Natural Marble Flooring EXCLUDES Load Capacity 630kg
+
+Polyurethane Belt Suspension EXCLUDES Rated Speed 2.5 m/s
+
+Advanced AI Destination Control EXCLUDES Push Button COP
+
+Glass Panoramic Shaft EXCLUDES Hairline SS Cabin Wall
+
+Regen Drive Energy Mode EXCLUDES Geared Traction Drive
+
+Door Dimension 1000mm EXCLUDES Load Capacity 630kg
+
+Triplex Group Control EXCLUDES Destination Control None
