@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 from app.models.domain import (
     BillOfMaterials,
     BOMItem,
@@ -14,7 +16,7 @@ class BOMGenerator:
     NEVER populates unit_cost (owned by Pricing Engine).
     """
 
-    BASE_COMPONENTS_MAP = {
+    BASE_COMPONENTS_MAP: ClassVar[dict[str, list[str]]] = {
         "CAT-A": [
             "COMP-BASE-A-MOTOR",
             "COMP-BASE-A-CABIN",

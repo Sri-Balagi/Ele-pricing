@@ -6,7 +6,7 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "app", "data")
 
 
 def load_json(filename):
-    with open(os.path.join(DATA_DIR, filename), "r") as f:
+    with open(os.path.join(DATA_DIR, filename)) as f:
         return json.load(f)
 
 
